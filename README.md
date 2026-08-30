@@ -159,7 +159,27 @@ TODO
 
 ## Where it breaks
 
-TODO
+Known limitations, each a place the tool degrades **loud** (flag / candidate /
+message) rather than silently producing a wrong table:
+
+- **Scanned protocols.** A page with ~no text layer and a large image is
+  detected and shown with an explicit "OCR is a documented non-goal" message.
+  No OCR (the five samples are all born-digital).
+- **Transposed schedules** (timepoints as rows, assessments as columns). The
+  locator still finds the grid, but the row/column roles will be swapped; the
+  reviewer sees a real grid with axes labelled the wrong way, not an empty one.
+- **Non-English visit vocabulary.** The visit-word list (Day, Week, Visit,
+  Screening…) is a **weak-boost feature only** — the mark-density and grid
+  features carry the locator, so a non-English protocol still pages, but the
+  vocabulary boost contributes nothing.
+- **Footnotes beyond the 2-page lookahead.** Marker definitions are searched on
+  the grid's own pages plus the next 1-2. A definition further away leaves the
+  marker **flagged as unbound**, not silently dropped and not guessed.
+- **Two-parent header columns** (protocol15 `-4 to 0*` spans Screening +
+  Baseline). Modelled as a flagged single-parent approximation; a strict tree
+  cannot hold a child with two parents.
+
+TODO: fill in the measured per-protocol failure modes after the all-five run.
 
 ## What I would build next
 

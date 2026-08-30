@@ -56,7 +56,8 @@ no keyword primary.
   to their spans by marker matching — verify p49 attaches even though it scores
   near-zero on every grid feature.
 - protocol5's `Schedule of Blood Collections` (p51 bottom) surfaces as a
-  *separate* candidate, not merged into the SoA span.
+  *separate* candidate span (it is extracted as its own table in M3 — see the
+  scope correction below).
 *Watch for:* protocol1's 9 decoy keyword hits must not inflate its span; the
 title feature may only boost a page that already has grid geometry.
 
@@ -146,6 +147,9 @@ banner, `possible_split` / `ambiguous` marked.
 ## Day 3 — evidence and write-up
 
 **M7. Run all five, commit outputs to `out/`.**
+Every candidate span above threshold is extracted (not just the main SoA), each
+`kind`-labelled. protocol5's output contains both the Time-and-Events SoA and
+the Blood Collections sub-schedule.
 
 **M8. Manual verification, one protocol at a time, in the UI.**
 Per protocol record: rows found vs present, columns found vs present, special
@@ -153,6 +157,15 @@ cell values carried verbatim (`3X`, `1X`+shaded, `Prior to Day 4`,
 `Xa..Xf`), footnotes captured + correctly bound, continuation handled
 (p5→51, p9→29, p12→49, p1 col-merge). Write it into `docs/VERIFICATION.md` as
 you go — per protocol, what was right, what was wrong, *how* it was wrong.
+
+**M7.5. Holdout run — true unseen protocols.**
+2-3 public protocols pulled from ClinicalTrials.gov, downloaded *after* the
+design is frozen. **No design decision may ever be based on them.** Run the
+pipeline unchanged, record results honestly in `docs/VERIFICATION.md` (rows/cols
+found vs present, marks/footnotes captured, where it broke). Fix nothing unless
+the fix is **principle-based AND re-passes the original five** — a holdout-driven
+tweak that overfits the holdout is exactly the failure this milestone exists to
+catch.
 
 **M9. Provider benchmark — designed, not run.** *(unchanged, now scoped to the
 optional `--enrich` pass only.)*
@@ -179,10 +192,13 @@ flagged DAG approximation.
 - **A model in the default runtime.** Hierarchy, binding and roles are
   deterministic (ARCHITECTURE §4). `--enrich` is opt-in and off by default; the
   graded output never depends on it.
-- **Extracting secondary schedule tables.** protocol5 p51 (`Schedule of Blood
-  Collections`) and p29–30 (`Cocaine Infusion Sessions Daily Schedule`) are
-  **candidate-listed** in output for the reviewer but their grids are not
-  extracted, and they are **not** M2/M3 pass criteria. Stated in the README.
+- **Deep hand-verification of secondary schedules.** Per the assignment, a
+  protocol may hold several SoAs (main + sub-study + PK + extension), so **all**
+  candidate spans above threshold are now *extracted* and `kind`-labelled
+  (protocol5 p51 `Schedule of Blood Collections` comes out as its own table).
+  What is out of scope is only the *hand-verification depth* on the secondaries —
+  the main SoA gets the per-cell manual audit (M8); secondaries are extracted and
+  spot-checked, not exhaustively verified.
 - **Three-provider benchmark as a run result.** Designed-not-run (M9), and now
   scoped to the optional enrichment pass only.
 - **Normalising cell values to booleans.** Actively penalised.

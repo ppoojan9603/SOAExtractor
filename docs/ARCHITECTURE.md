@@ -89,7 +89,14 @@ flat across a 24× ratio sweep on all five protocols, while pdfplumber's
 `snap_tolerance` has a cliff (6 works, 10 drops rows, 12 collapses the grid) —
 a knob with a cliff is a knob that will break on the unseen protocol
 (DECISIONS row 3). Recovered grid dimensions: protocol1 30×10, protocol5 32×12,
-protocol9 24×12, protocol12 42×10, protocol15 37×11.
+protocol9 24×12, protocol12 42×10, protocol15 **36×11** (an earlier hand count
+said 37; two independent methods — rule-cluster arithmetic and `extract_table` —
+both give 36 once the stroked page-footer rule is scoped out).
+
+**Every length constant here is char-size-relative** (B1): the ruling-thinness
+cutoff (0.25 × median char size), the rule-merge tolerance (0.2 ×), and the
+table-scope pad all scale with the page's type size rather than assuming a fixed
+point value, so nothing is pinned to these five protocols' font size.
 
 **Superscript / subscript markers are detected at char level** (DECISIONS row 6),
 not by regex: a char whose size is smaller than its neighbours *and* whose
@@ -149,7 +156,14 @@ This is what the old "title contains Continued / repeated header / footnote
 block with no grid" heuristic could not do: it correctly claims protocol12 p49
 (a plain paragraph that scores near-zero on every grid feature) and protocol5
 p51-top (definitions sitting *above* an unrelated second table), while leaving
-protocol5's `Schedule of Blood Collections` on p51 to be its own candidate.
+protocol5's `Schedule of Blood Collections` on p51 to be its own candidate span.
+
+**Every candidate span above threshold is extracted, not only the main one**
+(assignment: a protocol may carry a main schedule plus a sub-study, PK, or
+extension schedule). Each runs through the same gridify → structure → verify
+path and is `kind`-labelled (`main` / `substudy` / `pk` / `extension` /
+`unknown`). protocol5's output therefore contains two tables — the
+Time-and-Events SoA and the Blood Collections sub-schedule.
 
 Column-wise continuation (protocol1 p53→54) is detected here and resolved in
 gridify §3.
@@ -188,10 +202,17 @@ row structure** — this is geometry and baselines, and a model here would be
 guessing where the rule is deterministic.
 
 **2. Shaded marks: the fill-union test on both axes (DECISIONS row 5).**
-Group area-fills by row band. If a row's fill **union** covers the stub column
-(or ~the full table width) it is **banding = decoration**; discard it. Apply the
-**same test on the column axis** to catch header-column emphasis. What survives
-is cell-local → a **mark**.
+Group area-fills by row band. If a row's fill **union** covers the **stub
+columns** (or ~the full table width) it is **banding = decoration**; discard it.
+Apply the **same test on the column axis** to catch header-column emphasis. What
+survives is cell-local → a **mark**.
+
+The stub is found by **text density**, not "everything left of the first ruling"
+(`src/soa/extract/stub.py`, B2): label columns are text-dense, mark/timepoint
+columns are terse (`X`, `3X`), so the leading contiguous run of dense columns is
+the stub. This supports a **multi-column stub** without assuming one — on the
+five samples the stub is a single column, but the detector does not hard-code
+that.
 
 Measured, and this is why the test has to be contextual: protocol9 p26 has 50
 fills, 23 on empty cells (marks) and 27 under `1X`; protocol5 p50 has 88 fills

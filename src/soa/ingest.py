@@ -18,6 +18,11 @@ import pdfplumber
 #: (FINDINGS §8, DECISIONS row 3).
 RULE_THINNESS_RATIO = 0.25
 
+#: Two rule coordinates within this fraction of the median char size are the
+#: same line. Char-relative so it scales with the document's type size, not a
+#: fixed point value (B1).
+RULE_MERGE_RATIO = 0.2
+
 #: Below this many characters a page with an image is treated as scanned.
 SCANNED_CHAR_LIMIT = 50
 
@@ -93,6 +98,7 @@ def _cluster(values: list[float], tol: float) -> list[float]:
 def _scope_to_table(
     v_raw: list[tuple[float, float, float]],
     h_raw: list[tuple[float, float, float]],
+    median_size: float,
 ) -> tuple[list, list]:
     """Drop rules that are page furniture rather than part of the grid.
 
@@ -110,7 +116,7 @@ def _scope_to_table(
         return v_raw, h_raw
     y_top = min(top for _, top, _ in v_raw)
     y_bot = max(bot for _, _, bot in v_raw)
-    pad = 2.0
+    pad = 0.2 * median_size
     kept_h = [r for r in h_raw if y_top - pad <= r[0] <= y_bot + pad]
     return v_raw, (kept_h or h_raw)
 
@@ -141,9 +147,10 @@ def ingest_page(page) -> PageIngest:
         elif w <= min_thick and h > min_thick:
             v_raw.append(((ln["x0"] + ln["x1"]) / 2, min(ln["top"], ln["bottom"]), max(ln["top"], ln["bottom"])))
 
-    v_raw, h_raw = _scope_to_table(v_raw, h_raw)
-    v_rules = _cluster([v for v, _, _ in v_raw], tol=2.0)
-    h_rules = _cluster([h for h, _, _ in h_raw], tol=2.0)
+    v_raw, h_raw = _scope_to_table(v_raw, h_raw, median_size)
+    merge_tol = RULE_MERGE_RATIO * median_size
+    v_rules = _cluster([v for v, _, _ in v_raw], tol=merge_tol)
+    h_rules = _cluster([h for h, _, _ in h_raw], tol=merge_tol)
 
     # --- area fills: rects that are not rules ---
     fills = [
