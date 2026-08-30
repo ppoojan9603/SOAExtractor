@@ -35,18 +35,85 @@ def _split_marker(text: str) -> tuple[str, list[str]]:
     return text, markers
 
 
-def parse_footnotes(fn_pages_text: list[tuple[int, str]]) -> list[dict]:
-    """Parse `* text`, `** text`, `(01) text`, `Xa - text` definition lines."""
+#: Bare-symbol footnote markers that are always footnotes, never ordinals.
+_SYMBOL_MARKERS = {"*", "**", "***", "****", "†", "‡", "•", "◦"}
+
+_MARK_GLYPHS = "Xx✓✔√●○■□▪•"
+
+
+def collect_used_markers(cells: list[dict], rows: list[dict], columns: list[dict]) -> set[str]:
+    """Markers ACTUALLY used in the table's cells/labels (DECISIONS row 8).
+
+    Footnote collection is driven by this set — never the other way round. The
+    inversion (collect every definition-looking line, then keep it) is exactly
+    what swept up numbered prose lists as fake markers.
+    """
+    used: set[str] = set()
+    texts = ([c.get("value_verbatim", "") for c in cells]
+             + [r.get("label_verbatim", "") for r in rows]
+             + [c.get("label_verbatim", "") for c in columns])
+    for t in texts:
+        for run in re.findall(r"\*{1,4}", t):
+            used.add(run)
+        for d in re.findall(r"[†‡•◦]", t):
+            used.add(d)
+        for num in re.findall(r"\((\d{1,2})\)", t):     # (01) form numbers
+            used.add(num)
+        # a mark glyph followed by a superscript-ish letter: Xa, ✓b
+        for letter in re.findall(rf"[{_MARK_GLYPHS}]([a-j])(?![a-z])", t):
+            used.add(letter)
+    return used
+
+
+def _candidate_defs(text: str):
+    """Yield (marker, body) for lines that look like footnote definitions."""
+    for line in text.splitlines():
+        s = line.strip()
+        if not s:
+            continue
+        # asterisk / dagger run, space optional (protocol12 "****CBT")
+        m = re.match(r"^(\*{1,4}|[†‡•◦])\s*(\S.*)$", s)
+        if m:
+            yield m.group(1), m.group(2).strip()
+            continue
+        # single letter (optionally X-prefixed) then a REQUIRED separator
+        m = re.match(r"^X?([a-jA-J])\s*[-–:]\s*(\S.*)$", s)
+        if m:
+            yield m.group(1).lower(), m.group(2).strip()
+            continue
+        # numeric marker then separator (kept only if used — see build_footnotes)
+        m = re.match(r"^\(?(\d{1,2})\)?\s*[-–:.)]\s+(\S.*)$", s)
+        if m:
+            yield m.group(1), m.group(2).strip()
+
+
+def build_footnotes(fn_pages_text: list[tuple[int, str]], used: set[str]) -> list[dict]:
+    """Collect definitions keyed by USED markers, plus bare symbols.
+
+    Keep a candidate iff its marker is used, or it is a bare-symbol/letter
+    footnote form. A purely numeric marker that is NOT used is an ordinal list
+    item (protocol12/15 numbered prose) and is dropped. A real footnote whose
+    usage we could not detect is kept but emitted unanchored, never invented.
+    """
     out = []
-    pat = re.compile(r"(?m)^\s*(\*{1,4}|\(?\d{1,2}\)?|X?[a-jA-J])\s*[-–:.)]?\s+(\S.*)$")
+    seen = set()
     for page, text in fn_pages_text:
-        for m in pat.finditer(text):
-            marker, body = m.group(1).strip(), m.group(2).strip()
+        for marker, body in _candidate_defs(text):
             if len(body) < 4:
                 continue
+            key = (marker, body[:30])
+            if key in seen:
+                continue
+            is_numeric = marker.isdigit()
+            used_here = marker in used
+            if is_numeric and not used_here:
+                continue                                  # ordinal list -> drop
+            if not used_here and marker not in _SYMBOL_MARKERS and not marker.isalpha():
+                continue
+            seen.add(key)
             out.append({"marker": marker, "text_verbatim": body[:400],
                         "source_pages": [page], "continued_from_previous_page": False,
-                        "attaches_to": []})
+                        "unanchored": not used_here, "attaches_to": []})
     return out
 
 
@@ -155,7 +222,8 @@ def assemble_table(pagegrids: list[PageGrid], fn_pages_text: list[tuple[int, str
                               "ambiguous": False, "ambiguity_reason": None})
             rid += 1
 
-    footnotes = parse_footnotes(fn_pages_text)
+    used_markers = collect_used_markers(cells, rows, columns)
+    footnotes = build_footnotes(fn_pages_text, used_markers)
     warnings = []
     if deferred_pages:
         warnings.append({"kind": "column_continuation_unmerged",

@@ -36,6 +36,16 @@ def _sha256(path: str) -> str:
     return h.hexdigest()
 
 
+
+def _text_below_table(pdf_page, pagegrid) -> str:
+    """Text on the grid page below the table's last rule (the footnote block)."""
+    bottom = max((c.bbox[3] for row in pagegrid.cells for c in row), default=0)
+    if not bottom or bottom >= pdf_page.height - 2:
+        return ""
+    crop = pdf_page.within_bbox((0, bottom + 1, pdf_page.width, pdf_page.height))
+    return crop.extract_text() or ""
+
+
 def run(pdf_path: str, max_candidates: int | None = None) -> dict:
     ingests = ingest_pdf(pdf_path)
     by_page = {g.page_number: g for g in ingests}
@@ -47,7 +57,17 @@ def run(pdf_path: str, max_candidates: int | None = None) -> dict:
     with pdfplumber.open(pdf_path) as pdf:
         for i, cand in enumerate(candidates, 1):
             pagegrids = [gridify_page(pdf.pages[p - 1], by_page[p]) for p in cand.grid_pages]
-            fn_text = [(p, by_page[p].text) for p in cand.footnote_pages]
+            # footnote sources: the block BELOW the table on each (upright) grid
+            # page -- protocol15's defs sit under its p25 grid, not on a
+            # lookahead page -- plus the lookahead pages themselves.
+            fn_text = []
+            for pg in pagegrids:
+                if by_page[pg.page].rotation:
+                    continue                              # rotated: defs live on a lookahead page
+                below = _text_below_table(pdf.pages[pg.page - 1], pg)
+                if below:
+                    fn_text.append((pg.page, below))
+            fn_text += [(p, by_page[p].text) for p in cand.footnote_pages]
             title = _title_for(pdf, cand.grid_pages)
             table = assemble_table(pagegrids, fn_text,
                                    cand.grid_pages + cand.footnote_pages, title)
