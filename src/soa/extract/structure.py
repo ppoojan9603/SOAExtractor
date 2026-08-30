@@ -65,6 +65,51 @@ def collect_used_markers(cells: list[dict], rows: list[dict], columns: list[dict
     return used
 
 
+def extract_markers(text: str) -> list[str]:
+    """Footnote markers present in one verbatim string (same forms as collect)."""
+    out = []
+    for run in re.findall(r"\*{1,4}", text):
+        out.append(run)
+    for d in re.findall(r"[†‡•◦]", text):
+        out.append(d)
+    for num in re.findall(r"\((\d{1,2})\)", text):
+        out.append(num)
+    for letter in re.findall(rf"[{_MARK_GLYPHS}]([a-j])(?![a-z])", text):
+        out.append(letter)
+    # de-dup, keep order
+    seen, uniq = set(), []
+    for m in out:
+        if m not in seen:
+            seen.add(m); uniq.append(m)
+    return uniq
+
+
+def bind_markers(rows: list[dict], cells: list[dict], columns: list[dict],
+                 footnotes: list[dict]) -> None:
+    """Populate footnote_markers on cells/rows/cols and each footnote's
+    attaches_to. Deterministic marker matching (ARCHITECTURE §4); nothing that
+    fails to match is invented -- the footnote is simply left unanchored.
+    """
+    targets: dict[str, list[dict]] = {}
+    for r in rows:
+        for m in extract_markers(r["label_verbatim"]):
+            r["footnote_markers"].append(m)
+            targets.setdefault(m, []).append({"kind": "row", "id": r["id"]})
+    for col in columns:
+        for m in extract_markers(col.get("label_verbatim", "")):
+            col["footnote_markers"].append(m)
+            targets.setdefault(m, []).append({"kind": "column", "id": col["id"]})
+    for c in cells:
+        for m in extract_markers(c["value_verbatim"]):
+            c["footnote_markers"].append(m)
+            targets.setdefault(m, []).append(
+                {"kind": "cell", "row_id": c["row_id"], "col_id": c["col_id"]})
+    for f in footnotes:
+        tgt = targets.get(f.get("marker"), [])
+        f["attaches_to"] = tgt
+        f["unanchored"] = not tgt
+
+
 def _candidate_defs(text: str):
     """Yield (marker, body) for lines that look like footnote definitions."""
     for line in text.splitlines():
@@ -255,6 +300,7 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
 
     used_markers = collect_used_markers(cells, rows, columns)
     footnotes = build_footnotes(fn_pages_text, used_markers)
+    bind_markers(rows, cells, columns, footnotes)
     warnings = []
     if deferred_pages:
         warnings.append({"kind": "column_continuation_unmerged",
@@ -342,6 +388,7 @@ def _assemble_column_continuation(pagegrids, fn_pages_text, pages, title) -> dic
 
     used_markers = collect_used_markers(cells, rows, columns)
     footnotes = build_footnotes(fn_pages_text, used_markers)
+    bind_markers(rows, cells, columns, footnotes)
     return {"title_verbatim": title, "kind": "unknown", "source_pages": pages,
             "continuation_of": None, "extraction_confidence": 1.0,
             "strategy": "explicit-lines", "columns": columns, "rows": rows,
