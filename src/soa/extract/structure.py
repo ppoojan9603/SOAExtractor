@@ -66,12 +66,32 @@ def build_columns(header: PageGrid, n_header_rows: int) -> list[dict]:
     return cols
 
 
-def is_category_row(cells, stub_cols, n_cols) -> bool:
-    label = " ".join(cells[c].text for c in stub_cols).strip()
-    if not label:
-        return False
-    data = [cells[c] for c in range(n_cols) if c not in stub_cols]
-    return not any(d.text.strip() or d.shaded for d in data)
+def _body_has_content(cells, stub_cols, n_cols) -> bool:
+    return any(cells[c].text.strip() or cells[c].shaded
+               for c in range(n_cols) if c not in stub_cols)
+
+
+def classify_empty_band(label: str) -> str:
+    """Role for a body-empty band whose stub carries text (correction 1).
+
+    A ruling can separate a label's overflow line from its own row (the inverse
+    of the Saline split). Measured case: protocol9 p26 "(Study Day 1 and Exit
+    Day)" sits in its own ruled band below "Physical Examination (04)" with zero
+    body fills and zero body words.
+
+      - starts with "(" or a lowercase letter -> label_continuation (merge up)
+      - ends with ":"                          -> category_header
+      - otherwise                              -> metadata (blank capture row,
+                                                  e.g. Date / Day of Week)
+    """
+    t = label.strip()
+    if not t:
+        return "metadata"
+    if t.startswith("(") or (t[:1].isalpha() and t[:1].islower()):
+        return "label_continuation"
+    if t.rstrip().endswith(":"):
+        return "category_header"
+    return "metadata"
 
 
 def assemble_table(pagegrids: list[PageGrid], fn_pages_text: list[tuple[int, str]],
@@ -84,8 +104,16 @@ def assemble_table(pagegrids: list[PageGrid], fn_pages_text: list[tuple[int, str
     n_cols = head.n_cols
 
     rows, cells = [], []
+    deferred_pages: list[int] = []
     rid = 0
     for pg in pagegrids:
+        if pg.n_cols != n_cols:
+            # column-wise continuation (protocol1 p53=10 cols, p54=9): a proper
+            # guarded merge onto the shared row axis is pending. Do not stack it
+            # as if it were row-continuation -- that mismatches columns. Defer
+            # and flag instead of crashing or corrupting.
+            deferred_pages.append(pg.page)
+            continue
         start = _find_header_rows(pg)                # skip each page's header
         for r in range(start, pg.n_rows):
             rowcells = pg.cells[r]
@@ -93,11 +121,19 @@ def assemble_table(pagegrids: list[PageGrid], fn_pages_text: list[tuple[int, str
             if not label and not any(rowcells[c].text.strip() or rowcells[c].shaded
                                      for c in range(n_cols) if c not in stub):
                 continue                              # wholly empty row
-            cat = is_category_row(rowcells, stub, n_cols)
+            if not _body_has_content(rowcells, stub, n_cols):
+                role = classify_empty_band(label)
+                if role == "label_continuation" and rows:
+                    # merge overflow line into the previous row's label
+                    rows[-1]["label_verbatim"] = (
+                        rows[-1]["label_verbatim"] + " " + label.strip()
+                    ).strip()
+                    continue
+            else:
+                role = "assessment"
             row_id = f"r{rid}"
             rows.append({"id": row_id, "label_verbatim": label,
-                         "role": "category_header" if cat else "assessment",
-                         "footnote_markers": [], "page": pg.page,
+                         "role": role, "footnote_markers": [], "page": pg.page,
                          "possible_split": None})
             for c in range(n_cols):
                 if c in stub:
@@ -120,7 +156,14 @@ def assemble_table(pagegrids: list[PageGrid], fn_pages_text: list[tuple[int, str
             rid += 1
 
     footnotes = parse_footnotes(fn_pages_text)
+    warnings = []
+    if deferred_pages:
+        warnings.append({"kind": "column_continuation_unmerged",
+                         "detail": f"pages {deferred_pages} share the row labels but "
+                                   f"have a different column count; guarded column "
+                                   f"merge pending -- their columns are not yet in "
+                                   f"this table"})
     return {"title_verbatim": title, "kind": "unknown", "source_pages": pages,
             "continuation_of": None, "extraction_confidence": 1.0,
             "strategy": "explicit-lines", "columns": columns, "rows": rows,
-            "cells": cells, "footnotes": footnotes, "warnings": []}
+            "cells": cells, "footnotes": footnotes, "warnings": warnings}

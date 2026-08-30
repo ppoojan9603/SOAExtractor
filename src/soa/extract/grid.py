@@ -32,6 +32,7 @@ class PageGrid:
     n_cols: int
     cells: list[list[GCell]]           # [row][col]
     stub_cols: list[int]
+    fills: list = field(default_factory=list)   # classified Fill objects (audit)
     header_rows: int = 2
 
 
@@ -73,31 +74,37 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
     text_grid = [[(grid[r][c] or "").strip() for c in range(n_cols)] for r in range(len(h) - 1)]
     stub_cols = detect_stub_columns(text_grid)
 
-    # map grey fills to cells
+    # map grey fills to cells; non-grey and unowned fills are still tracked so
+    # the orphan-fill audit (M5) can account for EVERY area-fill.
     fill_by_cell: dict[tuple[int, int], list] = {}
     for f in g.fills:
         if not f.grey:
+            f.classification = "non-grey"
             continue
         owner = _fill_owner(f.bbox, cell_bboxes)
-        if owner is not None:
-            f.cell = owner
-            fill_by_cell.setdefault(owner, []).append(f)
+        if owner is None:
+            f.classification = "flagged"           # grey fill in no cell -> audit
+            continue
+        f.cell = owner
+        fill_by_cell.setdefault(owner, []).append(f)
 
-    # banding test: a row whose grey-fill union spans a stub column is decoration
+    # Banding vs mark by the fill-union test (ARCHITECTURE §3, FINDINGS §5):
+    # a row whose grey-fill union reaches a STUB column is decoration (protocol5
+    # zebra, protocol12/15 section rows). "Near-full" is NOT a banding signal --
+    # protocol9 assessments done on every visit fill all data columns yet are
+    # real marks; the only reliable discriminator is whether the fill touches
+    # the label column.
     shaded_cells: set[tuple[int, int]] = set()
     for r in range(len(cell_bboxes)):
         cols_filled = {c for (rr, c) in fill_by_cell if rr == r}
         if not cols_filled:
             continue
         covers_stub = any(sc in cols_filled for sc in stub_cols)
-        near_full = len(cols_filled) >= 0.8 * n_cols
-        if covers_stub or near_full:
-            for f in [ff for (rr, c) in fill_by_cell if rr == r for ff in fill_by_cell[(rr, c)]]:
-                f.classification = "banding"
-        else:
-            for c in cols_filled:
-                for f in fill_by_cell[(r, c)]:
-                    f.classification = "mark"
+        klass = "banding" if covers_stub else "mark"
+        for c in cols_filled:
+            for f in fill_by_cell[(r, c)]:
+                f.classification = klass
+            if klass == "mark":
                 shaded_cells.add((r, c))
 
     cells = []
@@ -107,7 +114,7 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
             row.append(GCell(r, c, text_grid[r][c] if r < len(text_grid) else "",
                              cell_bboxes[r][c], shaded=(r, c) in shaded_cells))
         cells.append(row)
-    return PageGrid(g.page_number, len(cell_bboxes), n_cols, cells, stub_cols)
+    return PageGrid(g.page_number, len(cell_bboxes), n_cols, cells, stub_cols, fills=g.fills)
 
 
 def build_pagegrids(pdf_path: str, pages: list[int]) -> list[PageGrid]:

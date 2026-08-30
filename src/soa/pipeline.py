@@ -11,6 +11,7 @@ from .ingest import ingest_pdf, ingest_page
 from .locate.locator import locate, Candidate
 from .extract.grid import gridify_page
 from .extract.structure import assemble_table
+from .verify import verify
 
 _TITLE = re.compile(
     r"(schedule of (activities|assessments|events|measures|blood collections)[^\n]*|"
@@ -51,7 +52,11 @@ def run(pdf_path: str, max_candidates: int | None = None) -> dict:
             table = assemble_table(pagegrids, fn_text,
                                    cand.grid_pages + cand.footnote_pages, title)
             table["id"] = f"soa-{i}"
-            table["confidence"] = round(cand.score, 3)
+            # squash the unbounded locator score into 0..1 for the schema field;
+            # the raw score is kept as locator_score for debugging.
+            table["confidence"] = round(cand.score / (cand.score + 1.0), 3)
+            table["locator_score"] = round(cand.score, 3)
+            table["warnings"] = verify(table, pagegrids)
             tables.append(table)
 
     name = Path(pdf_path).name
