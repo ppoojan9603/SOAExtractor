@@ -1,0 +1,5 @@
+data/protocols/*.pdf
+out/*.json
+.env
+__pycache__/
+.venv/
