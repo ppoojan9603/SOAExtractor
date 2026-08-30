@@ -6,11 +6,13 @@ reproduce it. Where a statement is a judgement rather than a measurement it is
 marked **[inferred]**. If a claim cannot be reproduced, it is not in this
 document — that is the whole point of the rewrite.
 
-**How the numbers were produced.** Page/rotation/char counts and the rect
-census come from `pypdf` (`PdfReader`) plus a content-stream rectangle lexer
-that applies the page CTM so dimensions are in points; text and keyword scans
-are re-run under `pdfplumber`, the engine the tool actually ships with
-(DECISIONS row 1), and any engine-dependent result is labelled as such. `python -m soa.recon data/protocols/` (milestone M1) reprints these
+**How the numbers were produced.** Every number here is reprinted by the shipped
+recon CLI, `python -m soa.recon data/protocols/` (add `--shading` for the grid
+and grey-fill census). It runs on `pdfplumber` — the engine the tool ships with
+(DECISIONS row 1) — so the finding and the implementation use one measurement
+path. Character counts vary ~1% between extraction libraries and are reported as
+approximate; page count, rotation set, and the top mark page per protocol are
+exact and are what M1 gates on. `python -m soa.recon data/protocols/` (milestone M1) reprints these
 tables. Because character counts vary ~1% between extraction libraries, they
 are reported as approximate and are **not** an exact-match gate; page count,
 rotation set, and the identity of the top-X page per protocol are exact and are
@@ -25,16 +27,17 @@ Rendered-page reads referenced below were produced with `pypdfium2` at scale 2.0
 
 | Protocol | Pages | Text chars (approx) | Chars/page | Rotated pages | Producer / Creator |
 |---|---|---|---|---|---|
-| protocol1  | 97 | 172,000 | ~1,770 | none | Acrobat Distiller 6.0 / PScript5.dll |
-| protocol5  | 61 | 177,000 | ~2,900 | **50, 51** | GPL Ghostscript 8.15 / PScript5.dll |
-| protocol9  | 57 | 187,000 | ~3,290 | **26, 27, 28, 29** | GPL Ghostscript 8.15 / PScript5.dll |
-| protocol12 | 97 | 271,000 | ~2,790 | none | Acrobat Distiller 7.0 / Acrobat PDFMaker for Word |
-| protocol15 | 61 | 147,000 | ~2,410 | none | GPL Ghostscript 8.15 / PScript5.dll |
+| protocol1  | 97 | ~165,000 | ~1,700 | none | Acrobat Distiller 6.0 / PScript5.dll |
+| protocol5  | 61 | ~149,000 | ~2,430 | **50, 51** | GPL Ghostscript 8.15 / PScript5.dll |
+| protocol9  | 57 | ~182,000 | ~3,200 | **26, 27, 28, 29** | GPL Ghostscript 8.15 / PScript5.dll |
+| protocol12 | 97 | ~263,000 | ~2,710 | none | Acrobat Distiller 7.0 / Acrobat PDFMaker for Word |
+| protocol15 | 61 | ~143,000 | ~2,350 | none | GPL Ghostscript 8.15 / PScript5.dll |
 
 Every page has a real extractable text layer; the Producer/Creator strings are
 print-to-PDF toolchains (Word → PScript5 → Distiller/Ghostscript), never a
-scanner or image wrapper. Reproduce: read `reader.metadata` and
-`len(page.extract_text())` per page.
+scanner or image wrapper. (Char counts here are pdfplumber's, ~5% below the
+pypdf figures used in an earlier draft — library variance, which is exactly why
+they are approximate and not a gate.) Reproduce: `python -m soa.recon`.
 
 **Consequence: no OCR workstream.** Do not add Tesseract. A scanned protocol is
 a documented limitation (README), not something to pre-solve.
@@ -83,24 +86,43 @@ a confirmatory signal, not a pager: **0/5 as a pager**. See §6.
 
 ---
 
-## 3. Standalone-`X` density finds the main SoA page in all five, with no model call.
+## 3. Generic mark-token density finds the main SoA page in all five, no model call.
 
-Counting standalone `X` tokens per page (regex above):
+The locator's core structural signal is the density of **standalone mark
+tokens** per page — not the letter `X` specifically. A mark token is a short
+token built from a mark glyph, with an optional count prefix and footnote
+suffix: `X`, `x`, `3X`, `1X`, `Xa`, `3Xd`, and the dingbat family `✓ ✔ √ ● ▪ •`
+(`src/soa/marks.py`). Prose words containing X (`X-ray`), multipliers
+(`2.5X ULN`) and longer free text (`3X/week`) are excluded (FINDINGS §7 decoys).
 
-| Protocol | Top X-dense page (page, X count) | Runner-up pages |
-|---|---|---|
-| protocol1  | (53, 72) | (54, 71) |
-| protocol5  | (50, 95) | far below: (26,1),(35,1) |
-| protocol9  | (28, 75) | (27, 61), (26, 27) |
-| protocol12 | (48, 89) | far below: (39,3),(49,3) |
-| protocol15 | (25, 109) | far below: (56,5),(30,2) |
+Counting mark tokens per page (`python -m soa.recon data/protocols/`):
 
-The top X-dense page is the (or a) main SoA page in 5/5. This is **one** feature
-of the locator scorer, not the whole locator (ARCHITECTURE §2). It is strong on
-these five, but it is fragile in general — see §7 for tables in the sample set
-that carry near-zero `X` (numeric cells) and would starve it.
+| Protocol | Top mark page (page, n) | Runner-up pages | SoA page on top? |
+|---|---|---|---|
+| protocol1  | (53, 70) | (54, 70), (90, 24) | yes (53 is a SoA page) |
+| protocol5  | (50, 100) | (15, 16), (54, 14) | yes |
+| protocol9  | (28, 74) | (27, 61), (26, 27) | yes (28 is a SoA grid page) |
+| protocol12 | (48, 121) | (42, 14), (89, 14) | yes |
+| protocol15 | (25, 130) | (60, 14), (57, 6) | yes |
 
----
+The top mark page is a SoA grid page in **5/5**, and the margin over the
+runner-up is large in four of five (protocol1's p53/p54 tie because they are the
+two halves of the same table — both are SoA pages). This is why it earns being
+the locator's core feature.
+
+**Why generic, not X-only.** The earlier draft counted only `X` and reported the
+same 5/5. But an unseen protocol may mark its SoA with checkmarks, dots, or
+shading, on which an X-only counter scores zero (DECISIONS row 7). Switching to
+the generic counter costs nothing here — still 5/5, essentially the same page
+ranking — and removes a cliff the unseen protocol could fall off. For the
+record, the X-only counts are still reprinted alongside (`top X pages` column of
+the recon output) and agree with the generic ranking on these five.
+
+This is **one** feature of the locator scorer, not the whole locator
+(ARCHITECTURE §2); the locator gate is that the SoA page is **in the ranked
+candidates**, not that it is rank 1 (the UI candidate list makes a ranking miss
+recoverable). Grids that carry near-zero marks because their cells are numeric
+(protocol5 p51 Blood Collections) need the numeric profile — see §7.
 
 ## 4. Cell marks are drawn in the graphics layer, not always as text.
 
