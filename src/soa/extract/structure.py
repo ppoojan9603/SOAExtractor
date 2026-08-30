@@ -161,7 +161,38 @@ def classify_empty_band(label: str) -> str:
     return "metadata"
 
 
+_TP_VALUE = re.compile(r"^(\d{1,3}([/\-–]\w+)?|ET|RT|EOT|-?\.?\d)$", re.I)
+
+
+def _leading_label_cols(pg: PageGrid, n_hdr: int) -> int:
+    """How many leading columns are the label region (before the first timepoint).
+
+    protocol1 has TWO: the ACTIVITY label column and a narrow VISIT/WEEK column,
+    then the visit-numbered data columns. Detected from the timepoint header row:
+    the first column whose header cell is a timepoint value starts the data.
+    """
+    tp = n_hdr - 1
+    for c in range(pg.n_cols):
+        val = (pg.cells[tp][c].text or "").strip()
+        if _TP_VALUE.match(val):
+            return c
+    return max(pg.stub_cols) + 1 if pg.stub_cols else 1
+
+
+def _row_labels(pg: PageGrid, n_hdr: int) -> list[str]:
+    return [" ".join(pg.cells[r][c].text for c in pg.stub_cols).strip()
+            for r in range(n_hdr, pg.n_rows)]
+
+
 def assemble_table(pagegrids: list[PageGrid], fn_pages_text: list[tuple[int, str]],
+                   pages: list[int], title: str) -> dict:
+    """Dispatch: same column count -> row-continuation; differing -> column merge."""
+    if len({pg.n_cols for pg in pagegrids}) > 1:
+        return _assemble_column_continuation(pagegrids, fn_pages_text, pages, title)
+    return _assemble_row_continuation(pagegrids, fn_pages_text, pages, title)
+
+
+def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tuple[int, str]],
                    pages: list[int], title: str) -> dict:
     """Row-continuation stack: header from first page, body from all pages."""
     head = pagegrids[0]
@@ -235,3 +266,92 @@ def assemble_table(pagegrids: list[PageGrid], fn_pages_text: list[tuple[int, str
             "continuation_of": None, "extraction_confidence": 1.0,
             "strategy": "explicit-lines", "columns": columns, "rows": rows,
             "cells": cells, "footnotes": footnotes, "warnings": warnings}
+
+
+def _assemble_column_continuation(pagegrids, fn_pages_text, pages, title) -> dict:
+    """Guarded column merge (ARCHITECTURE §3): pages share the row labels but
+    carry different visit columns. Union the columns onto one row axis when the
+    row-label sequences match >=95%; otherwise fall back to the first page plus
+    a continuation_of link and a warning.
+
+    protocol1: p53 = Activity + visits 1-8, p54 = Activity + visits 9-13/ET/RT,
+    28/29 labels identical -> one table, columns 1-13/ET/RT on a shared row axis,
+    per-cell page provenance kept.
+    """
+    head = pagegrids[0]
+    n_hdr = _find_header_rows(head)
+    stub = head.stub_cols
+    warnings = []
+
+    head_labels = _row_labels(head, n_hdr)
+
+    # columns: everything from the head page, ids c0..c{n-1}
+    columns = build_columns(head, n_hdr)
+    col_id_of = {c: f"c{c}" for c in range(head.n_cols)}
+    next_col = head.n_cols
+
+    # rows keyed by label (from the head); cells from the head first
+    rows, cells = [], []
+    row_id_by_label = {}
+    for ri, label in enumerate(head_labels):
+        r = n_hdr + ri
+        rowcells = head.cells[r]
+        row_id = f"r{ri}"
+        row_id_by_label[label] = row_id
+        rows.append({"id": row_id, "label_verbatim": label, "role": "assessment",
+                     "footnote_markers": [], "page": head.page, "possible_split": None})
+        for c in range(head.n_cols):
+            if c in stub:
+                continue
+            gc = rowcells[c]
+            if not gc.text.strip() and not gc.shaded:
+                continue
+            cells.append(_cell(row_id, col_id_of[c], gc, head.page))
+
+    # each continuation page contributes its DATA columns + cells, matched by label
+    for pg in pagegrids[1:]:
+        pg_hdr = _find_header_rows(pg)
+        pg_labels = _row_labels(pg, pg_hdr)
+        n = min(len(head_labels), len(pg_labels))
+        match = sum(1 for a, b in zip(head_labels, pg_labels) if a and a == b)
+        if n == 0 or match / n < 0.95:
+            warnings.append({"kind": "column_continuation_rejected", "page": pg.page,
+                             "detail": f"row-label match {match}/{n} < 95%; page {pg.page} "
+                                       f"kept separate"})
+            continue
+        data_start = _leading_label_cols(pg, pg_hdr)
+        appended = {}
+        tp = pg_hdr - 1
+        for c in range(data_start, pg.n_cols):
+            cid = f"c{next_col}"; next_col += 1
+            appended[c] = cid
+            label = pg.cells[tp][c].text
+            role = "study_day" if _TP_VALUE.match((label or "").strip()) else "unknown"
+            columns.append({"id": cid, "index": next_col - 1, "label_verbatim": label,
+                            "role": role, "colspan": 1, "footnote_markers": [], "page": pg.page})
+        for ri, label in enumerate(pg_labels):
+            row_id = row_id_by_label.get(label)
+            if row_id is None:
+                continue
+            r = pg_hdr + ri
+            for c, cid in appended.items():
+                gc = pg.cells[r][c]
+                if not gc.text.strip() and not gc.shaded:
+                    continue
+                cells.append(_cell(row_id, cid, gc, pg.page))
+
+    used_markers = collect_used_markers(cells, rows, columns)
+    footnotes = build_footnotes(fn_pages_text, used_markers)
+    return {"title_verbatim": title, "kind": "unknown", "source_pages": pages,
+            "continuation_of": None, "extraction_confidence": 1.0,
+            "strategy": "explicit-lines", "columns": columns, "rows": rows,
+            "cells": cells, "footnotes": footnotes, "warnings": warnings}
+
+
+def _cell(row_id, col_id, gc, page) -> dict:
+    val = gc.text.strip()
+    ev = (["text_layer"] if val else []) + (["graphics_fill"] if gc.shaded else [])
+    return {"row_id": row_id, "col_id": col_id, "value_verbatim": val,
+            "shaded": gc.shaded, "colspan": 1, "rowspan": 1, "footnote_markers": [],
+            "page": page, "bbox": [round(x, 1) for x in gc.bbox], "evidence": ev,
+            "authored_by": "geometry", "ambiguous": False, "ambiguity_reason": None}
