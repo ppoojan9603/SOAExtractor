@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import re
 
-from .grid import PageGrid
+from .grid import PageGrid, evaluate_split, detect_divider_columns, detect_divider_rows
 
 _TIMEPOINT_ROW = re.compile(r"study\s*(day|week)|^visit$|^week$|^day$", re.I)
 _INT = re.compile(r"^\d{1,3}([/\-–]\w+)?$")
@@ -202,6 +202,7 @@ def build_columns(header: PageGrid, n_header_rows: int) -> list[dict]:
     tp_row = n_header_rows - 1
     data_start = _leading_label_cols(header, n_header_rows)
     bands = [b for b in header.group_bands if b[0] >= data_start]
+    dividers = set(detect_divider_columns(header, n_header_rows))
 
     # band parents first, so children can reference them
     band_of: dict[int, str] = {}
@@ -216,6 +217,15 @@ def build_columns(header: PageGrid, n_header_rows: int) -> list[dict]:
 
     for c in range(header.n_cols):
         label = header.cells[tp_row][c].text
+        if c in dividers:
+            # a milestone letter-stack: never a timepoint (DECISIONS row 9)
+            joined = "".join(
+                re.sub(r"\s+", "", header.cells[r][c].text)
+                for r in range(header.n_rows)).strip()
+            cols.append({"id": f"c{c}", "index": c, "parent_id": None, "level": 0,
+                         "label_verbatim": joined, "role": "divider", "colspan": 1,
+                         "footnote_markers": []})
+            continue
         role = "row_header" if c in header.stub_cols else "unknown"
         if role == "unknown":
             if _TP_VALUE.match((label or "").strip()):
@@ -330,6 +340,12 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
     deferred_pages: list[int] = []
     rid = 0
     for pg in pagegrids:
+        sizes = [ch.get("size") for row in pg.cells for c in row for ch in c.chars
+                 if ch.get("size")]
+        median_size = (sorted(sizes)[len(sizes) // 2] if sizes else 10.0)
+        pg_hdr_n = _find_header_rows(pg)
+        divider_cols = set(detect_divider_columns(pg, pg_hdr_n))
+        divider_rows = set(detect_divider_rows(pg, pg_hdr_n))
         if pg.n_cols != n_cols:
             # column-wise continuation (protocol1 p53=10 cols, p54=9): a proper
             # guarded merge onto the shared row axis is pending. Do not stack it
@@ -344,6 +360,33 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
             if not label and not any(rowcells[c].text.strip() or rowcells[c].shaded
                                      for c in range(n_cols) if c not in stub):
                 continue                              # wholly empty row
+            # Rule C-prime: a ruled band may hold two real rows (protocol5 p50
+            # Saline). Split only under (a)+(b)+(c); grey zone stays merged with
+            # a structured possible_split for the reviewer.
+            split = evaluate_split(pg, r, stub, median_size)
+            if split and split[0] == "split":
+                for part in split[1]:
+                    row_id = f"r{rid}"
+                    rows.append({"id": row_id, "label_verbatim": part["label"],
+                                 "role": "assessment", "footnote_markers": [],
+                                 "sup_markers": [], "page": pg.page,
+                                 "possible_split": None, "split_from_band": True})
+                    for c, txt in part["marks"]:
+                        gc = rowcells[c]
+                        cells.append({"row_id": row_id, "col_id": f"c{c}",
+                                      "value_verbatim": txt.strip(),
+                                      "shaded": gc.shaded, "colspan": 1, "rowspan": 1,
+                                      "footnote_markers": [],
+                                      "sup_markers": list(gc.sup_markers),
+                                      "page": pg.page,
+                                      "bbox": [round(x, 1) for x in gc.bbox],
+                                      "evidence": (["text_layer"] if txt.strip() else [])
+                                                  + (["graphics_fill"] if gc.shaded else []),
+                                      "authored_by": "geometry",
+                                      "ambiguous": False, "ambiguity_reason": None})
+                    rid += 1
+                continue
+
             if not _body_has_content(rowcells, stub, n_cols):
                 role = classify_empty_band(label)
                 if role == "label_continuation" and rows:
@@ -356,12 +399,17 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
                 role = "assessment"
             row_id = f"r{rid}"
             row_sup = [m for c in stub for m in rowcells[c].sup_markers]
+            if r in divider_rows:
+                role = "divider"
+            grey = ({"stub_lines": [{"label": p["label"], "marks": p["marks"]}
+                                    for p in split[1]]}
+                    if split and split[0] == "grey" else None)
             rows.append({"id": row_id, "label_verbatim": label,
                          "role": role, "footnote_markers": [],
                          "sup_markers": row_sup, "page": pg.page,
-                         "possible_split": None})
+                         "possible_split": grey})
             for c in range(n_cols):
-                if c in stub:
+                if c in stub or c in divider_cols:
                     continue
                 gc = rowcells[c]
                 val = gc.text.strip()

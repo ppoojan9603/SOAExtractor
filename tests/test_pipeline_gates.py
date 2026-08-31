@@ -132,3 +132,93 @@ def test_deterministic_rerun():
     a = json.dumps(run(P.format("protocol15"), max_candidates=2), sort_keys=True)
     b = json.dumps(run(P.format("protocol15"), max_candidates=2), sort_keys=True)
     assert a == b, "pipeline must be deterministic (no model in the default path)"
+
+
+# ---------- M3: rule C-prime splitter (PLAN gates, previously untested) ----------
+
+SOA_PAGES = [("protocol1", [53, 54]), ("protocol5", [50]), ("protocol9", [26, 27, 28]),
+             ("protocol12", [48]), ("protocol15", [25])]
+
+
+def _split_census():
+    """(splits, greys) across the six SoA pages, via the splitter directly."""
+    import pdfplumber
+    from soa.ingest import ingest_page
+    from soa.extract.grid import gridify_page, evaluate_split
+    splits, greys = [], []
+    for name, pages in SOA_PAGES:
+        with pdfplumber.open(P.format(name)) as pdf:
+            for page_no in pages:
+                page = pdf.pages[page_no - 1]
+                g = ingest_page(page)
+                pg = gridify_page(page, g)
+                for r in range(pg.n_rows):
+                    res = evaluate_split(pg, r, pg.stub_cols, g.median_char_size)
+                    if not res:
+                        continue
+                    (splits if res[0] == "split" else greys).append((name, page_no, r, res[1]))
+    return splits, greys
+
+
+def test_splitter_fires_exactly_once_and_it_is_saline():
+    splits, _ = _split_census()
+    assert len(splits) == 1, f"expected exactly ONE split across the six SoA pages, got {len(splits)}"
+    name, page_no, _, parts = splits[0]
+    assert (name, page_no) == ("protocol5", 50)
+    labels = [p["label"] for p in parts]
+    assert labels[0].startswith("Saline/20 mg cocaine")
+    assert labels[1] == "20 mg cocaine i.v."
+
+
+def test_no_splits_on_the_other_four_protocols():
+    splits, _ = _split_census()
+    assert {s[0] for s in splits} == {"protocol5"}, \
+        "v1/v2 regression: splitter must not fire on p1/p9/p12/p15"
+
+
+def test_grey_zone_bands_are_flagged_not_split():
+    _, greys = _split_census()
+    assert len(greys) >= 4, "wrapped-label bands must land in the grey zone"
+    assert {g[0] for g in greys} <= {"protocol12", "protocol15"}
+
+
+def test_possible_split_recorded_on_rows(docs):
+    flagged = [r for n in ["protocol12", "protocol15"]
+               for r in main_table(docs[n])["rows"] if r.get("possible_split")]
+    assert flagged, "grey-zone bands must carry a structured possible_split"
+    for r in flagged:
+        lines = r["possible_split"]["stub_lines"]
+        assert len(lines) >= 2 and all("label" in l and "marks" in l for l in lines)
+
+
+def test_protocol5_gains_the_saline_row(docs):
+    labels = [r["label_verbatim"] for r in main_table(docs["protocol5"])["rows"]]
+    assert "Saline/20 mg cocaine/40 mg cocaine i.v." in labels
+    assert "20 mg cocaine i.v." in labels, "the split must add the second row"
+
+
+# ---------- M3: divider detection ----------
+
+@pytest.mark.parametrize("name", ["protocol12", "protocol15"])
+def test_randomization_column_is_a_divider(docs, name):
+    cols = main_table(docs[name])["columns"]
+    dividers = [c for c in cols if c["role"] == "divider"]
+    assert len(dividers) == 1, f"{name} must expose the RANDOMIZATION divider"
+    assert "RANDOM" in dividers[0]["label_verbatim"].upper()
+
+
+@pytest.mark.parametrize("name", ["protocol12", "protocol15"])
+def test_divider_columns_are_not_timepoints(docs, name):
+    for c in main_table(docs[name])["columns"]:
+        if c["role"] == "divider":
+            assert c["role"] != "study_day"
+    ids = {c["id"] for c in main_table(docs[name])["columns"] if c["role"] == "divider"}
+    used = {c["col_id"] for c in main_table(docs[name])["cells"]}
+    assert not (ids & used), "no cells may be emitted against a divider column"
+
+
+def test_protocol5_session_strip_is_a_row_divider(docs):
+    rows = main_table(docs["protocol5"])["rows"]
+    dividers = [r for r in rows if r["role"] == "divider"]
+    assert any("Session" in r["label_verbatim"] for r in dividers), \
+        "the Cocaine Infusion Session # strip is a row divider, not an assessment"

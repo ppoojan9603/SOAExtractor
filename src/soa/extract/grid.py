@@ -7,6 +7,7 @@ schema's columns / rows / cells. No model.
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 
 import pdfplumber
@@ -24,6 +25,7 @@ class GCell:
     shaded: bool = False
     colspan: int = 1
     sup_markers: list = field(default_factory=list)   # superscript footnote letters
+    chars: list = field(default_factory=list)         # chars in this cell (baselines)
 
 
 @dataclass
@@ -202,11 +204,169 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
             sup = _superscript_markers(chars_by_cell.get((r, c), []))
             row.append(GCell(r, c, text_grid[r][c] if r < len(text_grid) else "",
                              cell_bboxes[r][c], shaded=(r, c) in shaded_cells,
-                             sup_markers=sup))
+                             sup_markers=sup,
+                             chars=chars_by_cell.get((r, c), [])))
         cells.append(row)
     bands = _group_bands(g.words, cell_bboxes, n_cols, g.median_char_size)
     return PageGrid(g.page_number, len(cell_bboxes), n_cols, cells, stub_cols,
                     fills=g.fills, group_bands=bands)
+
+
+def _text_lines(cell: "GCell", tol: float) -> list[tuple[float, str]]:
+    """Distinct baseline-grouped text lines inside one cell: (mid_y, text)."""
+    if not cell.chars:
+        return []
+    lines: list[dict] = []
+    for ch in sorted(cell.chars, key=lambda c: ((c["top"] + c["bottom"]) / 2, c["x0"])):
+        mid = (ch["top"] + ch["bottom"]) / 2
+        if lines and abs(mid - lines[-1]["mid"]) <= tol:
+            lines[-1]["chars"].append(ch)
+        else:
+            lines.append({"mid": mid, "chars": [ch]})
+    out = []
+    for ln in lines:
+        raw = "".join(c["text"] for c in sorted(ln["chars"], key=lambda c: c["x0"]))
+        # Char-level joins double the spaces that pdfplumber's word grouping
+        # already inserts; collapse runs so the line matches the page verbatim.
+        txt = re.sub(r"\s+", " ", raw).strip()
+        if txt:
+            mids = [(c["top"] + c["bottom"]) / 2 for c in ln["chars"]]
+            out.append((sum(mids) / len(mids), txt))
+    return out
+
+
+def evaluate_split(pg: "PageGrid", r: int, stub_cols: list[int], median_size: float):
+    """Rule C-prime (DECISIONS row 4). Returns ("split", parts) | ("grey", parts) | None.
+
+    Split a band ONLY when all three hold:
+      (a) the stub holds >= 2 distinct label lines, AND
+      (b) body mark clusters are baseline-aligned 1:1 with those label lines
+          (cluster top within a char-size-relative tolerance), AND
+      (c) the clusters' column sets are disjoint.
+    Meets (a) with >=2 clusters but fails (b) or (c) -> grey zone: keep merged,
+    emit a structured possible_split.
+    """
+    tol = 0.35 * median_size                       # char-size-relative (B1)
+    stub = stub_cols[0] if stub_cols else 0
+    label_lines = _text_lines(pg.cells[r][stub], tol)
+    if len(label_lines) < 2:
+        return None                                # (a) fails -> single row
+
+    # body marks grouped into baseline clusters
+    marks = []
+    for c in range(pg.n_cols):
+        if c in stub_cols:
+            continue
+        cell = pg.cells[r][c]
+        if cell.shaded and not cell.text.strip():
+            mid = (cell.bbox[1] + cell.bbox[3]) / 2
+            marks.append((mid, c, ""))
+            continue
+        for mid, txt in _text_lines(cell, tol):
+            marks.append((mid, c, txt))
+    if not marks:
+        return None
+
+    clusters: list[dict] = []
+    for mid, c, txt in sorted(marks):
+        if clusters and abs(mid - clusters[-1]["mid"]) <= tol:
+            clusters[-1]["cols"].add(c)
+            clusters[-1]["items"].append((c, txt))
+            clusters[-1]["mid"] = (clusters[-1]["mid"] + mid) / 2
+        else:
+            clusters.append({"mid": mid, "cols": {c}, "items": [(c, txt)]})
+
+    parts = [{"label": t, "mid": m, "marks": []} for m, t in label_lines]
+    if len(clusters) < 2:
+        return None                                # nothing to split against
+
+    # (b) 1:1 baseline alignment between label lines and clusters
+    # DECISIONS row 4: cluster baseline within ~3pt of its label line, 1:1.
+    # Char-size-relative (B1); at median 10pt this is the specified 3pt.
+    align_tol = 0.3 * median_size
+    aligned = len(clusters) == len(label_lines)
+    if aligned:
+        for part, cl in zip(parts, clusters):
+            if abs(part["mid"] - cl["mid"]) > align_tol:
+                aligned = False
+                break
+            part["marks"] = sorted(cl["items"])
+
+    # (c) disjoint column sets
+    disjoint = True
+    for i in range(len(clusters)):
+        for j in range(i + 1, len(clusters)):
+            if clusters[i]["cols"] & clusters[j]["cols"]:
+                disjoint = False
+    if aligned and disjoint:
+        return ("split", parts)
+
+    # grey zone: keep merged, hand the reviewer the evidence
+    for part, cl in zip(parts, clusters):
+        part["marks"] = sorted(cl["items"])
+    return ("grey", parts)
+
+
+#: Milestone words drawn as a vertical letter-stack between column groups.
+_DIVIDER_WORDS = ("RANDOMIZATION", "RANDOMISATION", "RANDOMIZE", "ENROLLMENT",
+                  "ENROLMENT", "SCREENING", "TREATMENT", "WASHOUT")
+
+
+def detect_divider_columns(pg: "PageGrid", n_hdr: int) -> list[int]:
+    """Columns that are a vertical letter-stack milestone, not a timepoint.
+
+    protocol12 p48 / protocol15 p25 draw RANDOMIZATION as one letter per body
+    row down a full-height column. It is a divider between column groups, so it
+    must not be read as a visit, and its single-glyph runs must not pollute the
+    row axis.
+
+    Strict test (a bare single-char ratio also matches X-mark columns):
+      - body cells are single characters, mostly letters
+      - concatenating them spells a known milestone word
+      - the column carries no marks (no shaded cells, no X tokens)
+    """
+    out = []
+    for c in range(pg.n_cols):
+        if c in pg.stub_cols:
+            continue
+        body = [pg.cells[r][c] for r in range(n_hdr, pg.n_rows)]
+        vals = [b.text.strip() for b in body if b.text.strip()]
+        if len(vals) < 5:
+            continue
+        if any(b.shaded for b in body):
+            continue
+        # a cell may stack two letters, so measure and join on the
+        # whitespace-stripped value
+        flat = [re.sub(r"\s+", "", v) for v in vals]
+        singles = [v for v in flat if len(v) <= 2]
+        if len(singles) / len(flat) < 0.8:
+            continue
+        letters = "".join(v for v in flat if v.isalpha()).upper()
+        if len(letters) < 5:
+            continue
+        if any(w in letters or letters in w for w in _DIVIDER_WORDS):
+            out.append(c)
+    return out
+
+
+def detect_divider_rows(pg: "PageGrid", n_hdr: int) -> list[int]:
+    """Body rows that are a second header strip rather than an assessment.
+
+    protocol5 p50's `Cocaine Infusion Session #` strip re-labels the column axis
+    mid-table: its stub is a heading and its body cells are bare ordinals, not
+    marks.
+    """
+    out = []
+    for r in range(n_hdr, pg.n_rows):
+        stub_txt = " ".join(pg.cells[r][c].text for c in pg.stub_cols).strip()
+        if not stub_txt or not re.search(r"(session|period|cycle|phase)\s*#?$",
+                                         stub_txt, re.I):
+            continue
+        body = [pg.cells[r][c] for c in range(pg.n_cols) if c not in pg.stub_cols]
+        vals = [b.text.strip() for b in body if b.text.strip()]
+        if vals and all(re.fullmatch(r"[\d&\-–\s]+", v) for v in vals):
+            out.append(r)
+    return out
 
 
 def build_pagegrids(pdf_path: str, pages: list[int]) -> list[PageGrid]:
