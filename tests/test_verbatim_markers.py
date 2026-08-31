@@ -68,13 +68,18 @@ def test_no_silent_loss():
 
 # ---------- agreed gate 2: binding counts unchanged ----------
 
-def test_binding_counts_unchanged(docs):
+def test_binding_counts(docs):
     def bound(name):
         t = docs[name]["tables"][0]
         return sum(1 for f in t["footnotes"] if f.get("attaches_to")), len(t["footnotes"])
     assert bound("protocol12") == (13, 14)
-    assert bound("protocol15") == (4, 5)
     assert bound("protocol9") == (4, 4)
+    # protocol15 moved 4/5 -> 5/5 intentionally: extending the detector to accept
+    # an EQUAL-SIZE raised marker (guarded by document-defined keys) binds 'a' to
+    # the 'Serum prolactin' cells, which previously trapped it in the value as
+    # 'a\nX'. This is the one deliberate binding change (see grid.
+    # promote_equal_size_markers and test_equal_size_raised_marker_now_bound).
+    assert bound("protocol15") == (5, 5)
 
 
 # ---------- agreed gate 3: legitimate wrapped labels survive exactly ----------
@@ -111,21 +116,39 @@ def test_multi_marker_cell_recorded(docs):
 
 # ---------- known limitation: equal-size raised marker (detector gap) ----------
 
-def test_equal_size_raised_marker_is_a_known_gap(docs):
+def test_equal_size_raised_marker_now_bound(docs):
     """protocol15 'Serum prolactin' prints a marker the SAME size as the X, only
-    raised. The detector requires smaller size, so it does not fire: those cells
-    keep the marker inside the value ('a\\nX') with empty footnote_markers. This
-    is a SEPARATE, pre-existing detector gap (not the double-count bug) and is
-    left documented rather than silently 'fixed' -- extending the detector would
-    change binding to 5/5, which is out of scope here.
-
-    This test pins the current state so any future detector change surfaces.
+    raised -- the base detector (which requires smaller size) misses it. The
+    guarded equal-size promotion (grid.promote_equal_size_markers) now catches it
+    BECAUSE the key is defined in the footnote block. Those cells read value 'X'
+    with the marker in footnote_markers, and no 'a\\nX' severe form remains.
     """
     t = docs["protocol15"]["tables"][0]
-    prolactin = [c for c in t["cells"]
-                 if re.match(r"^[a-jA-J]\n", c["value_verbatim"])]
-    assert prolactin, "the known-gap cells should still be present and visible"
-    for c in prolactin:
-        # the marker is trapped in the value and NOT in footnote_markers ->
-        # no double-count (agreed gate 1 still holds for these)
-        assert not c["footnote_markers"]
+    assert not any(re.match(r"^[a-jA-J]\n", c["value_verbatim"]) for c in t["cells"]), \
+        "no equal-size-raised marker should remain trapped in a value"
+    prolactin = next(r for r in t["rows"] if "prolactin" in r["label_verbatim"].lower())
+    cells = [c for c in t["cells"] if c["row_id"] == prolactin["id"]]
+    assert cells and all(c["value_verbatim"] == "X" for c in cells)
+    assert all(c["footnote_markers"] for c in cells), "marker must be bound, not in value"
+
+
+def test_equal_size_promotion_only_on_defined_keys(docs):
+    """The decisive guard: an equal-size raised glyph is promoted ONLY when its
+    key is document-defined. 'X wk 6' / 'X\\nwk 6' scope cells (protocol12 ASI-Lite,
+    CANTABelect, Barratt) must NOT gain a spurious w/k/6 marker."""
+    t = docs["protocol12"]["tables"][0]
+    for name in ("CANTABelect", "Barratt"):
+        row = next(r for r in t["rows"] if name in r["label_verbatim"])
+        for c in (c for c in t["cells"] if c["row_id"] == row["id"]):
+            spurious = set(c["footnote_markers"]) & set("wk6")
+            assert not spurious, f"{name} {c['col_id']} gained spurious {spurious}"
+    # ASI-Lite scope cell keeps only its legitimate 'b'
+    asi = next(r for r in t["rows"] if "ASI-Lite" in r["label_verbatim"])
+    c5 = next(c for c in t["cells"] if c["row_id"] == asi["id"] and c["col_id"] == "c5")
+    assert c5["value_verbatim"] == "X wk 6" and c5["footnote_markers"] == ["b"]
+
+
+# NOTE on the vision benchmark metric (post-fix): the strict-raw verbatim match
+# on p12 p48 is 52.3% and is MISLEADING -- it compares vision's fused token 'Xb'
+# against the now-correctly-separated geometric value 'X'. The metric to report
+# is marker-aware: 100% row / 100% column / 98.5% verbatim. Do not cite 52.3%.

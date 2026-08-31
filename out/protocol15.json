@@ -3468,12 +3468,16 @@
         {
           "row_id": "r31",
           "col_id": "c2",
-          "value_verbatim": "a\nX",
+          "value_verbatim": "X",
           "shaded": false,
           "colspan": 1,
           "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
+          "footnote_markers": [
+            "a"
+          ],
+          "sup_markers": [
+            "a"
+          ],
           "page": 25,
           "bbox": [
             251.2,
@@ -3491,12 +3495,16 @@
         {
           "row_id": "r31",
           "col_id": "c4",
-          "value_verbatim": "a\nX",
+          "value_verbatim": "X",
           "shaded": false,
           "colspan": 1,
           "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
+          "footnote_markers": [
+            "a"
+          ],
+          "sup_markers": [
+            "a"
+          ],
           "page": 25,
           "bbox": [
             327.6,
@@ -3514,12 +3522,16 @@
         {
           "row_id": "r31",
           "col_id": "c5",
-          "value_verbatim": "a\nX",
+          "value_verbatim": "X",
           "shaded": false,
           "colspan": 1,
           "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
+          "footnote_markers": [
+            "a"
+          ],
+          "sup_markers": [
+            "a"
+          ],
           "page": 25,
           "bbox": [
             354.6,
@@ -3537,12 +3549,16 @@
         {
           "row_id": "r31",
           "col_id": "c9",
-          "value_verbatim": "c\nX",
+          "value_verbatim": "X",
           "shaded": false,
           "colspan": 1,
           "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
+          "footnote_markers": [
+            "c"
+          ],
+          "sup_markers": [
+            "c"
+          ],
           "page": 25,
           "bbox": [
             467.2,
@@ -3742,8 +3758,24 @@
             25
           ],
           "continued_from_previous_page": false,
-          "unanchored": true,
-          "attaches_to": []
+          "unanchored": false,
+          "attaches_to": [
+            {
+              "kind": "cell",
+              "row_id": "r31",
+              "col_id": "c2"
+            },
+            {
+              "kind": "cell",
+              "row_id": "r31",
+              "col_id": "c4"
+            },
+            {
+              "kind": "cell",
+              "row_id": "r31",
+              "col_id": "c5"
+            }
+          ]
         },
         {
           "marker": "b",
@@ -4084,6 +4116,11 @@
               "kind": "cell",
               "row_id": "r23",
               "col_id": "c9"
+            },
+            {
+              "kind": "cell",
+              "row_id": "r31",
+              "col_id": "c9"
             }
           ]
         },
@@ -4104,10 +4141,6 @@
         }
       ],
       "warnings": [
-        {
-          "kind": "marker_defined_unused",
-          "detail": "marker 'a' defined but never bound to a cell/row/column"
-        },
         {
           "kind": "unknown_column_role",
           "detail": "3 columns with role=unknown",

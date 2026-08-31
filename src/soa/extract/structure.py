@@ -8,7 +8,8 @@ from __future__ import annotations
 
 import re
 
-from .grid import PageGrid, evaluate_split, detect_divider_columns, detect_divider_rows
+from .grid import (PageGrid, evaluate_split, detect_divider_columns,
+                   detect_divider_rows, promote_equal_size_markers)
 
 from .grid import TIMEPOINT_ROW as _TIMEPOINT_ROW
 _INT = re.compile(r"^\d{1,3}([/\-–]\w+)?$")
@@ -141,6 +142,25 @@ def _candidate_defs(text: str):
         m = re.match(r"^\(?(\d{1,2})\)?\s*[-–:.)]\s+(\S.*)$", s)
         if m:
             yield m.group(1), m.group(2).strip()
+
+
+def _defined_marker_keys(fn_pages_text: list[tuple[int, str]]) -> set[str]:
+    """The set of marker keys DEFINED in the footnote block (lowercased).
+
+    Reuses _candidate_defs, so the equal-size-raised promotion (grid.py) can only
+    fire on a key the document actually defines -- the decisive guard.
+    """
+    keys = set()
+    for _page, text in fn_pages_text:
+        for marker, _body in _candidate_defs(text):
+            # Exclude bare digits: _candidate_defs also matches numbered prose
+            # ("1. Informed consent"), and build_footnotes drops those as ordinals.
+            # A stray '2' would otherwise be promoted out of 'Weekly x 2 weeks'.
+            # Real footnote markers here are letters and symbols.
+            if marker.isdigit():
+                continue
+            keys.add(marker.lower())
+    return keys
 
 
 def build_footnotes(fn_pages_text: list[tuple[int, str]], used: set[str]) -> list[dict]:
@@ -335,6 +355,7 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
     columns = build_columns(head, n_hdr)
     stub = head.stub_cols
     n_cols = head.n_cols
+    _defined = _defined_marker_keys(fn_pages_text)   # for equal-size promotion
 
     rows, cells = [], []
     deferred_pages: list[int] = []
@@ -346,6 +367,8 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
         pg_hdr_n = _find_header_rows(pg)
         divider_cols = set(detect_divider_columns(pg, pg_hdr_n))
         divider_rows = set(detect_divider_rows(pg, pg_hdr_n))
+        # equal-size raised markers, promoted only when document-defined
+        promote_equal_size_markers(pg, _defined, pg_hdr_n)
         if pg.n_cols != n_cols:
             # column-wise continuation (protocol1 p53=10 cols, p54=9): a proper
             # guarded merge onto the shared row axis is pending. Do not stack it

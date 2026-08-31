@@ -30,6 +30,7 @@ class GCell:
     colspan: int = 1
     sup_markers: list = field(default_factory=list)   # superscript footnote letters
     chars: list = field(default_factory=list)         # chars in this cell (baselines)
+    promoted_ids: set = field(default_factory=set)    # equal-size raised marker chars
 
     @property
     def value(self) -> str:
@@ -39,10 +40,12 @@ class GCell:
         every non-marker cell is untouched. For marker cells the raised glyph is
         excluded from the value (it lives in footnote_markers instead), fixing
         the double-count where 'a\\nX' / 'Xa' left the marker inside the value.
+        `promoted_ids` adds equal-size raised glyphs promoted by the marker-driven
+        guard (see promote_equal_size_markers).
         """
-        if not self.sup_markers:
+        if not self.sup_markers and not self.promoted_ids:
             return self.text
-        return _value_without_superscripts(self.chars, self.text)
+        return _value_without_superscripts(self.chars, self.text, self.promoted_ids)
 
 
 @dataclass
@@ -193,16 +196,18 @@ def _superscript_char_ids(chars: list[dict]) -> set[int]:
     return ids
 
 
-def _value_without_superscripts(chars: list[dict], raw_text: str) -> str:
+def _value_without_superscripts(chars: list[dict], raw_text: str,
+                                extra_ids: set | None = None) -> str:
     """Cell text with the detected superscript-marker glyphs removed.
 
     Rebuilt from the surviving char objects in reading order (line by line,
     left to right) with whitespace collapsed, so it is robust to the severe
     ('a\\nX') and mild ('Xa') forms alike -- both drop the raised letter and
-    yield 'X'. Called only for cells that actually have a superscript marker;
+    yield 'X'. `extra_ids` are equal-size raised chars promoted to markers by
+    the marker-driven guard. Called only for cells that actually have a marker;
     every other cell keeps its extract_table text untouched.
     """
-    sup_ids = _superscript_char_ids(chars)
+    sup_ids = _superscript_char_ids(chars) | (set(extra_ids) if extra_ids else set())
     if not sup_ids:
         return raw_text
     kept = [c for c in chars if id(c) not in sup_ids and (c.get("text") or "")]
@@ -223,6 +228,70 @@ def _value_without_superscripts(chars: list[dict], raw_text: str) -> str:
     text = " ".join("".join(c["text"] for c in sorted(ln, key=lambda c: c["x0"]))
                     for ln in lines)
     return re.sub(r"\s+", " ", text).strip()
+
+
+#: Chars that may be a footnote marker (letters handled here; digits/symbols
+#: are only ever promoted when they match a defined key).
+_MARKER_ALPHABET = set("abcdefghijABCDEFGHIJ0123456789*†‡•◦")
+
+
+def promote_equal_size_markers(pg: "PageGrid", defined: set[str], n_hdr: int) -> None:
+    """Promote an equal-size raised glyph to a footnote marker, guarded.
+
+    The base detector (`_superscript_markers`) requires the marker to be SMALLER
+    than the body text. Some protocols (protocol15 'Serum prolactin') print the
+    marker at the SAME size, raised only. Accept such a glyph as a marker ONLY
+    when ALL hold:
+      1. short token (<=2 chars) from the marker alphabet;
+      2. raised above the cell's DOMINANT baseline (not merely on another line);
+      3. it is NOT the dominant content (a non-raised value char remains);
+      4. **decisive**: its key is DEFINED in this table's footnote block.
+    (4) reuses the marker-driven design: an equal-size raised glyph becomes a
+    marker only if the document itself defines that key. A stray raised char with
+    no matching definition stays part of the value.
+    """
+    if not defined:
+        return
+    for r in range(n_hdr, pg.n_rows):
+        for c in range(pg.n_cols):
+            if c in pg.stub_cols:
+                continue
+            gc = pg.cells[r][c]
+            letters = [ch for ch in gc.chars if (ch.get("text") or "").strip()]
+            if len(letters) < 2:
+                continue
+            already = _superscript_char_ids(gc.chars)
+            sizes = [ch["size"] for ch in letters if ch.get("size")]
+            if not sizes:
+                continue
+            body = max(sizes)
+            main = [ch for ch in letters if ch.get("size", body) >= 0.95 * body]
+            dom_mid = max((ch["top"] + ch["bottom"]) / 2 for ch in main)  # value baseline
+            promoted_ids, promoted_keys = set(), []
+            for ch in letters:
+                if id(ch) in already:
+                    continue
+                tok = ch["text"].strip()
+                if len(tok) > 2 or tok[0] not in _MARKER_ALPHABET:
+                    continue
+                mid = (ch["top"] + ch["bottom"]) / 2
+                if mid >= dom_mid - 0.25 * body:          # not raised above baseline
+                    continue
+                key = tok.lower()
+                if key not in defined:                    # (4) not document-defined
+                    continue
+                promoted_ids.add(id(ch)); promoted_keys.append(key)
+            if not promoted_keys:
+                continue
+            # (3) dominant-content guard: a non-raised value char must remain
+            remaining = [ch for ch in letters
+                         if id(ch) not in already and id(ch) not in promoted_ids]
+            if not remaining:
+                continue
+            for k in promoted_keys:
+                if k not in gc.sup_markers:
+                    gc.sup_markers.append(k)
+            gc.promoted_ids |= promoted_ids
 
 
 def _group_bands(words: list[dict], cell_bboxes, n_cols: int, median_size: float):
