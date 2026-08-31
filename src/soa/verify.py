@@ -81,4 +81,19 @@ def verify(table: dict, pagegrids: list[PageGrid]) -> list[dict]:
     if unk:
         warnings.append({"kind": "unknown_column_role", "detail": f"{len(unk)} columns with role=unknown", "ids": unk})
 
+    # --- multi-marker cells: per-mark association is lost, recorded not silent ---
+    # A cell printing two distinct marks (protocol12 ASI-Lite "Xc Xe") comes out
+    # value "X X" with markers ["c","e"]: nothing is dropped, but which X carries
+    # which marker is not recovered. Flag it so the limitation is visible.
+    multi = [{"row_id": c["row_id"], "col_id": c["col_id"],
+              "value_verbatim": c["value_verbatim"],
+              "footnote_markers": c["footnote_markers"]}
+             for c in table["cells"] if len(c.get("footnote_markers") or []) > 1]
+    if multi:
+        warnings.append({"kind": "multi_marker_cell",
+                         "detail": f"{len(multi)} cell(s) carry >1 footnote marker; "
+                                   f"the mark<->marker association within the cell is "
+                                   f"not recovered (values and markers are both kept)",
+                         "cells": multi})
+
     return warnings

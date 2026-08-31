@@ -31,6 +31,19 @@ class GCell:
     sup_markers: list = field(default_factory=list)   # superscript footnote letters
     chars: list = field(default_factory=list)         # chars in this cell (baselines)
 
+    @property
+    def value(self) -> str:
+        """Cell text with detected superscript markers removed (verbatim value).
+
+        For cells with no superscript this is exactly the extract_table text, so
+        every non-marker cell is untouched. For marker cells the raised glyph is
+        excluded from the value (it lives in footnote_markers instead), fixing
+        the double-count where 'a\\nX' / 'Xa' left the marker inside the value.
+        """
+        if not self.sup_markers:
+            return self.text
+        return _value_without_superscripts(self.chars, self.text)
+
 
 @dataclass
 class PageGrid:
@@ -148,6 +161,68 @@ def _superscript_markers(chars: list[dict]) -> list[str]:
         if sz < 0.9 * body_size and raised and c["text"].lower() in "abcdefghij":
             out.append(c["text"].lower())
     return out
+
+
+def _superscript_char_ids(chars: list[dict]) -> set[int]:
+    """Object ids of the chars _superscript_markers flags as footnote markers.
+
+    Same size+raise test as the detector, but returns the specific char objects
+    so value_verbatim can exclude exactly those glyphs -- not by string surgery
+    on the letter (which could delete real content) and not by newline-stripping
+    (which would destroy legitimate wrapped labels).
+    """
+    letters = [c for c in chars if (c.get("text") or "").strip()]
+    if len(letters) < 2:
+        return set()
+    from statistics import median
+    sizes = [c["size"] for c in letters if c.get("size")]
+    if not sizes:
+        return set()
+    body_size = max(sizes)
+    body = [c for c in letters if c.get("size", body_size) >= 0.95 * body_size]
+    if not body:
+        return set()
+    base_mid = median([(c["top"] + c["bottom"]) / 2 for c in body])
+    ids = set()
+    for c in letters:
+        sz = c.get("size", body_size)
+        mid = (c["top"] + c["bottom"]) / 2
+        raised = mid < base_mid - 0.1 * body_size
+        if sz < 0.9 * body_size and raised and c["text"].lower() in "abcdefghij":
+            ids.add(id(c))
+    return ids
+
+
+def _value_without_superscripts(chars: list[dict], raw_text: str) -> str:
+    """Cell text with the detected superscript-marker glyphs removed.
+
+    Rebuilt from the surviving char objects in reading order (line by line,
+    left to right) with whitespace collapsed, so it is robust to the severe
+    ('a\\nX') and mild ('Xa') forms alike -- both drop the raised letter and
+    yield 'X'. Called only for cells that actually have a superscript marker;
+    every other cell keeps its extract_table text untouched.
+    """
+    sup_ids = _superscript_char_ids(chars)
+    if not sup_ids:
+        return raw_text
+    kept = [c for c in chars if id(c) not in sup_ids and (c.get("text") or "")]
+    if not kept:
+        return raw_text
+    # group into visual lines by vertical midpoint, then order left to right
+    body_size = max((c.get("size", 10.0) for c in kept), default=10.0)
+    tol = 0.5 * body_size
+    kept.sort(key=lambda c: (c["top"] + c["bottom"]) / 2)
+    lines, cur, cur_mid = [], [], None
+    for c in kept:
+        mid = (c["top"] + c["bottom"]) / 2
+        if cur_mid is None or abs(mid - cur_mid) <= tol:
+            cur.append(c); cur_mid = mid if cur_mid is None else (cur_mid + mid) / 2
+        else:
+            lines.append(cur); cur, cur_mid = [c], mid
+    lines.append(cur)
+    text = " ".join("".join(c["text"] for c in sorted(ln, key=lambda c: c["x0"]))
+                    for ln in lines)
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def _group_bands(words: list[dict], cell_bboxes, n_cols: int, median_size: float):

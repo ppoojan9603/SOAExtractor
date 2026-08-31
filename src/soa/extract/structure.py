@@ -412,8 +412,10 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
                 if c in stub or c in divider_cols:
                     continue
                 gc = rowcells[c]
-                val = gc.text.strip()
-                if not val and not gc.shaded:
+                val = gc.value.strip()          # superscript markers removed
+                # keep a cell whose only content was a superscript marker: its
+                # value is now empty but the marker still needs a binding target
+                if not val and not gc.shaded and not gc.sup_markers:
                     continue
                 ev = []
                 if val:
@@ -531,7 +533,7 @@ def _assemble_column_continuation(pagegrids, fn_pages_text, pages, title) -> dic
 
 
 def _cell(row_id, col_id, gc, page) -> dict:
-    val = gc.text.strip()
+    val = gc.value.strip()          # superscript markers removed
     ev = (["text_layer"] if val else []) + (["graphics_fill"] if gc.shaded else [])
     return {"row_id": row_id, "col_id": col_id, "value_verbatim": val,
             "shaded": gc.shaded, "colspan": gc.colspan, "rowspan": 1,
