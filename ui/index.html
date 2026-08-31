@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SoA Extractor — review</title>
+<style>
+  :root { --line:#d6d8dd; --ink:#1c1e21; --mut:#6b7076; --accent:#1c6fd4;
+          --mark:#e8f1fc; --warn:#8a5a00; --warnbg:#fff6e0; --flag:#fdeaea; }
+  * { box-sizing:border-box; }
+  /* Explicit surface: without this the browser's dark theme shows through and
+     unstyled rows render dark-on-dark. */
+  html, body { background:#fff; }
+  body { margin:0; font:14px/1.45 -apple-system,Segoe UI,Roboto,sans-serif;
+         color:var(--ink); background:#fff; }
+  table { background:#fff; }
+  td, th { background:#fff; }
+  header { padding:10px 16px; border-bottom:1px solid var(--line); display:flex;
+           gap:16px; align-items:center; flex-wrap:wrap; }
+  h1 { font-size:15px; margin:0; font-weight:600; }
+  .mut { color:var(--mut); }
+  #banner { display:none; padding:8px 16px; background:var(--warnbg); color:var(--warn);
+            border-bottom:1px solid #f0e0b8; font-size:13px; }
+  /* minmax(0,1fr): a wide SoA table's min-content width would otherwise blow
+     out its column and collapse the page pane to zero width. */
+  #layout { display:grid; grid-template-columns:230px minmax(0,1fr) minmax(0,1fr);
+            height:calc(100vh - 52px); }
+  @media (max-width:1100px){ #layout { grid-template-columns:200px minmax(0,1fr); }
+    #pagewrap { grid-column:1 / -1; border-top:1px solid var(--line); } }
+  #cands, #gridwrap, #pagewrap { overflow:auto; }
+  #cands { border-right:1px solid var(--line); padding:8px; }
+  #gridwrap { border-right:1px solid var(--line); padding:10px; }
+  #pagewrap { padding:10px; background:#f6f7f8; }
+  .cand { padding:8px; border:1px solid var(--line); border-radius:6px; margin-bottom:6px;
+          cursor:pointer; background:#fff; }
+  .cand:hover { border-color:var(--accent); }
+  .cand.sel { border-color:var(--accent); background:var(--mark); }
+  .cand .t { font-weight:600; font-size:12.5px; }
+  .cand .m { font-size:11.5px; color:var(--mut); margin-top:3px; }
+  .pill { display:inline-block; font-size:10.5px; padding:1px 6px; border-radius:9px;
+          background:#eef0f2; color:#414549; margin-right:4px; }
+  table { border-collapse:collapse; font-size:12px; }
+  th, td { border:1px solid var(--line); padding:3px 6px; text-align:center; white-space:nowrap; }
+  th.rowlab, td.rowlab { text-align:left; max-width:290px; white-space:normal; }
+  thead th { background:#f2f4f6; position:sticky; top:0; }
+  td.cell:hover { background:var(--mark); outline:2px solid var(--accent); cursor:crosshair; }
+  tr.cat td { background:#f2f4f6; font-weight:600; }
+  tr.divider td { background:#f7f2ff; font-style:italic; color:#5b3fa0; }
+  tr.psplit td.rowlab { background:var(--flag); }
+  .shaded { background:#c9ccd1; }
+  .fn { font-size:10px; color:var(--accent); vertical-align:super; }
+  #pageimg { position:relative; display:inline-block; }
+  #pageimg img { display:block; max-width:100%; }
+  #hl { position:absolute; border:2px solid var(--accent); background:rgba(28,111,212,.18);
+        display:none; pointer-events:none; }
+  #foot { padding:10px; border-top:1px solid var(--line); font-size:12px; }
+  #foot li { margin-bottom:5px; }
+  code { background:#f2f4f6; padding:1px 4px; border-radius:3px; }
+  .warn { color:var(--warn); }
+  .scanned { padding:12px; background:var(--warnbg); border:1px solid #f0e0b8; border-radius:6px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>SoA Extractor</h1>
+  <input type="file" id="file" accept="application/pdf">
+  <span id="status" class="mut">upload a protocol PDF</span>
+</header>
+<div id="banner"></div>
+<div id="layout">
+  <div id="cands"><p class="mut" style="font-size:12px">Candidates appear here. A locator
+    miss is recoverable &mdash; pick any candidate.</p></div>
+  <div id="gridwrap"><p class="mut">No table selected.</p></div>
+  <div id="pagewrap"><div id="pageimg"><img id="img" alt=""><div id="hl"></div></div></div>
+</div>
+<script>
+let DOC = null, SCALE = 2.0, CUR = null, curPage = null;
+const $ = s => document.querySelector(s);
+
+fetch('/api/scale').then(r => r.json()).then(d => { SCALE = d.scale; });
+
+$('#file').addEventListener('change', async e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  $('#status').textContent = 'extracting… (no network, no API keys)';
+  const fd = new FormData();
+  fd.append('file', f);
+  const r = await fetch('/api/upload', { method: 'POST', body: fd });
+  if (!r.ok) { $('#status').textContent = 'failed: ' + (await r.text()); return; }
+  DOC = await r.json();
+  const d = DOC.document;
+  $('#status').textContent = d.original_name + ' — ' + d.page_count + ' pages, '
+    + DOC.tables.length + ' candidate table(s)';
+  renderCands();
+  if (DOC.tables.length) select(0);
+  else $('#gridwrap').innerHTML = '<div class="scanned">No table candidates found. '
+    + 'If this protocol is scanned, text-layer extraction does not apply and OCR is a '
+    + 'documented non-goal.</div>';
+});
+
+function renderCands() {
+  const el = $('#cands');
+  el.innerHTML = '';
+  DOC.tables.forEach((t, i) => {
+    const marks = t.cells.filter(c => c.shaded).length;
+    const d = document.createElement('div');
+    d.className = 'cand';
+    d.dataset.i = i;
+    d.innerHTML = '<div class="t">' + esc(t.title_verbatim).slice(0, 70) + '</div>'
+      + '<div class="m"><span class="pill">' + esc(t.kind) + '</span> pp. '
+      + t.source_pages.join(', ') + '</div>'
+      + '<div class="m">' + t.rows.length + ' rows · ' + t.columns.length
+      + ' cols · ' + t.cells.length + ' cells'
+      + (marks ? ' · ' + marks + ' shaded' : '') + '</div>'
+      + '<div class="m">confidence ' + t.confidence + '</div>';
+    d.onclick = () => select(i);
+    el.appendChild(d);
+  });
+}
+
+function select(i) {
+  CUR = DOC.tables[i];
+  document.querySelectorAll('.cand').forEach(c =>
+    c.classList.toggle('sel', Number(c.dataset.i) === i));
+  renderGrid();
+  showPage(CUR.source_pages[0]);
+  const w = CUR.warnings || [];
+  const b = $('#banner');
+  if (w.length) {
+    b.style.display = 'block';
+    // group by kind: 27 individual 'marker_used_undefined' lines is noise, the
+    // count plus a sample is the signal.
+    const by = {};
+    w.forEach(x => { (by[x.kind] = by[x.kind] || []).push(x.detail || ''); });
+    b.innerHTML = '⚠ ' + Object.keys(by).map(k => {
+      const n = by[k].length;
+      const sample = esc(by[k][0]).slice(0, 90);
+      return '<b>' + esc(k) + '</b>' + (n > 1 ? ' ×' + n : '')
+        + ' <span title="' + esc(by[k].join(' | ')) + '">' + sample
+        + (n > 1 ? ' …' : '') + '</span>';
+    }).join(' &nbsp;·&nbsp; ');
+  } else {
+    b.style.display = 'none';
+  }
+}
+
+function renderGrid() {
+  const t = CUR;
+  const dataCols = t.columns.filter(c =>
+    c.role !== 'row_header' && String(c.id).charAt(0) !== 'g');
+  const bands = t.columns.filter(c => c.role === 'period');
+  const cellMap = {};
+  t.cells.forEach(c => { cellMap[c.row_id + '|' + c.col_id] = c; });
+
+  let h = '<table><thead>';
+  if (bands.length) {
+    h += '<tr><th class="rowlab"></th>';
+    const placed = {};
+    dataCols.forEach(c => {
+      const b = bands.filter(x => x.id === c.parent_id)[0];
+      if (b && !placed[b.id]) {
+        placed[b.id] = 1;
+        const span = dataCols.filter(x => x.parent_id === b.id).length;
+        h += '<th colspan="' + span + '">' + esc(b.label_verbatim) + '</th>';
+      } else if (!b) {
+        h += '<th></th>';
+      }
+    });
+    h += '</tr>';
+  }
+  h += '<tr><th class="rowlab">Activity</th>';
+  dataCols.forEach(c => {
+    const mark = c.role === 'divider' ? ' ⇄' : '';
+    h += '<th title="' + esc(c.role) + '">' + esc(c.label_verbatim || '') + mark + '</th>';
+  });
+  h += '</tr></thead><tbody>';
+
+  t.rows.forEach(r => {
+    const cls = [
+      r.role === 'category_header' ? 'cat' : '',
+      r.role === 'divider' ? 'divider' : '',
+      r.possible_split ? 'psplit' : ''
+    ].join(' ');
+    const fns = (r.footnote_markers || []).map(m =>
+      '<span class="fn">' + esc(m) + '</span>').join('');
+    const title = r.possible_split
+      ? 'possible split: ' + r.possible_split.stub_lines.map(l => l.label).join(' | ')
+      : '';
+    h += '<tr class="' + cls + '"><td class="rowlab" title="' + esc(title) + '">'
+      + esc(r.label_verbatim) + fns + '</td>';
+    dataCols.forEach(c => {
+      const cell = cellMap[r.id + '|' + c.id];
+      if (!cell) { h += '<td></td>'; return; }
+      const m = (cell.footnote_markers || []).map(x =>
+        '<span class="fn">' + esc(x) + '</span>').join('');
+      h += '<td class="cell' + (cell.shaded ? ' shaded' : '') + '"'
+        + ' data-page="' + cell.page + '" data-bbox="' + cell.bbox.join(',') + '"'
+        + ' title="' + esc((cell.evidence || []).join('+')) + '">'
+        + esc(cell.value_verbatim) + m + '</td>';
+    });
+    h += '</tr>';
+  });
+  h += '</tbody></table><div id="foot"></div>';
+  $('#gridwrap').innerHTML = h;
+  renderFoot();
+
+  document.querySelectorAll('td.cell').forEach(td => {
+    td.addEventListener('mouseenter', () => {
+      showPage(Number(td.dataset.page));
+      highlight(td.dataset.bbox.split(',').map(Number));
+    });
+    td.addEventListener('mouseleave', () => { $('#hl').style.display = 'none'; });
+  });
+}
+
+function renderFoot() {
+  const t = CUR;
+  let h = '<b>Footnotes</b> ';
+  if (!t.footnotes.length) h += '<span class="mut">none found in this span</span>';
+  h += '<ul>';
+  t.footnotes.forEach(f => {
+    const at = f.attaches_to || [];
+    const tgt = at.length
+      ? at.slice(0, 6).map(a => a.kind + (a.id ? ' ' + a.id
+          : (a.row_id ? ' ' + a.row_id + '/' + a.col_id : ''))).join(', ')
+        + (at.length > 6 ? ' …' : '')
+      : '<span class="warn">unanchored — flagged, not guessed</span>';
+    h += '<li><code>' + esc(f.marker === null ? '(none)' : f.marker) + '</code> '
+      + esc(f.text_verbatim).slice(0, 190)
+      + '<div class="mut">→ ' + tgt + '</div></li>';
+  });
+  h += '</ul>';
+  const el = $('#foot');
+  if (el) el.innerHTML = h;
+}
+
+function showPage(p) {
+  if (p === curPage) return;
+  curPage = p;
+  $('#img').src = '/api/page/' + DOC.document.id + '/' + p + '.png';
+}
+
+function highlight(bb) {
+  const img = $('#img');
+  if (!img.naturalWidth) return;
+  const disp = img.clientWidth / img.naturalWidth;   // css scaling of the png
+  const k = SCALE * disp;                            // pdf points -> css px
+  const hl = $('#hl');
+  hl.style.left = (bb[0] * k) + 'px';
+  hl.style.top = (bb[1] * k) + 'px';
+  hl.style.width = ((bb[2] - bb[0]) * k) + 'px';
+  hl.style.height = ((bb[3] - bb[1]) * k) + 'px';
+  hl.style.display = 'block';
+}
+
+function esc(s) {
+  return String(s === null || s === undefined ? '' : s)
+    .replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+</script>
+</body>
+</html>
