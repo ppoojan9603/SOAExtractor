@@ -121,9 +121,11 @@ def _text_below_table(pdf_page, pagegrid) -> str:
     return crop.extract_text() or ""
 
 
-def run(pdf_path: str, max_candidates: int | None = None) -> dict:
+def run(pdf_path: str, max_candidates: int | None = None,
+        vision_fallback: bool = False) -> dict:
     ingests = ingest_pdf(pdf_path)
     by_page = {g.page_number: g for g in ingests}
+    scanned_pages = [g.page_number for g in ingests if g.scanned]
     candidates = locate(ingests)
     if max_candidates:
         candidates = candidates[:max_candidates]
@@ -154,7 +156,50 @@ def run(pdf_path: str, max_candidates: int | None = None) -> dict:
             table["warnings"] = verify(table, pagegrids)
             tables.append(table)
 
+    # --- Vision fallback for pages with NO text layer (behaviour B) ---
+    # Only reachable when scanned pages exist AND the flag is on AND a provider
+    # is configured. The five born-digital protocols have zero scanned pages, so
+    # none of this runs and their output is byte-identical.
+    vision_status = None
+    if scanned_pages:
+        vision_status = _run_vision_fallback(
+            pdf_path, scanned_pages, len(tables), tables, vision_fallback)
+
     name = Path(pdf_path).name
-    return {"document": {"filename": name, "sha256": _sha256(pdf_path),
-                         "page_count": len(ingests)},
-            "tables": tables}
+    doc = {"document": {"filename": name, "sha256": _sha256(pdf_path),
+                        "page_count": len(ingests)},
+           "tables": tables}
+    if vision_status is not None:
+        doc["vision"] = vision_status
+    return doc
+
+
+def _run_vision_fallback(pdf_path, scanned_pages, existing, tables, enabled) -> dict:
+    """Shortlist scanned pages, vision-extract the top few, or decline honestly.
+
+    Never returns a silent empty result: either it appends marked vision tables
+    or it records a `declined` status the UI shows as the honest decline message.
+    """
+    from .providers.base import ProviderUnavailable
+    from .providers.recorded import select_provider
+    from .scan_shortlist import shortlist_scanned_pages
+    from .vision import vision_table
+
+    if not enabled:
+        return {"scanned_pages": scanned_pages, "declined": True,
+                "reason": "vision fallback is off by default; enable with "
+                          "--vision-fallback (behaviour A: detect and decline)."}
+    try:
+        provider = select_provider()
+    except ProviderUnavailable as exc:
+        return {"scanned_pages": scanned_pages, "declined": True,
+                "reason": f"vision fallback requested but {exc}"}
+
+    shortlist = shortlist_scanned_pages(pdf_path, top_k=3, pages=scanned_pages)
+    added = []
+    for offset, ps in enumerate(shortlist, 1):
+        tables.append(vision_table(pdf_path, ps.page, provider, existing + offset))
+        added.append(ps.page)
+    return {"scanned_pages": scanned_pages, "declined": False,
+            "provider": provider.name, "extracted_pages": added,
+            "shortlist": [{"page": s.page, "score": s.score} for s in shortlist]}

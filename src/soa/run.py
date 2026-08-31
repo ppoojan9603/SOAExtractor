@@ -13,9 +13,13 @@ def main(argv=None) -> int:
     ap.add_argument("pdf")
     ap.add_argument("-o", "--out", default="out")
     ap.add_argument("--max-candidates", type=int, default=None)
+    ap.add_argument("--vision-fallback", action="store_true",
+                    help="read text-less (scanned) pages with a vision model; "
+                         "off by default (behaviour A: detect and decline)")
     args = ap.parse_args(argv)
 
-    doc = run(args.pdf, max_candidates=args.max_candidates)
+    doc = run(args.pdf, max_candidates=args.max_candidates,
+              vision_fallback=args.vision_fallback)
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / (Path(args.pdf).stem + ".json")

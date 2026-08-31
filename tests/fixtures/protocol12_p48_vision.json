@@ -1,0 +1,819 @@
+{
+  "title": "Table 3.  Overview of Study Assessments",
+  "columns": [
+    {
+      "label": "Assessment"
+    },
+    {
+      "label": "14-21 days prior to randomization"
+    },
+    {
+      "label": "RANDOMIZATION"
+    },
+    {
+      "label": "1-3"
+    },
+    {
+      "label": "4"
+    },
+    {
+      "label": "5-7"
+    },
+    {
+      "label": "8"
+    },
+    {
+      "label": "9 -11"
+    },
+    {
+      "label": "12/ Term"
+    },
+    {
+      "label": "16"
+    }
+  ],
+  "rows": [
+    {
+      "label": "Screening"
+    },
+    {
+      "label": "Informed consent"
+    },
+    {
+      "label": "SCID/Psychiatric evaluation"
+    },
+    {
+      "label": "Medical history"
+    },
+    {
+      "label": "ACDS assessment (ADHD diagnosis)"
+    },
+    {
+      "label": "Meth Timeline Followback"
+    },
+    {
+      "label": "Prior medications"
+    },
+    {
+      "label": "Infectious disease panel/syphilis test/PPD"
+    },
+    {
+      "label": "HIV test (optional)"
+    },
+    {
+      "label": "Alcohol breathalyzerf"
+    },
+    {
+      "label": "Safety"
+    },
+    {
+      "label": "Physical exam"
+    },
+    {
+      "label": "Vital signs**"
+    },
+    {
+      "label": "Hematology"
+    },
+    {
+      "label": "Blood chemistries"
+    },
+    {
+      "label": "HAM-D"
+    },
+    {
+      "label": "Medical urinalysis"
+    },
+    {
+      "label": "Pregnancy test"
+    },
+    {
+      "label": "ECG"
+    },
+    {
+      "label": "Adverse eventsd"
+    },
+    {
+      "label": "Concomitant medications"
+    },
+    {
+      "label": "Efficacy"
+    },
+    {
+      "label": "ASI***"
+    },
+    {
+      "label": "ASI-Lite Follow-up"
+    },
+    {
+      "label": "HRBS***"
+    },
+    {
+      "label": "BSCS"
+    },
+    {
+      "label": "CGI-S"
+    },
+    {
+      "label": "CGI-O"
+    },
+    {
+      "label": "CANTABelectJ"
+    },
+    {
+      "label": "Barratt Impulsiveness Scale"
+    },
+    {
+      "label": "ACDS"
+    },
+    {
+      "label": "AISRS assessment"
+    },
+    {
+      "label": "SUR"
+    },
+    {
+      "label": "Urine for meth/tox screen/creatinine"
+    },
+    {
+      "label": "Urine tox screen on site test device**"
+    },
+    {
+      "label": "Medication Administration"
+    },
+    {
+      "label": "Modafinil compliance"
+    },
+    {
+      "label": "CBT compliance ****h"
+    },
+    {
+      "label": "End of trial form"
+    },
+    {
+      "label": "Follow-up interview"
+    }
+  ],
+  "cells": [
+    {
+      "row": 1,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 2,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 3,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 4,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 5,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 6,
+      "col": 1,
+      "value": "3X/week"
+    },
+    {
+      "row": 7,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 8,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 9,
+      "col": 1,
+      "value": "3X/week"
+    },
+    {
+      "row": 9,
+      "col": 3,
+      "value": "Xa"
+    },
+    {
+      "row": 9,
+      "col": 4,
+      "value": "Xb"
+    },
+    {
+      "row": 9,
+      "col": 5,
+      "value": "Xb"
+    },
+    {
+      "row": 9,
+      "col": 6,
+      "value": "Xb"
+    },
+    {
+      "row": 9,
+      "col": 7,
+      "value": "Xb"
+    },
+    {
+      "row": 9,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 11,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 11,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 12,
+      "col": 1,
+      "value": "3X/week"
+    },
+    {
+      "row": 12,
+      "col": 3,
+      "value": "Xa"
+    },
+    {
+      "row": 12,
+      "col": 4,
+      "value": "Xb"
+    },
+    {
+      "row": 12,
+      "col": 5,
+      "value": "Xb"
+    },
+    {
+      "row": 12,
+      "col": 6,
+      "value": "Xb"
+    },
+    {
+      "row": 12,
+      "col": 7,
+      "value": "Xb"
+    },
+    {
+      "row": 12,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 13,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 13,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 14,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 14,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 15,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 15,
+      "col": 4,
+      "value": "Xb"
+    },
+    {
+      "row": 15,
+      "col": 6,
+      "value": "Xb"
+    },
+    {
+      "row": 15,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 16,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 16,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 17,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 17,
+      "col": 3,
+      "value": "Xg"
+    },
+    {
+      "row": 17,
+      "col": 4,
+      "value": "Xb"
+    },
+    {
+      "row": 17,
+      "col": 6,
+      "value": "Xb"
+    },
+    {
+      "row": 17,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 17,
+      "col": 9,
+      "value": "X"
+    },
+    {
+      "row": 18,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 18,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 19,
+      "col": 1,
+      "value": "3X/weekd"
+    },
+    {
+      "row": 19,
+      "col": 3,
+      "value": "3Xd"
+    },
+    {
+      "row": 19,
+      "col": 4,
+      "value": "3Xd"
+    },
+    {
+      "row": 19,
+      "col": 5,
+      "value": "3Xd"
+    },
+    {
+      "row": 19,
+      "col": 6,
+      "value": "3Xd"
+    },
+    {
+      "row": 19,
+      "col": 7,
+      "value": "3Xd"
+    },
+    {
+      "row": 19,
+      "col": 8,
+      "value": "3Xd"
+    },
+    {
+      "row": 19,
+      "col": 9,
+      "value": "X"
+    },
+    {
+      "row": 20,
+      "col": 3,
+      "value": "3X"
+    },
+    {
+      "row": 20,
+      "col": 4,
+      "value": "3X"
+    },
+    {
+      "row": 20,
+      "col": 5,
+      "value": "3X"
+    },
+    {
+      "row": 20,
+      "col": 6,
+      "value": "3X"
+    },
+    {
+      "row": 20,
+      "col": 7,
+      "value": "3X"
+    },
+    {
+      "row": 20,
+      "col": 8,
+      "value": "3X"
+    },
+    {
+      "row": 20,
+      "col": 9,
+      "value": "X"
+    },
+    {
+      "row": 22,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 23,
+      "col": 5,
+      "value": "Xb wk 6"
+    },
+    {
+      "row": 23,
+      "col": 8,
+      "value": "Xc Xe"
+    },
+    {
+      "row": 24,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 24,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 25,
+      "col": 1,
+      "value": "Weeklyi"
+    },
+    {
+      "row": 25,
+      "col": 3,
+      "value": "Xb"
+    },
+    {
+      "row": 25,
+      "col": 4,
+      "value": "Xb"
+    },
+    {
+      "row": 25,
+      "col": 5,
+      "value": "Xb"
+    },
+    {
+      "row": 25,
+      "col": 6,
+      "value": "Xb"
+    },
+    {
+      "row": 25,
+      "col": 7,
+      "value": "Xb"
+    },
+    {
+      "row": 25,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 26,
+      "col": 1,
+      "value": "Weeklyi"
+    },
+    {
+      "row": 26,
+      "col": 3,
+      "value": "Xb"
+    },
+    {
+      "row": 26,
+      "col": 4,
+      "value": "Xb"
+    },
+    {
+      "row": 26,
+      "col": 5,
+      "value": "Xb"
+    },
+    {
+      "row": 26,
+      "col": 6,
+      "value": "Xb"
+    },
+    {
+      "row": 26,
+      "col": 7,
+      "value": "Xb"
+    },
+    {
+      "row": 26,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 27,
+      "col": 1,
+      "value": "Weeklyi"
+    },
+    {
+      "row": 27,
+      "col": 3,
+      "value": "Xb"
+    },
+    {
+      "row": 27,
+      "col": 4,
+      "value": "Xb"
+    },
+    {
+      "row": 27,
+      "col": 5,
+      "value": "Xb"
+    },
+    {
+      "row": 27,
+      "col": 6,
+      "value": "Xb"
+    },
+    {
+      "row": 27,
+      "col": 7,
+      "value": "Xb"
+    },
+    {
+      "row": 27,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 28,
+      "col": 1,
+      "value": "Twice"
+    },
+    {
+      "row": 28,
+      "col": 5,
+      "value": "X wk 6"
+    },
+    {
+      "row": 28,
+      "col": 8,
+      "value": "X"
+    },
+    {
+      "row": 29,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 29,
+      "col": 5,
+      "value": "X wk 6"
+    },
+    {
+      "row": 29,
+      "col": 8,
+      "value": "X"
+    },
+    {
+      "row": 30,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 31,
+      "col": 1,
+      "value": "X"
+    },
+    {
+      "row": 31,
+      "col": 4,
+      "value": "X"
+    },
+    {
+      "row": 31,
+      "col": 6,
+      "value": "X"
+    },
+    {
+      "row": 31,
+      "col": 8,
+      "value": "X"
+    },
+    {
+      "row": 32,
+      "col": 1,
+      "value": "3X/week"
+    },
+    {
+      "row": 32,
+      "col": 3,
+      "value": "3X"
+    },
+    {
+      "row": 32,
+      "col": 4,
+      "value": "3X"
+    },
+    {
+      "row": 32,
+      "col": 5,
+      "value": "3X"
+    },
+    {
+      "row": 32,
+      "col": 6,
+      "value": "3X"
+    },
+    {
+      "row": 32,
+      "col": 7,
+      "value": "3X"
+    },
+    {
+      "row": 32,
+      "col": 8,
+      "value": "3X"
+    },
+    {
+      "row": 32,
+      "col": 9,
+      "value": "X"
+    },
+    {
+      "row": 33,
+      "col": 1,
+      "value": "3X/week"
+    },
+    {
+      "row": 33,
+      "col": 3,
+      "value": "3X"
+    },
+    {
+      "row": 33,
+      "col": 4,
+      "value": "3X"
+    },
+    {
+      "row": 33,
+      "col": 5,
+      "value": "3X"
+    },
+    {
+      "row": 33,
+      "col": 6,
+      "value": "3X"
+    },
+    {
+      "row": 33,
+      "col": 7,
+      "value": "3X"
+    },
+    {
+      "row": 33,
+      "col": 8,
+      "value": "3X"
+    },
+    {
+      "row": 33,
+      "col": 9,
+      "value": "X"
+    },
+    {
+      "row": 34,
+      "col": 1,
+      "value": "3X/week"
+    },
+    {
+      "row": 35,
+      "col": 3,
+      "value": "Xb"
+    },
+    {
+      "row": 35,
+      "col": 4,
+      "value": "Xb"
+    },
+    {
+      "row": 35,
+      "col": 5,
+      "value": "Xb"
+    },
+    {
+      "row": 35,
+      "col": 6,
+      "value": "Xb"
+    },
+    {
+      "row": 35,
+      "col": 7,
+      "value": "Xb"
+    },
+    {
+      "row": 35,
+      "col": 8,
+      "value": "Xb"
+    },
+    {
+      "row": 36,
+      "col": 3,
+      "value": "3X"
+    },
+    {
+      "row": 36,
+      "col": 4,
+      "value": "3X"
+    },
+    {
+      "row": 36,
+      "col": 5,
+      "value": "3X"
+    },
+    {
+      "row": 36,
+      "col": 6,
+      "value": "3X"
+    },
+    {
+      "row": 36,
+      "col": 7,
+      "value": "3X"
+    },
+    {
+      "row": 36,
+      "col": 8,
+      "value": "3X"
+    },
+    {
+      "row": 37,
+      "col": 1,
+      "value": "2X/weekh"
+    },
+    {
+      "row": 37,
+      "col": 3,
+      "value": "3X"
+    },
+    {
+      "row": 37,
+      "col": 4,
+      "value": "3X"
+    },
+    {
+      "row": 37,
+      "col": 5,
+      "value": "3X"
+    },
+    {
+      "row": 37,
+      "col": 6,
+      "value": "3X"
+    },
+    {
+      "row": 37,
+      "col": 7,
+      "value": "3X"
+    },
+    {
+      "row": 37,
+      "col": 8,
+      "value": "3X"
+    },
+    {
+      "row": 38,
+      "col": 8,
+      "value": "Xc"
+    },
+    {
+      "row": 39,
+      "col": 9,
+      "value": "X"
+    }
+  ]
+}

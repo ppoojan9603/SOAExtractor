@@ -57,6 +57,13 @@
   code { background:#f2f4f6; padding:1px 4px; border-radius:3px; }
   .warn { color:var(--warn); }
   .scanned { padding:12px; background:var(--warnbg); border:1px solid #f0e0b8; border-radius:6px; }
+  /* Vision fallback: the ONE place the model produces cell values. Must be
+     impossible to mistake for a geometry-extracted table. */
+  #vbanner { display:none; padding:8px 16px; background:#f3e8ff; color:#5b3fa0;
+             border-bottom:1px solid #dcc7f5; font-size:13px; font-weight:600; }
+  td.vcell { background:#faf5ff; color:#5b3fa0; }
+  td.vcell::after { content:"◆"; font-size:8px; color:#a07fd0; vertical-align:super; margin-left:1px; }
+  tr:hover td.vcell { background:#f3e8ff; }
 </style>
 </head>
 <body>
@@ -66,6 +73,7 @@
   <span id="status" class="mut">upload a protocol PDF</span>
 </header>
 <div id="banner"></div>
+<div id="vbanner"></div>
 <div id="layout">
   <div id="cands"><p class="mut" style="font-size:12px">Candidates appear here. A locator
     miss is recoverable &mdash; pick any candidate.</p></div>
@@ -92,9 +100,17 @@ $('#file').addEventListener('change', async e => {
     + DOC.tables.length + ' candidate table(s)';
   renderCands();
   if (DOC.tables.length) select(0);
-  else $('#gridwrap').innerHTML = '<div class="scanned">No table candidates found. '
-    + 'If this protocol is scanned, text-layer extraction does not apply and OCR is a '
-    + 'documented non-goal.</div>';
+  else {
+    // No tables. If the document was scanned, say so honestly (behaviour A),
+    // never a bare "nothing found".
+    const v = DOC.vision;
+    const msg = (v && v.declined)
+      ? 'Scanned pages ' + v.scanned_pages.join(', ') + ' have no text layer. '
+        + esc(v.reason)
+      : 'No table candidates found. If this protocol is scanned, text-layer '
+        + 'extraction does not apply and OCR is a documented non-goal.';
+    $('#gridwrap').innerHTML = '<div class="scanned">' + msg + '</div>';
+  }
 });
 
 function renderCands() {
@@ -123,6 +139,17 @@ function select(i) {
     c.classList.toggle('sel', Number(c.dataset.i) === i));
   renderGrid();
   showPage(CUR.source_pages[0]);
+  // vision-fallback banner: this table's values were produced by a model
+  const vb = $('#vbanner');
+  if (CUR.strategy === 'vision-fallback') {
+    vb.style.display = 'block';
+    vb.innerHTML = '◆ VISION-EXTRACTED — this page had no text layer. Every cell '
+      + 'value was read from the image by a model (' + esc(DOC.vision && DOC.vision.provider || 'model')
+      + '), is model-authored (◆), and is NOT verbatim-guaranteed. '
+      + 'The orphan-word audit cannot run on a scanned page.';
+  } else {
+    vb.style.display = 'none';
+  }
   const w = CUR.warnings || [];
   const b = $('#banner');
   if (w.length) {
@@ -192,8 +219,14 @@ function renderGrid() {
       if (!cell) { h += '<td></td>'; return; }
       const m = (cell.footnote_markers || []).map(x =>
         '<span class="fn">' + esc(x) + '</span>').join('');
-      h += '<td class="cell' + (cell.shaded ? ' shaded' : '') + '"'
-        + ' data-page="' + cell.page + '" data-bbox="' + cell.bbox.join(',') + '"'
+      // vision cells have no bbox (no geometry to anchor to) -> no hover target
+      const hasBox = Array.isArray(cell.bbox);
+      const cls = 'cell' + (cell.shaded ? ' shaded' : '')
+        + (cell.authored_by === 'model' ? ' vcell' : '');
+      const dataAttr = hasBox
+        ? ' data-page="' + cell.page + '" data-bbox="' + cell.bbox.join(',') + '"'
+        : '';
+      h += '<td class="' + cls + '"' + dataAttr
         + ' title="' + esc((cell.evidence || []).join('+')) + '">'
         + esc(cell.value_verbatim) + m + '</td>';
     });
@@ -203,7 +236,7 @@ function renderGrid() {
   $('#gridwrap').innerHTML = h;
   renderFoot();
 
-  document.querySelectorAll('td.cell').forEach(td => {
+  document.querySelectorAll('td.cell[data-bbox]').forEach(td => {
     td.addEventListener('mouseenter', () => {
       showPage(Number(td.dataset.page));
       highlight(td.dataset.bbox.split(',').map(Number));

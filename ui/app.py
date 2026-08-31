@@ -9,6 +9,7 @@ committed out/ JSONs can never drift.
 """
 from __future__ import annotations
 
+import os
 import shutil
 import tempfile
 import uuid
@@ -49,7 +50,10 @@ async def upload(file: UploadFile = File(...)) -> JSONResponse:
         shutil.copyfileobj(file.file, fh)
     _UPLOADS[doc_id] = dest
     try:
-        result = run(str(dest))
+        # vision fallback for scanned pages is opt-in (behaviour A is the
+        # default); enable server-side with SOA_VISION_FALLBACK=1.
+        vision = os.environ.get("SOA_VISION_FALLBACK") in ("1", "true", "yes")
+        result = run(str(dest), vision_fallback=vision)
     except Exception as exc:                      # fail loud, never a blank grid
         raise HTTPException(500, f"extraction failed: {exc}") from exc
     result["document"]["id"] = doc_id
