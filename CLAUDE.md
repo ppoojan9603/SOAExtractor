@@ -27,6 +27,11 @@ Read in this order before doing anything: `docs/FINDINGS.md`,
    verbatim string, never replace it.
 5. **Represent ambiguity, do not resolve it.** If a cell is genuinely unclear,
    emit it with `ambiguous: true` and a reason.
+6. **A stated gate is a contract. When it fails, STOP and surface it before
+   committing** — byte-identical, a count, a passing test, anything I named as
+   the bar. This holds even when every diff looks corrective: deciding "the
+   deviation was good" is my call to make, not yours. Do not proceed past a
+   failed gate on your own judgement that the outcome is fine.
 
 ## Working style
 
