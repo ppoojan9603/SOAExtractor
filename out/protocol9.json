@@ -7907,7 +7907,7 @@
         },
         {
           "id": "r1",
-          "label_verbatim": "E I",
+          "label_verbatim": "PHASE I",
           "role": "assessment",
           "footnote_markers": [],
           "sup_markers": [],
@@ -7916,7 +7916,7 @@
         },
         {
           "id": "r2",
-          "label_verbatim": "ILIZATION",
+          "label_verbatim": "STABILIZATION",
           "role": "assessment",
           "footnote_markers": [],
           "sup_markers": [],
@@ -7934,7 +7934,7 @@
         },
         {
           "id": "r4",
-          "label_verbatim": "E II",
+          "label_verbatim": "PHASE II",
           "role": "assessment",
           "footnote_markers": [],
           "sup_markers": [],
@@ -7943,15 +7943,17 @@
         },
         {
           "id": "r5",
-          "label_verbatim": "XIFICATION/\nLE BLIND",
+          "label_verbatim": "DETOXIFICATION/\nDOUBLE BLIND",
           "role": "assessment",
           "footnote_markers": [
+            "e",
             "i",
             "f",
             "c",
             "a"
           ],
           "sup_markers": [
+            "e",
             "i",
             "f",
             "i",
@@ -7964,7 +7966,7 @@
         },
         {
           "id": "r6",
-          "label_verbatim": "CATION",
+          "label_verbatim": "MEDICATION",
           "role": "assessment",
           "footnote_markers": [],
           "sup_markers": [],
@@ -7973,7 +7975,7 @@
         },
         {
           "id": "r7",
-          "label_verbatim": "E III",
+          "label_verbatim": "PHASE III",
           "role": "assessment",
           "footnote_markers": [],
           "sup_markers": [],
@@ -7982,7 +7984,7 @@
         },
         {
           "id": "r8",
-          "label_verbatim": "MEDICATION",
+          "label_verbatim": "POST MEDICATION",
           "role": "metadata",
           "footnote_markers": [],
           "sup_markers": [],
@@ -8453,6 +8455,10 @@
         {
           "kind": "marker_used_undefined",
           "detail": "marker 'c' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker 'e' used but not defined nearby"
         },
         {
           "kind": "marker_used_undefined",

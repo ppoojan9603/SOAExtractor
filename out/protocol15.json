@@ -167,7 +167,7 @@
         },
         {
           "id": "r1",
-          "label_verbatim": "nformed consent",
+          "label_verbatim": "Informed consent",
           "role": "assessment",
           "footnote_markers": [],
           "sup_markers": [],
@@ -221,7 +221,7 @@
         },
         {
           "id": "r7",
-          "label_verbatim": "nfectious disease panel/\nsyphilis test",
+          "label_verbatim": "Infectious disease panel/\nsyphilis test",
           "role": "assessment",
           "footnote_markers": [],
           "sup_markers": [],
@@ -229,7 +229,7 @@
           "possible_split": {
             "stub_lines": [
               {
-                "label": "nfectious disease panel/",
+                "label": "Infectious disease panel/",
                 "marks": [
                   [
                     3,

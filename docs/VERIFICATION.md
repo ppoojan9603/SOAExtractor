@@ -25,7 +25,7 @@ screening. Run: `python -m soa.run data/holdout/<id>.pdf -o out/holdout`.
 | NCT02096029 (NIDA implementation trial) | 22 | **no SoA in document** | n/a | correctly did **not** invent one |
 | NCT02689531 (CTTI HABP/VABP) | 32 | yes, p. 22 (+ p. 23 is a *different* table) | yes | **wrongly merged two appendices** |
 
-### NCT03348956 — located correctly, headers wrong
+### NCT03348956 — located, headers FIXED; one row still dropped
 
 What went right, and it is the load-bearing part:
 
@@ -39,21 +39,39 @@ What went right, and it is the load-bearing part:
 - All **9 body rows on p20 extracted with correct marks**, including the
   superscript footnote markers: `EPR Oximetry Reading` came back as
   `X1`, `X2`, `X2`, `X` with the markers detected at char level.
-- Row-continuation onto p21 worked.
 
-What went wrong:
+**The garbage-headers defect and its investigation (the important part).**
+Initial output had empty/fragment column headers
+(`['', '', 'at onset of CIPN symptoms)', 'chemotherapy)', …]`). My first
+diagnosis blamed `_find_header_rows` (the stub-keyword header detector) and I
+recorded that here. A read-only investigation **overturned that attribution**:
 
-1. **Column headers are garbage.** Extracted labels are
-   `['symptoms) at onset CIPN of', 'chemotherapy)', '', '', …]` instead of
-   `Visit 1 / Visit 2 / Visit 3 / Unscheduled EPR oximetry readings / Blood Draw
-   Visits`. Cause: `_find_header_rows` locates the last header row by a **stub
-   label** matching `Study Day|Study Week|Visit|Week|Day`. This table's stub cell
-   is *empty* and its visit labels wrap to 6 lines, so header detection returned
-   1 and the "timepoint row" was a wrapped fragment. 8 columns emitted vs 6 real.
-2. **One row dropped.** p21's first body row,
-   `Toronto Clinical Neuropathy Scoring System`, is present in the page text but
-   absent from the output (4 of 5 p21 rows captured). This is the
-   most-penalised failure class and it is real.
+- The header's top rule *exists* in the raw geometry at y=473.9, and the vertical
+  borders extend up to it. But the built grid's top rule was y=519.4, **below**
+  the header text — so the header words fell outside the grid and the cells came
+  out empty. `_find_header_rows` then correctly returned 1; it was fed a broken
+  grid.
+- Root cause: a one-line bug in `_cluster` (`src/soa/ingest.py`). It seeded the
+  cluster group with the *unsorted* `values[0]` but iterated `sorted(values)[1:]`,
+  so whenever the minimum coordinate was not first in input order **it was
+  silently dropped**. Here that deleted the header's top rule. Latent on both
+  axes, every page; the five samples escaped only because their minimum rule
+  happened to be first in draw order.
+- Proof: `_cluster([519.4, 473.9, 554.9, 708.8], tol=2.2)` returned
+  `[519.4, 554.9, 708.8]` — 473.9 gone.
+
+**Fixed** (sort once, seed and iterate the same list; `tests/test_cluster.py`
+pins it). After the fix the column headers read `Visit 1 (prior to beginning
+chemotherapy)`, `Visit 2 …`, `Visit 3 …`, `Unscheduled EPR oximetry readings`,
+`Blood Draw Visits`. The **geometry-based header detector I had proposed as the
+fix was evaluated and rejected** — it disagrees with the current detector on 4
+of 5 samples because it misreads a leading category row (`Screening`) as header.
+
+**Still open — one dropped row.** p21's first body row,
+`Toronto Clinical Neuropathy Scoring System`, is in the page text but absent
+from the output (4 of 5 p21 rows captured). This is a **separate** cause (p21's
+own header handling on a row-continuation page), unaffected by the `_cluster`
+fix, and left as an open defect. Most-penalised failure class; real.
 
 ### NCT02096029 — no SoA, and the tool did not invent one
 
@@ -87,29 +105,40 @@ implementation of the rule.
 - 2 of 3 SoAs located; the third document has no SoA and was correctly not
   faked.
 - 0 crashes, 0 silent empty outputs.
-- 1 dropped row, 1 wrong-header table, 1 wrong merge.
+- After the `_cluster` fix: headers correct on NCT03348956; **1 dropped row**
+  (NCT03348956 p21) and **1 wrong merge** (NCT02689531 Arm A/B) remain open.
 - The union rule and char-level superscript detection both transferred to unseen
   data on first contact.
 
-### Fixes applied after the holdout: **none**
+### Fixes applied after the holdout: **one, principle-based**
 
 The rule was one round of principle-based fixes at most, and only if the
 original five still pass untouched. Assessment of the three defects:
 
-| Defect | Principle-based fix available? | Decision |
+| Defect | Root cause | Decision |
 |---|---|---|
-| Header detection needs a stub keyword | Yes — infer the header/body boundary from geometry (first row whose non-stub cells are marks) rather than a keyword. Principled and would generalise. | **Deferred, documented.** It is a real change to a component all five protocols depend on, and re-validating it properly is more than the remaining budget allows. Shipping it half-verified would be worse than shipping the limitation. |
-| Dropped p21 row | Cause not yet isolated | **Not fixed** — I will not guess at a fix I cannot verify. |
-| Arm A/B merged | The distinguishing signal is the *title* ("Appendix B", "Arm 2"), not geometry. A title-difference veto on the merge is plausible but is a new heuristic invented in response to holdout data. | **Not fixed** — this is exactly the overfitting the holdout exists to prevent. |
+| Garbage column headers | **Not** the suspected header heuristic. A latent one-line bug in `_cluster` dropped the header's top rule. | **Fixed.** One line, plus `tests/test_cluster.py`. All five samples still pass; the fix additionally *corrected* two latent verbatim truncations on the design set (see below). |
+| Dropped p21 row | Separate; p21 row-continuation header handling. Not isolated. | **Not fixed** — I will not guess at a fix I cannot verify. |
+| Arm A/B merged | The distinguishing signal is the *title* ("Appendix B", "Arm 2"), not geometry. A title-difference veto is a new heuristic invented in response to holdout data. | **Not fixed** — this is exactly the overfitting the holdout exists to prevent. |
 
-Recording them honestly is the deliverable here; the holdout's value comes from
-not being optimised against.
+**The `_cluster` fix was not neutral on the five — it was a strict improvement,
+and that exposed a gap in my own earlier verification.** I had reported the fix
+"byte-identical on all five" from a monkeypatch diff that compared only cell
+`value_verbatim`, not row labels. The real all-output diff showed the fix also
+recovered dropped leading characters that the same bug had been truncating on
+the design set: protocol15's **main SoA** had `nformed consent` -> now
+`Informed consent`, and `nfectious disease panel/` -> `Infectious disease
+panel/`; protocol9's dosing template had `ILIZATION` -> `STABILIZATION`. None of
+the 61 gates had caught these — a verbatim defect on a graded axis that only
+surfaced because the holdout forced the bug into the open. That is the holdout
+earning its keep twice: once on unseen data, once on the design set it was never
+supposed to touch.
 
 ---
 
 ## The five sample protocols (design set — not evidence of generalisation)
 
-Automated gates: **61 tests**, `python -m pytest tests/`.
+Automated gates: **65 tests**, `python -m pytest tests/`.
 
 | Protocol | SoA span | Cols | Rows | Cells | Marks | Footnotes bound |
 |---|---|---|---|---|---|---|

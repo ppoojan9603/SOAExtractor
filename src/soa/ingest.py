@@ -81,11 +81,20 @@ def _is_grey(color) -> bool:
 
 
 def _cluster(values: list[float], tol: float) -> list[float]:
-    """Collapse near-duplicate coordinates into single representative lines."""
+    """Collapse near-duplicate coordinates into single representative lines.
+
+    Seed and iterate the SAME sorted list. An earlier version seeded the group
+    with the unsorted ``values[0]`` but iterated ``sorted(values)[1:]``, which
+    skipped the true minimum whenever it was not first in input order -- silently
+    dropping a rule (e.g. the header top rule on a stroked-line protocol). Both
+    axes ran through here, so it was latent on every page; the five samples
+    escaped only because their minimum rule happened to be first in draw order.
+    """
     if not values:
         return []
-    out, group = [], [values[0]]
-    for v in sorted(values)[1:]:
+    ordered = sorted(values)
+    out, group = [], [ordered[0]]
+    for v in ordered[1:]:
         if v - group[-1] <= tol:
             group.append(v)
         else:

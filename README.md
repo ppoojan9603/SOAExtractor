@@ -155,7 +155,35 @@ TODO
 
 ## Verification results, per protocol
 
-TODO
+Full detail, including the holdout, is in [`docs/VERIFICATION.md`](docs/VERIFICATION.md).
+Summary of the five design protocols (65 automated gates, `python -m pytest tests/`):
+
+| Protocol | SoA span | Cols | Rows | Cells | Shaded marks | Footnotes bound |
+|---|---|---|---|---|---|---|
+| protocol1 | 53–54 (column-merged) | visits 1–13, ET, RT | 29 | 152 | 0 | — |
+| protocol5 | 50 | 12 | 31 | 107 | 0 | — |
+| protocol9 | 26–29 | days 1–11 | 43 | 240 | 220 | 4 / 4 |
+| protocol12 | 48–49 | 10 | 40 | 132 | 0 | 13 / 14 |
+| protocol15 | 25–26 | 11 | 34 | 128 | 0 | 4 / 5 |
+
+Outputs are committed under [`out/`](out/). The pipeline is deterministic: no API
+keys, no network, byte-identical across runs.
+
+### Holdout — three ClinicalTrials.gov protocols, chosen after the design froze
+
+No design decision was ever based on these; they were pulled by API order and run
+unchanged (`out/holdout/`).
+
+- **NCT03348956** — SoA located, title exact; drawn with *stroked lines* (the
+  mirror of the five samples' filled-rect rules), which the union-rule handled on
+  first contact. Headers were initially garbage; the cause and fix are the story
+  below. One p21 row still dropped (separate, open).
+- **NCT02096029** — no SoA in the document; the tool correctly did **not** invent
+  one (its one candidate is a project timetable, `kind: unknown`).
+- **NCT02689531** — SoA located; the column-continuation merge **wrongly joined**
+  Appendix A (Arm 1) with Appendix B (Arm 2, pediatric) because they share row
+  labels. Open limitation.
+
 
 ## Where it breaks
 
@@ -179,12 +207,70 @@ message) rather than silently producing a wrong table:
   Baseline). Modelled as a flagged single-parent approximation; a strict tree
   cannot hold a child with two parents.
 
-TODO: fill in the measured per-protocol failure modes after the all-five run.
+- **Two parallel tables that share row labels** (holdout NCT02689531:
+  Appendix A Arm 1 vs Appendix B Arm 2). The guarded column-continuation merge
+  joins them into one table, because at the geometry level "continued columns"
+  and "a parallel table for a different arm" are identical — the only signal is
+  the title, and vetoing on it would be a heuristic invented against holdout
+  data. Left open rather than overfit.
+- **A dropped row on one holdout row-continuation page** (NCT03348956 p21, first
+  body row). Cause not yet isolated; not guessed at.
 
 ## What I would build next
 
-TODO
+In priority order, from what the holdout exposed:
+
+1. **The two open holdout defects.** Isolate the NCT03348956 p21 dropped-row
+   cause; decide whether a title-based veto on the column-continuation merge is
+   worth the heuristic (it would need its own held-out validation).
+2. **Header detection that does not lean on a stub keyword.** The current
+   detector keys off `Study Day|Study Week|Visit|Week|Day` in the stub cell.
+   A geometry-based replacement was **evaluated and rejected** during the
+   holdout investigation — it disagrees with the current detector on 4 of 5
+   samples because it misreads a leading category row (`Screening`) as header.
+   A correct version needs a category-row carve-out and full re-validation.
+3. **Scanned-page OCR** as an opt-in, behind the existing loud-failure detector.
+4. **The `--enrich` model pass** (adapter already built, off by default) for the
+   advisory role/hierarchy fields, with the id+label echo assertion.
+
+## Documentation and CDISC alignment
+
+The output schema is column/row trees with verbatim-everywhere values and
+per-cell provenance. A natural next step for a clinical-trial audience is a
+mapping paragraph to **CDISC / ICH M11** SoA representations — future work, not
+built here.
 
 ## AI tools used
 
-TODO
+Built with Claude Code (Anthropic). The whole thing was written by AI under
+human direction; the design decisions were captured in `docs/DECISIONS.md` and
+folded into the docs before implementation.
+
+The single strongest piece of evidence that the process finds **real** causes
+rather than plausible ones is the header-bug investigation, so it is worth
+telling straight:
+
+1. The true-holdout run (a ClinicalTrials.gov protocol never touched by any
+   design decision) produced **garbage column headers**.
+2. The obvious suspect was the header-detection heuristic — a stub-keyword
+   matcher that clearly could not handle this table's empty stub and 6-line
+   wrapped visit labels. That diagnosis was written down.
+3. A **read-only investigation** (no edits, diagnosis only) was run against that
+   suspicion. It traced the failure through the grid to its actual origin: a
+   one-line ordering bug in `_cluster` that silently dropped the minimum rule
+   coordinate whenever it was not first in input order — deleting the header's
+   top rule so the header text fell outside the grid entirely. The header
+   detector had returned the correct answer for the broken grid it was handed.
+4. The proposed geometry-based header fix was checked on paper against all five
+   samples **before** being written, and **rejected**: it would have changed 4 of
+   5 header boundaries by misreading leading category rows.
+5. The real fix was one line, pinned by `tests/test_cluster.py`. It not only
+   fixed the holdout header but **corrected two latent verbatim truncations on
+   the design set** that 61 existing gates had never caught (protocol15's main
+   SoA read `nformed consent`, not `Informed consent`). An initial "byte-identical"
+   claim was itself caught as under-verified — the check had compared cell values
+   but not row labels — and corrected.
+
+Plausible cause named, then falsified by measurement; a fix evaluated and
+rejected before it was written; a verification gap in the reviewer's own earlier
+claim surfaced and corrected. That loop is the point.
