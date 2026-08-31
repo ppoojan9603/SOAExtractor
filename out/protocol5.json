@@ -1,0 +1,5148 @@
+{
+  "document": {
+    "filename": "protocol5.pdf",
+    "sha256": "b06cea190254c8383797d06a45759e5c42aad5501585c2cb7c7d32487095e2de",
+    "page_count": 61
+  },
+  "tables": [
+    {
+      "title_verbatim": "Appendix I: Time and Events Schedule",
+      "kind": "main",
+      "source_pages": [
+        50
+      ],
+      "continuation_of": null,
+      "extraction_confidence": 1.0,
+      "strategy": "explicit-lines",
+      "columns": [
+        {
+          "id": "g0",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Screening Infusions",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            3,
+            3
+          ]
+        },
+        {
+          "id": "g1",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Infusions Baseline",
+          "role": "period",
+          "colspan": 2,
+          "footnote_markers": [],
+          "covers": [
+            4,
+            5
+          ]
+        },
+        {
+          "id": "g2",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Treatment Infusions",
+          "role": "period",
+          "colspan": 2,
+          "footnote_markers": [],
+          "covers": [
+            7,
+            8
+          ]
+        },
+        {
+          "id": "g3",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "charge Dis-",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            10,
+            10
+          ]
+        },
+        {
+          "id": "g4",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Follow- up",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            11,
+            11
+          ]
+        },
+        {
+          "id": "c0",
+          "index": 0,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Study day",
+          "role": "row_header",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c1",
+          "index": 1,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Up to -35",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c2",
+          "index": 2,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "-15* to -9",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": [
+            "*"
+          ]
+        },
+        {
+          "id": "c3",
+          "index": 3,
+          "parent_id": "g0",
+          "level": 1,
+          "label_verbatim": "-6",
+          "role": "study_day",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c4",
+          "index": 4,
+          "parent_id": "g1",
+          "level": 1,
+          "label_verbatim": "-2",
+          "role": "study_day",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c5",
+          "index": 5,
+          "parent_id": "g1",
+          "level": 1,
+          "label_verbatim": "-1",
+          "role": "study_day",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c6",
+          "index": 6,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "7",
+          "role": "study_day",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c7",
+          "index": 7,
+          "parent_id": "g2",
+          "level": 1,
+          "label_verbatim": "8",
+          "role": "study_day",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c8",
+          "index": 8,
+          "parent_id": "g2",
+          "level": 1,
+          "label_verbatim": "12",
+          "role": "study_day",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c9",
+          "index": 9,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "13",
+          "role": "study_day",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c10",
+          "index": 10,
+          "parent_id": "g3",
+          "level": 1,
+          "label_verbatim": "17",
+          "role": "study_day",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c11",
+          "index": 11,
+          "parent_id": "g4",
+          "level": 1,
+          "label_verbatim": "31",
+          "role": "study_day",
+          "colspan": 1,
+          "footnote_markers": []
+        }
+      ],
+      "rows": [
+        {
+          "id": "r0",
+          "label_verbatim": "Informed consent",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r1",
+          "label_verbatim": "Locator form/Demographics",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r2",
+          "label_verbatim": "Cocaine use by timeline follow-back",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r3",
+          "label_verbatim": "Breathalyzer test",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r4",
+          "label_verbatim": "12-lead ECG",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r5",
+          "label_verbatim": "SCID",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r6",
+          "label_verbatim": "Medical History",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r7",
+          "label_verbatim": "Physical Exam (complete)",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r8",
+          "label_verbatim": "Physical Exam (brief)",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r9",
+          "label_verbatim": "ASI-Lite",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r10",
+          "label_verbatim": "Vital Signs",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r11",
+          "label_verbatim": "Chemistries plus liver function tests**",
+          "role": "assessment",
+          "footnote_markers": [
+            "**"
+          ],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r12",
+          "label_verbatim": "Hematology",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r13",
+          "label_verbatim": "Pregnancy Test***",
+          "role": "assessment",
+          "footnote_markers": [
+            "***"
+          ],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r14",
+          "label_verbatim": "Infectious disease serology",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r15",
+          "label_verbatim": "Plasma alcohol",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r16",
+          "label_verbatim": "Urine toxicology screen",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r17",
+          "label_verbatim": "POMS, BSCS",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r18",
+          "label_verbatim": "Cognitive assessments****",
+          "role": "metadata",
+          "footnote_markers": [
+            "****"
+          ],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r19",
+          "label_verbatim": "Atomoxetine or placebo",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r20",
+          "label_verbatim": "Atomoxetine blood levels",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r21",
+          "label_verbatim": "Adverse Events",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r22",
+          "label_verbatim": "Cocaine Infusion Session #",
+          "role": "divider",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r23",
+          "label_verbatim": "Saline/20 mg cocaine/40 mg cocaine i.v.",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null,
+          "split_from_band": true
+        },
+        {
+          "id": "r24",
+          "label_verbatim": "20 mg cocaine i.v.",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null,
+          "split_from_band": true
+        },
+        {
+          "id": "r25",
+          "label_verbatim": "40 mg cocaine i.v.",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r26",
+          "label_verbatim": "VAS",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r27",
+          "label_verbatim": "ARCI",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r28",
+          "label_verbatim": "Continuous BP, HR, ECG monitoring",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r29",
+          "label_verbatim": "BPRS",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        },
+        {
+          "id": "r30",
+          "label_verbatim": "Cocaine Blood PK",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "possible_split": null
+        }
+      ],
+      "cells": [
+        {
+          "row_id": "r0",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            146.9,
+            274.6,
+            158.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            158.9,
+            274.6,
+            170.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r2",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            170.9,
+            274.6,
+            182.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            274.6,
+            182.9,
+            337.6,
+            194.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            194.9,
+            274.6,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            274.6,
+            194.9,
+            337.6,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c3",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            337.6,
+            194.9,
+            396.0,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c4",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            396.0,
+            194.9,
+            427.6,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            427.6,
+            194.9,
+            454.6,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c6",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            454.6,
+            194.9,
+            495.0,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c7",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            495.0,
+            194.9,
+            535.6,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c8",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            535.6,
+            194.9,
+            571.6,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c9",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            194.9,
+            606.8,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c10",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            606.8,
+            194.9,
+            647.4,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c11",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            647.4,
+            194.9,
+            693.0,
+            206.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            206.9,
+            274.6,
+            218.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            218.9,
+            274.6,
+            230.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r7",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            230.9,
+            274.6,
+            242.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r7",
+          "col_id": "c11",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            647.4,
+            230.9,
+            693.0,
+            242.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r8",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            274.6,
+            242.9,
+            337.6,
+            254.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r8",
+          "col_id": "c10",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            606.8,
+            242.9,
+            647.4,
+            254.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r9",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            274.6,
+            254.9,
+            337.6,
+            266.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            266.9,
+            274.6,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            274.6,
+            266.9,
+            337.6,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c3",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            337.6,
+            266.9,
+            396.0,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c4",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            396.0,
+            266.9,
+            427.6,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            427.6,
+            266.9,
+            454.6,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c6",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            454.6,
+            266.9,
+            495.0,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c7",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            495.0,
+            266.9,
+            535.6,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c8",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            535.6,
+            266.9,
+            571.6,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c9",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            266.9,
+            606.8,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c10",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            606.8,
+            266.9,
+            647.4,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c11",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            647.4,
+            266.9,
+            693.0,
+            278.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r11",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            278.9,
+            274.6,
+            290.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r11",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            274.6,
+            278.9,
+            337.6,
+            290.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r11",
+          "col_id": "c9",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            278.9,
+            606.8,
+            290.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r11",
+          "col_id": "c10",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            606.8,
+            278.9,
+            647.4,
+            290.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r11",
+          "col_id": "c11",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            647.4,
+            278.9,
+            693.0,
+            290.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r12",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            290.9,
+            274.6,
+            302.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r12",
+          "col_id": "c10",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            606.8,
+            290.9,
+            647.4,
+            302.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r12",
+          "col_id": "c11",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            647.4,
+            290.9,
+            693.0,
+            302.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r13",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            302.9,
+            274.6,
+            314.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r13",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            274.6,
+            302.9,
+            337.6,
+            314.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r13",
+          "col_id": "c10",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            606.8,
+            302.9,
+            647.4,
+            314.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r13",
+          "col_id": "c11",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            647.4,
+            302.9,
+            693.0,
+            314.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r14",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            314.9,
+            274.6,
+            326.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r15",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            326.8,
+            274.6,
+            338.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r16",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            338.8,
+            274.6,
+            350.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r16",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            274.6,
+            338.8,
+            337.6,
+            350.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r16",
+          "col_id": "c10",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            606.8,
+            338.8,
+            647.4,
+            350.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r16",
+          "col_id": "c11",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            647.4,
+            338.8,
+            693.0,
+            350.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r17",
+          "col_id": "c2",
+          "value_verbatim": "Xa",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [
+            "a"
+          ],
+          "sup_markers": [
+            "a"
+          ],
+          "page": 50,
+          "bbox": [
+            274.6,
+            350.8,
+            337.6,
+            362.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r19",
+          "col_id": "c6",
+          "value_verbatim": "Xb",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [
+            "b"
+          ],
+          "sup_markers": [
+            "b"
+          ],
+          "page": 50,
+          "bbox": [
+            454.6,
+            374.8,
+            495.0,
+            386.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r20",
+          "col_id": "c7",
+          "value_verbatim": "Xf",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [
+            "f"
+          ],
+          "sup_markers": [
+            "f"
+          ],
+          "page": 50,
+          "bbox": [
+            495.0,
+            386.8,
+            535.6,
+            401.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r20",
+          "col_id": "c9",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            386.8,
+            606.8,
+            401.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            220.6,
+            401.2,
+            274.6,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            274.6,
+            401.2,
+            337.6,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c3",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            337.6,
+            401.2,
+            396.0,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c4",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            396.0,
+            401.2,
+            427.6,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            427.6,
+            401.2,
+            454.6,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c6",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            454.6,
+            401.2,
+            495.0,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c7",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            495.0,
+            401.2,
+            535.6,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c8",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            535.6,
+            401.2,
+            571.6,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c9",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            401.2,
+            606.8,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c10",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            606.8,
+            401.2,
+            647.4,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r21",
+          "col_id": "c11",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            647.4,
+            401.2,
+            693.0,
+            413.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r22",
+          "col_id": "c3",
+          "value_verbatim": "1&2",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            337.6,
+            413.9,
+            396.0,
+            427.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r22",
+          "col_id": "c4",
+          "value_verbatim": "3",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            396.0,
+            413.9,
+            427.6,
+            427.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r22",
+          "col_id": "c5",
+          "value_verbatim": "4",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            427.6,
+            413.9,
+            454.6,
+            427.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r22",
+          "col_id": "c6",
+          "value_verbatim": "5",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            454.6,
+            413.9,
+            495.0,
+            427.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r22",
+          "col_id": "c7",
+          "value_verbatim": "6",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            495.0,
+            413.9,
+            535.6,
+            427.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r22",
+          "col_id": "c8",
+          "value_verbatim": "7",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            535.6,
+            413.9,
+            571.6,
+            427.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r22",
+          "col_id": "c9",
+          "value_verbatim": "8",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            413.9,
+            606.8,
+            427.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r23",
+          "col_id": "c3",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            337.6,
+            427.0,
+            396.0,
+            450.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r24",
+          "col_id": "c4",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            396.0,
+            427.0,
+            427.6,
+            450.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r24",
+          "col_id": "c6",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            454.6,
+            427.0,
+            495.0,
+            450.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r24",
+          "col_id": "c8",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            535.6,
+            427.0,
+            571.6,
+            450.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r25",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            427.6,
+            450.7,
+            454.6,
+            462.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r25",
+          "col_id": "c7",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            495.0,
+            450.7,
+            535.6,
+            462.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r25",
+          "col_id": "c9",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            450.7,
+            606.8,
+            462.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r26",
+          "col_id": "c2",
+          "value_verbatim": "Xc",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [
+            "c"
+          ],
+          "sup_markers": [
+            "c"
+          ],
+          "page": 50,
+          "bbox": [
+            274.6,
+            462.7,
+            337.6,
+            474.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r26",
+          "col_id": "c3",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            337.6,
+            462.7,
+            396.0,
+            474.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r26",
+          "col_id": "c4",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            396.0,
+            462.7,
+            427.6,
+            474.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r26",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            427.6,
+            462.7,
+            454.6,
+            474.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r26",
+          "col_id": "c6",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            454.6,
+            462.7,
+            495.0,
+            474.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r26",
+          "col_id": "c7",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            495.0,
+            462.7,
+            535.6,
+            474.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r26",
+          "col_id": "c8",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            535.6,
+            462.7,
+            571.6,
+            474.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r26",
+          "col_id": "c9",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            462.7,
+            606.8,
+            474.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r27",
+          "col_id": "c2",
+          "value_verbatim": "Xd",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [
+            "d"
+          ],
+          "sup_markers": [
+            "d"
+          ],
+          "page": 50,
+          "bbox": [
+            274.6,
+            474.7,
+            337.6,
+            486.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r28",
+          "col_id": "c3",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            337.6,
+            486.7,
+            396.0,
+            498.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r28",
+          "col_id": "c4",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            396.0,
+            486.7,
+            427.6,
+            498.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r28",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            427.6,
+            486.7,
+            454.6,
+            498.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r28",
+          "col_id": "c6",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            454.6,
+            486.7,
+            495.0,
+            498.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r28",
+          "col_id": "c7",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            495.0,
+            486.7,
+            535.6,
+            498.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r28",
+          "col_id": "c8",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            535.6,
+            486.7,
+            571.6,
+            498.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r28",
+          "col_id": "c9",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            486.7,
+            606.8,
+            498.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r29",
+          "col_id": "c2",
+          "value_verbatim": "Xe",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [
+            "e"
+          ],
+          "sup_markers": [
+            "e"
+          ],
+          "page": 50,
+          "bbox": [
+            274.6,
+            498.7,
+            337.6,
+            510.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r29",
+          "col_id": "c3",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            337.6,
+            498.7,
+            396.0,
+            510.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r29",
+          "col_id": "c4",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            396.0,
+            498.7,
+            427.6,
+            510.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r29",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            427.6,
+            498.7,
+            454.6,
+            510.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r29",
+          "col_id": "c6",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            454.6,
+            498.7,
+            495.0,
+            510.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r29",
+          "col_id": "c7",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            495.0,
+            498.7,
+            535.6,
+            510.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r29",
+          "col_id": "c8",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            535.6,
+            498.7,
+            571.6,
+            510.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r29",
+          "col_id": "c9",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            498.7,
+            606.8,
+            510.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r30",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            427.6,
+            510.7,
+            454.6,
+            523.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r30",
+          "col_id": "c7",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            495.0,
+            510.7,
+            535.6,
+            523.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r30",
+          "col_id": "c9",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 50,
+          "bbox": [
+            571.6,
+            510.7,
+            606.8,
+            523.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": [
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker '*' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker '**' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker '***' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker '****' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker 'a' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker 'b' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker 'c' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker 'd' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker 'e' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker 'f' used but not defined nearby"
+        },
+        {
+          "kind": "unknown_column_role",
+          "detail": "2 columns with role=unknown",
+          "ids": [
+            "c1",
+            "c2"
+          ]
+        }
+      ],
+      "id": "soa-1",
+      "confidence": 0.898,
+      "locator_score": 8.783
+    },
+    {
+      "title_verbatim": "(untitled table, page 24)",
+      "kind": "unknown",
+      "source_pages": [
+        24
+      ],
+      "continuation_of": null,
+      "extraction_confidence": 1.0,
+      "strategy": "explicit-lines",
+      "columns": [
+        {
+          "id": "g0",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Session Number",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "g1",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Study Day",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": "g2",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Infusion",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            3,
+            3
+          ]
+        },
+        {
+          "id": "c0",
+          "index": 0,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Study Phase",
+          "role": "row_header",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c1",
+          "index": 1,
+          "parent_id": "g0",
+          "level": 1,
+          "label_verbatim": "Session\nNumber",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c2",
+          "index": 2,
+          "parent_id": "g1",
+          "level": 1,
+          "label_verbatim": "Study\nDay",
+          "role": "study_day",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c3",
+          "index": 3,
+          "parent_id": "g2",
+          "level": 1,
+          "label_verbatim": "Infusion",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        }
+      ],
+      "rows": [
+        {
+          "id": "r0",
+          "label_verbatim": "Screening",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "possible_split": null
+        },
+        {
+          "id": "r1",
+          "label_verbatim": "Baseline",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "possible_split": null
+        },
+        {
+          "id": "r2",
+          "label_verbatim": "Baseline",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "possible_split": null
+        },
+        {
+          "id": "r3",
+          "label_verbatim": "Treatment\n(dose 80 mg)",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "possible_split": {
+            "stub_lines": [
+              {
+                "label": "Treatment",
+                "marks": [
+                  [
+                    1,
+                    "Session 5"
+                  ],
+                  [
+                    2,
+                    "7"
+                  ],
+                  [
+                    3,
+                    "Atomoxetine/placebo followed by saline/"
+                  ]
+                ]
+              },
+              {
+                "label": "(dose 80 mg)",
+                "marks": [
+                  [
+                    3,
+                    "20 mg cocaine 1 hr later and followed by 20 mg"
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "r4",
+          "label_verbatim": "Treatment\n(dose 80 mg)",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "possible_split": {
+            "stub_lines": [
+              {
+                "label": "Treatment",
+                "marks": [
+                  [
+                    1,
+                    "Session 6"
+                  ],
+                  [
+                    2,
+                    "8"
+                  ],
+                  [
+                    3,
+                    "Atomoxetine/placebo followed by saline/"
+                  ]
+                ]
+              },
+              {
+                "label": "(dose 80 mg)",
+                "marks": [
+                  [
+                    3,
+                    "40 mg cocaine 1 hr later and followed by 40 mg"
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "r5",
+          "label_verbatim": "Treatment\n(dose 100 mg)",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "possible_split": {
+            "stub_lines": [
+              {
+                "label": "Treatment",
+                "marks": [
+                  [
+                    1,
+                    "Session 7"
+                  ],
+                  [
+                    2,
+                    "12"
+                  ],
+                  [
+                    3,
+                    "Atomoxetine/placebo followed by saline/"
+                  ]
+                ]
+              },
+              {
+                "label": "(dose 100 mg)",
+                "marks": [
+                  [
+                    3,
+                    "20 mg cocaine 1 hr later and followed by 20 mg"
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "r6",
+          "label_verbatim": "Treatment\n(dose 100 mg)",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "possible_split": {
+            "stub_lines": [
+              {
+                "label": "Treatment",
+                "marks": [
+                  [
+                    1,
+                    "Session 8"
+                  ],
+                  [
+                    2,
+                    "13"
+                  ],
+                  [
+                    3,
+                    "Atomoxetine/placebo followed by saline/"
+                  ]
+                ]
+              },
+              {
+                "label": "(dose 100 mg)",
+                "marks": [
+                  [
+                    3,
+                    "40 mg cocaine 1 hr later and followed by 40 mg"
+                  ]
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "cells": [
+        {
+          "row_id": "r0",
+          "col_id": "c1",
+          "value_verbatim": "Sessions 1\nand 2",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            146.8,
+            127.9,
+            209.8,
+            156.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r0",
+          "col_id": "c2",
+          "value_verbatim": "-6",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            209.8,
+            127.9,
+            254.8,
+            156.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r0",
+          "col_id": "c3",
+          "value_verbatim": "Saline infusion, followed by 20 mg cocaine 1 hr later and\nfollowed by 40 mg cocaine 1 hr later",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            254.8,
+            127.9,
+            567.0,
+            156.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c1",
+          "value_verbatim": "Session 3",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            146.8,
+            156.0,
+            209.8,
+            184.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c2",
+          "value_verbatim": "-2",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            209.8,
+            156.0,
+            254.8,
+            184.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c3",
+          "value_verbatim": "Saline/20 mg cocaine followed by 20 mg cocaine/saline\n1 hr later",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            254.8,
+            156.0,
+            567.0,
+            184.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r2",
+          "col_id": "c1",
+          "value_verbatim": "Session 4",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            146.8,
+            184.1,
+            209.8,
+            212.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r2",
+          "col_id": "c2",
+          "value_verbatim": "-1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            209.8,
+            184.1,
+            254.8,
+            212.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r2",
+          "col_id": "c3",
+          "value_verbatim": "Saline/40 mg cocaine followed by 40 mg cocaine/saline\n1 hr later",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            254.8,
+            184.1,
+            567.0,
+            212.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c1",
+          "value_verbatim": "Session 5",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            146.8,
+            212.3,
+            209.8,
+            254.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c2",
+          "value_verbatim": "7",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            209.8,
+            212.3,
+            254.8,
+            254.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c3",
+          "value_verbatim": "Atomoxetine/placebo followed by saline/\n20 mg cocaine 1 hr later and followed by 20 mg\ncocaine/saline 1 hr later",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            254.8,
+            212.3,
+            567.0,
+            254.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c1",
+          "value_verbatim": "Session 6",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            146.8,
+            254.2,
+            209.8,
+            296.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c2",
+          "value_verbatim": "8",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            209.8,
+            254.2,
+            254.8,
+            296.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c3",
+          "value_verbatim": "Atomoxetine/placebo followed by saline/\n40 mg cocaine 1 hr later and followed by 40 mg\ncocaine/saline 1 hr later",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            254.8,
+            254.2,
+            567.0,
+            296.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c1",
+          "value_verbatim": "Session 7",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            146.8,
+            296.0,
+            209.8,
+            337.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c2",
+          "value_verbatim": "12",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            209.8,
+            296.0,
+            254.8,
+            337.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c3",
+          "value_verbatim": "Atomoxetine/placebo followed by saline/\n20 mg cocaine 1 hr later and followed by 20 mg\ncocaine/saline 1 hr later",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            254.8,
+            296.0,
+            567.0,
+            337.9
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c1",
+          "value_verbatim": "Session 8",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            146.8,
+            337.9,
+            209.8,
+            379.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c2",
+          "value_verbatim": "13",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            209.8,
+            337.9,
+            254.8,
+            379.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c3",
+          "value_verbatim": "Atomoxetine/placebo followed by saline/\n40 mg cocaine 1 hr later and followed by 40 mg\ncocaine/saline 1 hr later",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 24,
+          "bbox": [
+            254.8,
+            337.9,
+            567.0,
+            379.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": [
+        {
+          "kind": "unknown_column_role",
+          "detail": "2 columns with role=unknown",
+          "ids": [
+            "c1",
+            "c3"
+          ]
+        }
+      ],
+      "id": "soa-2",
+      "confidence": 0.747,
+      "locator_score": 2.95
+    },
+    {
+      "title_verbatim": "APPENDIX II: Schedule of Blood Collections",
+      "kind": "pk",
+      "source_pages": [
+        51
+      ],
+      "continuation_of": null,
+      "extraction_confidence": 1.0,
+      "strategy": "explicit-lines",
+      "columns": [
+        {
+          "id": "g0",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Volume Sample Per",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "g1",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Type a",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": "g2",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Number of Samples per Day b",
+          "role": "period",
+          "colspan": 5,
+          "footnote_markers": [],
+          "covers": [
+            6,
+            10
+          ]
+        },
+        {
+          "id": "g3",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Volume Total",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            15,
+            15
+          ]
+        },
+        {
+          "id": "c0",
+          "index": 0,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Study Day",
+          "role": "row_header",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c1",
+          "index": 1,
+          "parent_id": "g0",
+          "level": 1,
+          "label_verbatim": "",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c2",
+          "index": 2,
+          "parent_id": "g1",
+          "level": 1,
+          "label_verbatim": "",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c3",
+          "index": 3,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Screening",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c4",
+          "index": 4,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "D-8",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c5",
+          "index": 5,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "D-1",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c6",
+          "index": 6,
+          "parent_id": "g2",
+          "level": 1,
+          "label_verbatim": "D1",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c7",
+          "index": 7,
+          "parent_id": "g2",
+          "level": 1,
+          "label_verbatim": "D2",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c8",
+          "index": 8,
+          "parent_id": "g2",
+          "level": 1,
+          "label_verbatim": "D3",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c9",
+          "index": 9,
+          "parent_id": "g2",
+          "level": 1,
+          "label_verbatim": "D6",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c10",
+          "index": 10,
+          "parent_id": "g2",
+          "level": 1,
+          "label_verbatim": "D8",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c11",
+          "index": 11,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "D11",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c12",
+          "index": 12,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "D13",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c13",
+          "index": 13,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "D17",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c14",
+          "index": 14,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "D31",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c15",
+          "index": 15,
+          "parent_id": "g3",
+          "level": 1,
+          "label_verbatim": "",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        }
+      ],
+      "rows": [
+        {
+          "id": "r0",
+          "label_verbatim": "Chemistries plus\nliver function\ntests",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "possible_split": null
+        },
+        {
+          "id": "r1",
+          "label_verbatim": "Hematology",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "possible_split": null
+        },
+        {
+          "id": "r2",
+          "label_verbatim": "Infectious\ndisease\nserology",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "possible_split": null
+        },
+        {
+          "id": "r3",
+          "label_verbatim": "PK Samples\nfor cocaine",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "possible_split": null
+        },
+        {
+          "id": "r4",
+          "label_verbatim": "PK Samples\nfor Atomoxetine",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "possible_split": null
+        },
+        {
+          "id": "r5",
+          "label_verbatim": "Pregnancy Test",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "possible_split": null
+        },
+        {
+          "id": "r6",
+          "label_verbatim": "Alcohol Test",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "possible_split": null
+        },
+        {
+          "id": "r7",
+          "label_verbatim": "Total",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "possible_split": null
+        }
+      ],
+      "cells": [
+        {
+          "row_id": "r0",
+          "col_id": "c1",
+          "value_verbatim": "10 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            139.6,
+            301.0,
+            193.6,
+            342.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r0",
+          "col_id": "c2",
+          "value_verbatim": "S",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            193.6,
+            301.0,
+            238.6,
+            342.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r0",
+          "col_id": "c3",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            238.6,
+            301.0,
+            292.6,
+            342.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r0",
+          "col_id": "c4",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            292.6,
+            301.0,
+            319.6,
+            342.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r0",
+          "col_id": "c9",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            432.0,
+            301.0,
+            463.6,
+            342.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r0",
+          "col_id": "c12",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            540.0,
+            301.0,
+            580.6,
+            342.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r0",
+          "col_id": "c13",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            580.6,
+            301.0,
+            621.0,
+            342.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r0",
+          "col_id": "c14",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            621.0,
+            301.0,
+            661.6,
+            342.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r0",
+          "col_id": "c15",
+          "value_verbatim": "60 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            661.6,
+            301.0,
+            724.6,
+            342.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c1",
+          "value_verbatim": "10 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            139.6,
+            342.8,
+            193.6,
+            357.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c2",
+          "value_verbatim": "P",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            193.6,
+            342.8,
+            238.6,
+            357.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c3",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            238.6,
+            342.8,
+            292.6,
+            357.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c13",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            580.6,
+            342.8,
+            621.0,
+            357.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c14",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            621.0,
+            342.8,
+            661.6,
+            357.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c15",
+          "value_verbatim": "30 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            661.6,
+            342.8,
+            724.6,
+            357.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r2",
+          "col_id": "c1",
+          "value_verbatim": "10 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            139.6,
+            357.1,
+            193.6,
+            399.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r2",
+          "col_id": "c2",
+          "value_verbatim": "S",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            193.6,
+            357.1,
+            238.6,
+            399.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r2",
+          "col_id": "c3",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            238.6,
+            357.1,
+            292.6,
+            399.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r2",
+          "col_id": "c15",
+          "value_verbatim": "10 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            661.6,
+            357.1,
+            724.6,
+            399.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c1",
+          "value_verbatim": "5 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            139.6,
+            399.0,
+            193.6,
+            427.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c2",
+          "value_verbatim": "P",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            193.6,
+            399.0,
+            238.6,
+            427.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c5",
+          "value_verbatim": "15",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            319.6,
+            399.0,
+            346.6,
+            427.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c10",
+          "value_verbatim": "15",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            463.6,
+            399.0,
+            499.6,
+            427.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c12",
+          "value_verbatim": "15",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            540.0,
+            399.0,
+            580.6,
+            427.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c15",
+          "value_verbatim": "225 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            661.6,
+            399.0,
+            724.6,
+            427.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c1",
+          "value_verbatim": "5 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            139.6,
+            427.1,
+            193.6,
+            455.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c2",
+          "value_verbatim": "P",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            193.6,
+            427.1,
+            238.6,
+            455.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c9",
+          "value_verbatim": "2",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            432.0,
+            427.1,
+            463.6,
+            455.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c10",
+          "value_verbatim": "2",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            463.6,
+            427.1,
+            499.6,
+            455.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c11",
+          "value_verbatim": "2",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            499.6,
+            427.1,
+            540.0,
+            455.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c12",
+          "value_verbatim": "2",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            540.0,
+            427.1,
+            580.6,
+            455.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c15",
+          "value_verbatim": "40 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            661.6,
+            427.1,
+            724.6,
+            455.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c1",
+          "value_verbatim": "5 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            139.6,
+            455.2,
+            193.6,
+            469.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c2",
+          "value_verbatim": "S",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            193.6,
+            455.2,
+            238.6,
+            469.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c3",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            238.6,
+            455.2,
+            292.6,
+            469.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c4",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            292.6,
+            455.2,
+            319.6,
+            469.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c13",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            580.6,
+            455.2,
+            621.0,
+            469.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c14",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            621.0,
+            455.2,
+            661.6,
+            469.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c15",
+          "value_verbatim": "20 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            661.6,
+            455.2,
+            724.6,
+            469.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c1",
+          "value_verbatim": "5 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            139.6,
+            469.6,
+            193.6,
+            483.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c2",
+          "value_verbatim": "P",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            193.6,
+            469.6,
+            238.6,
+            483.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c3",
+          "value_verbatim": "1",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            238.6,
+            469.6,
+            292.6,
+            483.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c15",
+          "value_verbatim": "5 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            661.6,
+            469.6,
+            724.6,
+            483.8
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r7",
+          "col_id": "c15",
+          "value_verbatim": "390 mL",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 51,
+          "bbox": [
+            661.6,
+            483.8,
+            724.6,
+            498.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": [
+        {
+          "kind": "unknown_column_role",
+          "detail": "15 columns with role=unknown",
+          "ids": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5",
+            "c6",
+            "c7",
+            "c8",
+            "c9",
+            "c10",
+            "c11",
+            "c12",
+            "c13",
+            "c14",
+            "c15"
+          ]
+        }
+      ],
+      "id": "soa-3",
+      "confidence": 0.73,
+      "locator_score": 2.7
+    }
+  ]
+}
