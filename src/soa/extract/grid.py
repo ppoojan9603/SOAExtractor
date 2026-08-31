@@ -23,6 +23,7 @@ class GCell:
     bbox: tuple[float, float, float, float]
     shaded: bool = False
     colspan: int = 1
+    sup_markers: list = field(default_factory=list)   # superscript footnote letters
 
 
 @dataclass
@@ -45,6 +46,39 @@ def _cell_grid(v: list[float], h: list[float]) -> list[list[tuple]]:
         for c in range(len(v) - 1):
             row.append((v[c], h[r], v[c + 1], h[r + 1]))
         out.append(row)
+    return out
+
+
+def _superscript_markers(chars: list[dict]) -> list[str]:
+    """Footnote-letter markers drawn as superscripts in a cell (DECISIONS row 6).
+
+    A char that is both smaller than the cell's body text AND raised above its
+    baseline is a superscript; when it is a letter a-j it is a footnote marker,
+    separate from value_verbatim. Subscripts (raised DOWN, e.g. FEV1) are not
+    footnote markers and are ignored.
+    """
+    letters = [c for c in chars if (c.get("text") or "").strip()]
+    if len(letters) < 2:
+        return []
+    from statistics import median
+    sizes = [c["size"] for c in letters if c.get("size")]
+    if not sizes:
+        return []
+    # Body size is the LARGEST common size, not the median: a cell can be just
+    # ['c','X'] (protocol15 p25), where the median sits between the superscript
+    # and the body glyph and no char looks small.
+    body_size = max(sizes)
+    body = [c for c in letters if c.get("size", body_size) >= 0.95 * body_size]
+    if not body:
+        return []
+    base_mid = median([(c["top"] + c["bottom"]) / 2 for c in body])
+    out = []
+    for c in letters:
+        sz = c.get("size", body_size)
+        mid = (c["top"] + c["bottom"]) / 2
+        raised = mid < base_mid - 0.1 * body_size      # sits above the body baseline
+        if sz < 0.9 * body_size and raised and c["text"].lower() in "abcdefghij":
+            out.append(c["text"].lower())
     return out
 
 
@@ -107,12 +141,29 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
             if klass == "mark":
                 shaded_cells.add((r, c))
 
+    # assign chars to cells for superscript-marker detection
+    chars_by_cell: dict[tuple[int, int], list] = {}
+    for ch in g.chars:
+        cx = (ch["x0"] + ch["x1"]) / 2
+        cy = (ch["top"] + ch["bottom"]) / 2
+        owner = None
+        for r, row in enumerate(cell_bboxes):
+            for c, (x0, y0, x1, y1) in enumerate(row):
+                if x0 <= cx <= x1 and y0 <= cy <= y1:
+                    owner = (r, c); break
+            if owner:
+                break
+        if owner:
+            chars_by_cell.setdefault(owner, []).append(ch)
+
     cells = []
     for r in range(len(cell_bboxes)):
         row = []
         for c in range(n_cols):
+            sup = _superscript_markers(chars_by_cell.get((r, c), []))
             row.append(GCell(r, c, text_grid[r][c] if r < len(text_grid) else "",
-                             cell_bboxes[r][c], shaded=(r, c) in shaded_cells))
+                             cell_bboxes[r][c], shaded=(r, c) in shaded_cells,
+                             sup_markers=sup))
         cells.append(row)
     return PageGrid(g.page_number, len(cell_bboxes), n_cols, cells, stub_cols, fills=g.fills)
 

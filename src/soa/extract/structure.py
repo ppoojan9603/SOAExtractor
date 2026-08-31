@@ -49,6 +49,12 @@ def collect_used_markers(cells: list[dict], rows: list[dict], columns: list[dict
     what swept up numbered prose lists as fake markers.
     """
     used: set[str] = set()
+    for c in cells:
+        for m in (c.get("sup_markers") or []):
+            used.add(m)
+    for r in rows:
+        for m in (r.get("sup_markers") or []):
+            used.add(m)
     texts = ([c.get("value_verbatim", "") for c in cells]
              + [r.get("label_verbatim", "") for r in rows]
              + [c.get("label_verbatim", "") for c in columns])
@@ -92,7 +98,9 @@ def bind_markers(rows: list[dict], cells: list[dict], columns: list[dict],
     """
     targets: dict[str, list[dict]] = {}
     for r in rows:
-        for m in extract_markers(r["label_verbatim"]):
+        for m in extract_markers(r["label_verbatim"]) + list(r.get("sup_markers") or []):
+            if m in r["footnote_markers"]:
+                continue
             r["footnote_markers"].append(m)
             targets.setdefault(m, []).append({"kind": "row", "id": r["id"]})
     for col in columns:
@@ -100,7 +108,10 @@ def bind_markers(rows: list[dict], cells: list[dict], columns: list[dict],
             col["footnote_markers"].append(m)
             targets.setdefault(m, []).append({"kind": "column", "id": col["id"]})
     for c in cells:
-        for m in extract_markers(c["value_verbatim"]):
+        markers = extract_markers(c["value_verbatim"]) + list(c.get("sup_markers") or [])
+        for m in markers:
+            if m in c["footnote_markers"]:
+                continue
             c["footnote_markers"].append(m)
             targets.setdefault(m, []).append(
                 {"kind": "cell", "row_id": c["row_id"], "col_id": c["col_id"]})
@@ -275,8 +286,10 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
             else:
                 role = "assessment"
             row_id = f"r{rid}"
+            row_sup = [m for c in stub for m in rowcells[c].sup_markers]
             rows.append({"id": row_id, "label_verbatim": label,
-                         "role": role, "footnote_markers": [], "page": pg.page,
+                         "role": role, "footnote_markers": [],
+                         "sup_markers": row_sup, "page": pg.page,
                          "possible_split": None})
             for c in range(n_cols):
                 if c in stub:
@@ -293,6 +306,7 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
                 cells.append({"row_id": row_id, "col_id": f"c{c}",
                               "value_verbatim": val, "shaded": gc.shaded,
                               "colspan": 1, "rowspan": 1, "footnote_markers": [],
+                              "sup_markers": list(gc.sup_markers),
                               "page": pg.page, "bbox": [round(x, 1) for x in gc.bbox],
                               "evidence": ev, "authored_by": "geometry",
                               "ambiguous": False, "ambiguity_reason": None})
@@ -345,7 +359,9 @@ def _assemble_column_continuation(pagegrids, fn_pages_text, pages, title) -> dic
         row_id = f"r{ri}"
         row_id_by_label[label] = row_id
         rows.append({"id": row_id, "label_verbatim": label, "role": "assessment",
-                     "footnote_markers": [], "page": head.page, "possible_split": None})
+                     "footnote_markers": [],
+                     "sup_markers": [m for c in stub for m in head.cells[r][c].sup_markers],
+                     "page": head.page, "possible_split": None})
         for c in range(head.n_cols):
             if c in stub:
                 continue
@@ -400,5 +416,6 @@ def _cell(row_id, col_id, gc, page) -> dict:
     ev = (["text_layer"] if val else []) + (["graphics_fill"] if gc.shaded else [])
     return {"row_id": row_id, "col_id": col_id, "value_verbatim": val,
             "shaded": gc.shaded, "colspan": 1, "rowspan": 1, "footnote_markers": [],
+            "sup_markers": list(gc.sup_markers),
             "page": page, "bbox": [round(x, 1) for x in gc.bbox], "evidence": ev,
             "authored_by": "geometry", "ambiguous": False, "ambiguity_reason": None}
