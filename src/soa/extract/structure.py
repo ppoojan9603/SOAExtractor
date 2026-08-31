@@ -173,19 +173,60 @@ def build_footnotes(fn_pages_text: list[tuple[int, str]], used: set[str]) -> lis
     return out
 
 
+def header_bands(pg: PageGrid, n_hdr: int, data_start: int) -> list[tuple[int, int, str]]:
+    """Reconstruct period bands from the group header row.
+
+    A spanning header's text is split by extract_table across every column its
+    bbox covers ("Trea|tment", "Base|line|ions"), so a band is a run of
+    consecutive data columns whose group-row cells are non-empty, joined in
+    order. A run ends at an empty cell -- that gap is the real span boundary.
+    """
+    if n_hdr < 2:
+        return []
+    bands, run, parts = [], [], []
+    for c in range(data_start, pg.n_cols):
+        txt = (pg.cells[0][c].text or "").strip()
+        if txt:
+            run.append(c); parts.append(txt)
+        elif run:
+            bands.append((run[0], run[-1], " ".join(parts).replace(chr(10), " ")))
+            run, parts = [], []
+    if run:
+        bands.append((run[0], run[-1], " ".join(parts).replace(chr(10), " ")))
+    return bands
+
+
 def build_columns(header: PageGrid, n_header_rows: int) -> list[dict]:
+    """Columns as a tree: period bands parent the timepoint columns they cover."""
     cols = []
     tp_row = n_header_rows - 1
+    data_start = _leading_label_cols(header, n_header_rows)
+    bands = [b for b in header.group_bands if b[0] >= data_start]
+
+    # band parents first, so children can reference them
+    band_of: dict[int, str] = {}
+    for bi, (c0, c1, label) in enumerate(bands):
+        bid = f"g{bi}"
+        cols.append({"id": bid, "parent_id": None, "level": 0,
+                     "label_verbatim": label, "role": "period",
+                     "colspan": c1 - c0 + 1, "footnote_markers": [],
+                     "covers": [c0, c1]})
+        for c in range(c0, c1 + 1):
+            band_of[c] = bid
+
     for c in range(header.n_cols):
         label = header.cells[tp_row][c].text
         role = "row_header" if c in header.stub_cols else "unknown"
         if role == "unknown":
-            if _INT.match(label or ""):
+            if _TP_VALUE.match((label or "").strip()):
                 role = "study_day"
             elif re.search(r"day|week|visit", label or "", re.I):
                 role = "study_day"
-        cols.append({"id": f"c{c}", "index": c, "label_verbatim": label,
-                     "role": role, "colspan": 1, "footnote_markers": []})
+        parent = band_of.get(c) if role != "row_header" else None
+        cols.append({"id": f"c{c}", "index": c, "parent_id": parent,
+                     "level": 1 if parent else 0,
+                     "label_verbatim": label, "role": role, "colspan": 1,
+                     "footnote_markers": []})
     return cols
 
 
@@ -238,6 +279,34 @@ def _leading_label_cols(pg: PageGrid, n_hdr: int) -> int:
 def _row_labels(pg: PageGrid, n_hdr: int) -> list[str]:
     return [" ".join(pg.cells[r][c].text for c in pg.stub_cols).strip()
             for r in range(n_hdr, pg.n_rows)]
+
+
+#: Title vocabulary per kind. Advisory only -- `unknown` is always allowed and
+#: is a better answer than a confident wrong label (DECISIONS row 9).
+_KIND_VOCAB = [
+    ("pk", r"(pharmacokinetic|pk|blood collection|sampling)"),
+    ("substudy", r"(sub-?study|companion|ancillary)"),
+    ("extension", r"(extension|long-?term follow)"),
+    ("main", r"(schedule of (activities|assessments|events|measures)|"
+             r"time and events|overview of study assessments|study flow chart|"
+             r"schedule of study procedures)"),
+]
+
+
+def classify_kind(title: str, columns: list[dict]) -> str:
+    """Minimal advisory kind heuristic: title vocabulary + timepoint columns.
+
+    A table only earns a schedule kind if it actually has timepoint columns; a
+    title alone is not enough. Anything unrecognised stays `unknown`.
+    """
+    has_timepoints = sum(1 for c in columns if c.get("role") == "study_day") >= 2
+    t = (title or "").lower()
+    for kind, pat in _KIND_VOCAB:
+        if re.search(pat, t):
+            if kind == "main" and not has_timepoints:
+                return "unknown"
+            return kind
+    return "main" if has_timepoints and re.search(r"schedule|assessment|visit", t) else "unknown"
 
 
 def assemble_table(pagegrids: list[PageGrid], fn_pages_text: list[tuple[int, str]],
@@ -322,7 +391,8 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
                                    f"have a different column count; guarded column "
                                    f"merge pending -- their columns are not yet in "
                                    f"this table"})
-    return {"title_verbatim": title, "kind": "unknown", "source_pages": pages,
+    return {"title_verbatim": title, "kind": classify_kind(title, columns),
+            "source_pages": pages,
             "continuation_of": None, "extraction_confidence": 1.0,
             "strategy": "explicit-lines", "columns": columns, "rows": rows,
             "cells": cells, "footnotes": footnotes, "warnings": warnings}
@@ -405,7 +475,8 @@ def _assemble_column_continuation(pagegrids, fn_pages_text, pages, title) -> dic
     used_markers = collect_used_markers(cells, rows, columns)
     footnotes = build_footnotes(fn_pages_text, used_markers)
     bind_markers(rows, cells, columns, footnotes)
-    return {"title_verbatim": title, "kind": "unknown", "source_pages": pages,
+    return {"title_verbatim": title, "kind": classify_kind(title, columns),
+            "source_pages": pages,
             "continuation_of": None, "extraction_confidence": 1.0,
             "strategy": "explicit-lines", "columns": columns, "rows": rows,
             "cells": cells, "footnotes": footnotes, "warnings": warnings}

@@ -34,6 +34,7 @@ class PageGrid:
     cells: list[list[GCell]]           # [row][col]
     stub_cols: list[int]
     fills: list = field(default_factory=list)   # classified Fill objects (audit)
+    group_bands: list = field(default_factory=list)  # (c0, c1, label) spans in header row 0
     header_rows: int = 2
 
 
@@ -79,6 +80,44 @@ def _superscript_markers(chars: list[dict]) -> list[str]:
         raised = mid < base_mid - 0.1 * body_size      # sits above the body baseline
         if sz < 0.9 * body_size and raised and c["text"].lower() in "abcdefghij":
             out.append(c["text"].lower())
+    return out
+
+
+def _group_bands(words: list[dict], cell_bboxes, n_cols: int, median_size: float):
+    """Period bands in the group header row, from spanning word bboxes.
+
+    ARCHITECTURE §4: a header cell parents the columns its bbox covers. Because
+    extract_table splits a spanning header's text across every column it crosses
+    ("Trea|tment"), the reliable signal is the WORD geometry: group the header
+    row's words into phrases by x-gap, then map each phrase's x-extent onto the
+    column boundaries it spans.
+    """
+    if not cell_bboxes or n_cols < 2:
+        return []
+    top, bottom = cell_bboxes[0][0][1], cell_bboxes[0][0][3]
+    band_words = [w for w in words
+                  if top - 1 <= (w["top"] + w["bottom"]) / 2 <= bottom + 1]
+    if not band_words:
+        return []
+    band_words.sort(key=lambda w: w["x0"])
+    gap = 1.2 * median_size
+    phrases, cur = [], [band_words[0]]
+    for w in band_words[1:]:
+        if w["x0"] - cur[-1]["x1"] <= gap:
+            cur.append(w)
+        else:
+            phrases.append(cur); cur = [w]
+    phrases.append(cur)
+
+    out = []
+    for ph in phrases:
+        x0, x1 = min(w["x0"] for w in ph), max(w["x1"] for w in ph)
+        label = " ".join(w["text"] for w in ph).strip()
+        covered = [c for c in range(n_cols)
+                   if (cell_bboxes[0][c][0] + cell_bboxes[0][c][2]) / 2 >= x0 - 1
+                   and (cell_bboxes[0][c][0] + cell_bboxes[0][c][2]) / 2 <= x1 + 1]
+        if len(covered) >= 1 and label:
+            out.append((covered[0], covered[-1], label))
     return out
 
 
@@ -165,7 +204,9 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
                              cell_bboxes[r][c], shaded=(r, c) in shaded_cells,
                              sup_markers=sup))
         cells.append(row)
-    return PageGrid(g.page_number, len(cell_bboxes), n_cols, cells, stub_cols, fills=g.fills)
+    bands = _group_bands(g.words, cell_bboxes, n_cols, g.median_char_size)
+    return PageGrid(g.page_number, len(cell_bboxes), n_cols, cells, stub_cols,
+                    fills=g.fills, group_bands=bands)
 
 
 def build_pagegrids(pdf_path: str, pages: list[int]) -> list[PageGrid]:
