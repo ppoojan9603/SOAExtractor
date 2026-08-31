@@ -10,9 +10,13 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
+#: Stub label that marks the last header row (shared with structure.py).
+TIMEPOINT_ROW = re.compile(r"study\s*(day|week)|^visit$|^week$|^day$", re.I)
+
 import pdfplumber
 
 from ..ingest import ingest_page, PageIngest
+from ..marks import is_mark_token
 from .stub import detect_stub_columns
 
 
@@ -49,6 +53,67 @@ def _cell_grid(v: list[float], h: list[float]) -> list[list[tuple]]:
         for c in range(len(v) - 1):
             row.append((v[c], h[r], v[c + 1], h[r + 1]))
         out.append(row)
+    return out
+
+
+def _header_row_count(text_grid: list[list[str]], stub_cols: list[int]) -> int:
+    """Rows through the timepoint row are header; the rest is body."""
+    stub = stub_cols[0] if stub_cols else 0
+    for r in range(min(len(text_grid), 8)):
+        if TIMEPOINT_ROW.search(text_grid[r][stub] or ""):
+            return r + 1
+    return 1
+
+
+def _row_spans(words, cell_bboxes, n_cols, median_size, start_row):
+    """Cells whose text is one continuous run crossing a column boundary.
+
+    ARCHITECTURE §3 step 1. The trigger is the RUN's geometry -- a phrase like
+    "Prior to Day 4" (protocol9 p26) is laid out as one run of words whose
+    x-extent crosses vertical rules. Two adjacent single marks (`X` | `X`) are
+    separated by a full column gap and never form one run, so they never merge.
+
+    Returns {row: [(first_col, colspan, text)]}.
+    """
+    out: dict[int, list] = {}
+    # a word gap wider than this ends the run; column pitch is several times it
+    max_gap = 1.2 * median_size
+    for r in range(start_row, len(cell_bboxes)):
+        top, bottom = cell_bboxes[r][0][1], cell_bboxes[r][0][3]
+        band = [w for w in words if top <= (w["top"] + w["bottom"]) / 2 <= bottom]
+        if len(band) < 2:
+            continue
+        band.sort(key=lambda w: w["x0"])
+        runs, cur = [], [band[0]]
+        for w in band[1:]:
+            same_line = abs((w["top"] + w["bottom"]) / 2
+                            - (cur[-1]["top"] + cur[-1]["bottom"]) / 2) <= 0.4 * median_size
+            if same_line and (w["x0"] - cur[-1]["x1"]) <= max_gap:
+                cur.append(w)
+            else:
+                runs.append(cur); cur = [w]
+        runs.append(cur)
+
+        for run in runs:
+            x0, x1 = run[0]["x0"], run[-1]["x1"]
+            covered = [c for c in range(n_cols)
+                       if min(x1, cell_bboxes[r][c][2]) - max(x0, cell_bboxes[r][c][0])
+                       > 0.15 * median_size]
+            if len(covered) < 2:
+                continue
+            if covered != list(range(covered[0], covered[-1] + 1)):
+                continue                              # non-contiguous: leave alone
+            text = " ".join(w["text"] for w in run).strip()
+            if not text:
+                continue
+            # A run made entirely of mark tokens is not a spanning value: it is
+            # independent per-column marks that happen to sit close together
+            # (protocol9 `1X` `1X` in adjacent day columns). Marks are the one
+            # thing that legitimately appears one-per-column, so this is the
+            # exact boundary between a span and separate cells.
+            if all(is_mark_token(w["text"]) for w in run):
+                continue
+            out.setdefault(r, []).append((covered[0], len(covered), text))
     return out
 
 
@@ -149,6 +214,20 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
     text_grid = [[(grid[r][c] or "").strip() for c in range(n_cols)] for r in range(len(h) - 1)]
     stub_cols = detect_stub_columns(text_grid)
 
+    # Spanning values: one run crossing a column boundary becomes ONE cell with
+    # colspan, instead of fragments ("Prio" | "r to D" | "ay 4").
+    hdr_rows = _header_row_count(text_grid, stub_cols)
+    spans = _row_spans(g.words, cell_bboxes, n_cols, g.median_char_size, hdr_rows)
+    colspan_map: dict[tuple[int, int], int] = {}
+    for r, items in spans.items():
+        for c0, width, text in items:
+            if c0 in stub_cols:
+                continue
+            text_grid[r][c0] = text
+            colspan_map[(r, c0)] = width
+            for c in range(c0 + 1, c0 + width):
+                text_grid[r][c] = ""
+
     # map grey fills to cells; non-grey and unowned fills are still tracked so
     # the orphan-fill audit (M5) can account for EVERY area-fill.
     fill_by_cell: dict[tuple[int, int], list] = {}
@@ -205,6 +284,7 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
             row.append(GCell(r, c, text_grid[r][c] if r < len(text_grid) else "",
                              cell_bboxes[r][c], shaded=(r, c) in shaded_cells,
                              sup_markers=sup,
+                             colspan=colspan_map.get((r, c), 1),
                              chars=chars_by_cell.get((r, c), [])))
         cells.append(row)
     bands = _group_bands(g.words, cell_bboxes, n_cols, g.median_char_size)

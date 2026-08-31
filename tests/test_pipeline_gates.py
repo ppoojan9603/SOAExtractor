@@ -222,3 +222,46 @@ def test_protocol5_session_strip_is_a_row_divider(docs):
     dividers = [r for r in rows if r["role"] == "divider"]
     assert any("Session" in r["label_verbatim"] for r in dividers), \
         "the Cocaine Infusion Session # strip is a row divider, not an assessment"
+
+
+# ---------- ARCHITECTURE §3 step 1: spanning values (colspan) ----------
+
+def test_prior_to_day_4_is_one_span_cell(docs):
+    """Positive: the run crosses column boundaries -> one cell, colspan 3."""
+    t = main_table(docs["protocol9"])
+    spans = [c for c in t["cells"] if c["value_verbatim"] == "Prior to Day 4"]
+    assert len(spans) == 3, "all three affected rows must carry the span"
+    for c in spans:
+        assert c["colspan"] == 3, f"expected colspan 3, got {c['colspan']}"
+    # and no fragments survive
+    frags = [c["value_verbatim"] for c in t["cells"]
+             if c["value_verbatim"] in ("Prio", "r to D", "ay 4")]
+    assert not frags, f"fragments still present: {frags}"
+
+
+def test_p28_admission_row_is_one_span_cell(docs):
+    t = main_table(docs["protocol9"])
+    hit = [c for c in t["cells"] if c["value_verbatim"].startswith("Admission, Monday")]
+    assert len(hit) == 1, "the Admission/Monday/Wednesday run must be one cell"
+    assert hit[0]["colspan"] > 1
+    assert hit[0]["value_verbatim"] == \
+        "Admission, Monday, Wednesday, Friday, Discharge and As Needed"
+
+
+def test_adjacent_marks_never_merge(docs):
+    """Negative: X | X in neighbouring columns stay separate cells."""
+    from soa.marks import is_mark_token
+    for name in ["protocol1", "protocol5", "protocol9", "protocol12", "protocol15"]:
+        for t in docs[name]["tables"]:
+            for c in t["cells"]:
+                if c["colspan"] > 1:
+                    toks = c["value_verbatim"].split()
+                    assert not (toks and all(is_mark_token(x) for x in toks)), \
+                        f"{name} {t['id']} merged marks into a span: {c['value_verbatim']!r}"
+
+
+def test_spans_only_where_expected(docs):
+    """A span must never appear in a table that has no spanning text."""
+    t5 = main_table(docs["protocol5"])
+    assert all(c["colspan"] == 1 for c in t5["cells"]), \
+        "protocol5's main SoA has no spanning cell values"

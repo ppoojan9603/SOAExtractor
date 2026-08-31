@@ -10,7 +10,7 @@ import re
 
 from .grid import PageGrid, evaluate_split, detect_divider_columns, detect_divider_rows
 
-_TIMEPOINT_ROW = re.compile(r"study\s*(day|week)|^visit$|^week$|^day$", re.I)
+from .grid import TIMEPOINT_ROW as _TIMEPOINT_ROW
 _INT = re.compile(r"^\d{1,3}([/\-–]\w+)?$")
 _MARKER_SUFFIX = re.compile(r"([*]{1,4}|[a-jA-J])$")
 
@@ -422,7 +422,7 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
                     ev.append("graphics_fill")
                 cells.append({"row_id": row_id, "col_id": f"c{c}",
                               "value_verbatim": val, "shaded": gc.shaded,
-                              "colspan": 1, "rowspan": 1, "footnote_markers": [],
+                              "colspan": gc.colspan, "rowspan": 1, "footnote_markers": [],
                               "sup_markers": list(gc.sup_markers),
                               "page": pg.page, "bbox": [round(x, 1) for x in gc.bbox],
                               "evidence": ev, "authored_by": "geometry",
@@ -534,7 +534,7 @@ def _cell(row_id, col_id, gc, page) -> dict:
     val = gc.text.strip()
     ev = (["text_layer"] if val else []) + (["graphics_fill"] if gc.shaded else [])
     return {"row_id": row_id, "col_id": col_id, "value_verbatim": val,
-            "shaded": gc.shaded, "colspan": 1, "rowspan": 1, "footnote_markers": [],
-            "sup_markers": list(gc.sup_markers),
+            "shaded": gc.shaded, "colspan": gc.colspan, "rowspan": 1,
+            "footnote_markers": [], "sup_markers": list(gc.sup_markers),
             "page": page, "bbox": [round(x, 1) for x in gc.bbox], "evidence": ev,
             "authored_by": "geometry", "ambiguous": False, "ambiguity_reason": None}
