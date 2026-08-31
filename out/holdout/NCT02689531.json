@@ -1,0 +1,1241 @@
+{
+  "document": {
+    "filename": "NCT02689531.pdf",
+    "sha256": "ecb1c3e328aa4d4034bd0918feb8739c6a42b69f47d35a675c9dfeab2624efe6",
+    "page_count": 32
+  },
+  "tables": [
+    {
+      "title_verbatim": "(untitled table, page 22)",
+      "kind": "unknown",
+      "source_pages": [
+        22,
+        23
+      ],
+      "continuation_of": null,
+      "extraction_confidence": 1.0,
+      "strategy": "explicit-lines",
+      "columns": [
+        {
+          "id": "g0",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Screen -ing",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "g1",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "High-Risk Criteria Met",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": "g2",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Other-ICU High-Risk Criteria) Meeting (Not",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            3,
+            3
+          ]
+        },
+        {
+          "id": "g3",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "High-Risk Antibiotics Undifferentiated with for Symptoms any Sepsis Pneumonia LRTI Protocol Started or or",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            4,
+            4
+          ]
+        },
+        {
+          "id": "g4",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Antibiotics Started Undifferen Other-ICU Protocol LRTI Sepsis tiated with or for",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            5,
+            5
+          ]
+        },
+        {
+          "id": "g5",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "ICU High-Risk Definition (in or HABP Meets VABP Other- Either Group) or",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            6,
+            6
+          ]
+        },
+        {
+          "id": "g6",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Obtained Cultures Respira- Lower Tract tory",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            7,
+            7
+          ]
+        },
+        {
+          "id": "g7",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Collection Stop Condition Complete Full Met or CRF Data to",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            8,
+            8
+          ]
+        },
+        {
+          "id": "c0",
+          "index": 0,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Event",
+          "role": "row_header",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c1",
+          "index": 1,
+          "parent_id": "g0",
+          "level": 1,
+          "label_verbatim": "Screen\n-ing",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c2",
+          "index": 2,
+          "parent_id": "g1",
+          "level": 1,
+          "label_verbatim": "High-Risk\nCriteria\nMet",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c3",
+          "index": 3,
+          "parent_id": "g2",
+          "level": 1,
+          "label_verbatim": "Other-ICU\n(Not\nMeeting\nHigh-Risk\nCriteria)",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c4",
+          "index": 4,
+          "parent_id": "g3",
+          "level": 1,
+          "label_verbatim": "High-Risk Protocol\nwith Pneumonia\nSymptoms or\nAntibiotics Started\nfor any LRTI or\nUndifferentiated\nSepsis",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c5",
+          "index": 5,
+          "parent_id": "g4",
+          "level": 1,
+          "label_verbatim": "Other-ICU\nProtocol\nwith\nAntibiotics\nStarted for\nLRTI or\nUndifferen\ntiated\nSepsis",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c6",
+          "index": 6,
+          "parent_id": "g5",
+          "level": 1,
+          "label_verbatim": "Meets\nHABP or\nVABP\nDefinition\n(in Either\nHigh-Risk\nor Other-\nICU Group)",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c7",
+          "index": 7,
+          "parent_id": "g6",
+          "level": 1,
+          "label_verbatim": "Lower\nRespira-\ntory\nTract\nCultures\nObtained",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c8",
+          "index": 8,
+          "parent_id": "g7",
+          "level": 1,
+          "label_verbatim": "Full CRF\nComplete\nor\nCondition\nMet to\nStop Data\nCollection",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        }
+      ],
+      "rows": [
+        {
+          "id": "r0",
+          "label_verbatim": "Review\neligibility\ncriteria",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "possible_split": null
+        },
+        {
+          "id": "r1",
+          "label_verbatim": "Daily status\nworksheet",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "possible_split": null
+        },
+        {
+          "id": "r2",
+          "label_verbatim": "Twice weekly\nstatus\nworksheet",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "possible_split": null
+        },
+        {
+          "id": "r3",
+          "label_verbatim": "Collect:\ndemographic\ns, admission,\nmedical\nproblems",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "possible_split": null
+        },
+        {
+          "id": "r4",
+          "label_verbatim": "Evaluate\nclinical\nsigns/sympto\nms of\npneumonia\n(HABP/VABP\ndefinition)",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "possible_split": null
+        },
+        {
+          "id": "r5",
+          "label_verbatim": "Collect\nTreatment\nExposures",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "possible_split": {
+            "stub_lines": [
+              {
+                "label": "Collect",
+                "marks": [
+                  [
+                    8,
+                    "X (In those"
+                  ]
+                ]
+              },
+              {
+                "label": "Treatment",
+                "marks": [
+                  [
+                    8,
+                    "not"
+                  ]
+                ]
+              },
+              {
+                "label": "Exposures",
+                "marks": [
+                  [
+                    8,
+                    "meeting"
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "r6",
+          "label_verbatim": "Collect\nAntibiotics",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "possible_split": null
+        },
+        {
+          "id": "r7",
+          "label_verbatim": "Collect:\nmicrobiology",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "possible_split": null
+        },
+        {
+          "id": "r8",
+          "label_verbatim": "Collect Study\nOutcomes\nPage",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "possible_split": null
+        }
+      ],
+      "cells": [
+        {
+          "row_id": "r0",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            129.0,
+            207.0,
+            165.0,
+            248.5
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            165.0,
+            248.5,
+            210.1,
+            278.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r2",
+          "col_id": "c3",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            210.1,
+            278.0,
+            264.4,
+            319.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            165.0,
+            319.6,
+            210.1,
+            385.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            345.5,
+            319.6,
+            395.2,
+            385.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c4",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            264.4,
+            385.1,
+            345.5,
+            474.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            345.5,
+            385.1,
+            395.2,
+            474.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c6",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            395.2,
+            474.6,
+            449.4,
+            554.5
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c8",
+          "value_verbatim": "X (In those\nnot\nmeeting\nHABP or\nVABP\ndefinition)",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            492.6,
+            474.6,
+            539.6,
+            554.5
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c4",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            264.4,
+            554.5,
+            345.5,
+            584.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c5",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            345.5,
+            554.5,
+            395.2,
+            584.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c6",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            395.2,
+            554.5,
+            449.4,
+            584.0
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r7",
+          "col_id": "c7",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            449.4,
+            584.0,
+            492.6,
+            613.6
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r8",
+          "col_id": "c8",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 22,
+          "bbox": [
+            492.6,
+            613.6,
+            539.6,
+            655.1
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        }
+      ],
+      "footnotes": [
+        {
+          "marker": "•",
+          "text_verbatim": "< 18 years old",
+          "source_pages": [
+            23
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": true,
+          "attaches_to": []
+        },
+        {
+          "marker": "•",
+          "text_verbatim": "Admission to participating ICU or intermediate care unit",
+          "source_pages": [
+            23
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": true,
+          "attaches_to": []
+        },
+        {
+          "marker": "•",
+          "text_verbatim": "Hospitalized for >48 hours or admitted <7 days after discharge from an inpatient acute or",
+          "source_pages": [
+            23
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": true,
+          "attaches_to": []
+        },
+        {
+          "marker": "•",
+          "text_verbatim": "Known pregnancy (current) or breastfeeding",
+          "source_pages": [
+            23
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": true,
+          "attaches_to": []
+        },
+        {
+          "marker": "•",
+          "text_verbatim": "Lung cancer or another malignancy metastatic to the lungs (currently receiving treatment)",
+          "source_pages": [
+            23
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": true,
+          "attaches_to": []
+        },
+        {
+          "marker": "•",
+          "text_verbatim": "Patient previously enrolled and treated for suspected HABP or VABP (More than Pediatric",
+          "source_pages": [
+            23
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": true,
+          "attaches_to": []
+        },
+        {
+          "marker": "•",
+          "text_verbatim": "Patient is on comfort measures (e.g. would not receive antibiotics)",
+          "source_pages": [
+            23
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": true,
+          "attaches_to": []
+        }
+      ],
+      "warnings": [
+        {
+          "kind": "marker_defined_unused",
+          "detail": "marker '•' defined but never bound to a cell/row/column"
+        },
+        {
+          "kind": "unknown_column_role",
+          "detail": "8 columns with role=unknown",
+          "ids": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5",
+            "c6",
+            "c7",
+            "c8"
+          ]
+        }
+      ],
+      "id": "soa-1",
+      "confidence": 0.595,
+      "locator_score": 1.467
+    },
+    {
+      "title_verbatim": "(untitled table, page 7)",
+      "kind": "unknown",
+      "source_pages": [
+        7
+      ],
+      "continuation_of": null,
+      "extraction_confidence": 1.0,
+      "strategy": "explicit-lines",
+      "columns": [
+        {
+          "id": "g0",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Prospective Ventilator-Associated Observational Bacterial Study Pneumonia of the Risk (HABP/VABP) Factors for Hospital-Acquired and",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "c0",
+          "index": 0,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Protocol Title",
+          "role": "row_header",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c1",
+          "index": 1,
+          "parent_id": "g0",
+          "level": 1,
+          "label_verbatim": "Prospective Observational Study of the Risk Factors for Hospital-Acquired and\nVentilator-Associated Bacterial Pneumonia (HABP/VABP)",
+          "role": "unknown",
+          "colspan": 1,
+          "footnote_markers": []
+        }
+      ],
+      "rows": [
+        {
+          "id": "r0",
+          "label_verbatim": "Study Design",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "possible_split": null
+        },
+        {
+          "id": "r1",
+          "label_verbatim": "Primary Study\nObjectives",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "possible_split": {
+            "stub_lines": [
+              {
+                "label": "Primary Study",
+                "marks": [
+                  [
+                    1,
+                    "• Estimate the rates of hospital-acquired or ventilator-associated bacterial"
+                  ]
+                ]
+              },
+              {
+                "label": "Objectives",
+                "marks": [
+                  [
+                    1,
+                    "pneumonia (HABP/VABP) developing in intensive care unit (ICU) patients"
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "r2",
+          "label_verbatim": "Study Population",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "possible_split": null
+        },
+        {
+          "id": "r3",
+          "label_verbatim": "Number of\nSubjects",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "possible_split": {
+            "stub_lines": [
+              {
+                "label": "Number of",
+                "marks": [
+                  [
+                    1,
+                    "Arm 1: 6850 ICU patients meeting high-risk criteria"
+                  ]
+                ]
+              },
+              {
+                "label": "Subjects",
+                "marks": [
+                  [
+                    1,
+                    "Arm 2: ~1000 pediatric (<18 years) patients"
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "r4",
+          "label_verbatim": "Number of Sites",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "possible_split": null
+        },
+        {
+          "id": "r5",
+          "label_verbatim": "Clinical Samples",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "possible_split": null
+        },
+        {
+          "id": "r6",
+          "label_verbatim": "Estimated Start\nof Enrollment",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "possible_split": null
+        },
+        {
+          "id": "r7",
+          "label_verbatim": "Estimated Time\nto Completion",
+          "role": "assessment",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "possible_split": null
+        }
+      ],
+      "cells": [
+        {
+          "row_id": "r0",
+          "col_id": "c1",
+          "value_verbatim": "Prospective, multi-center, observational study",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "bbox": [
+            164.5,
+            136.4,
+            535.3,
+            160.7
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r1",
+          "col_id": "c1",
+          "value_verbatim": "• Estimate the rates of hospital-acquired or ventilator-associated bacterial\npneumonia (HABP/VABP) developing in intensive care unit (ICU) patients\nconsidered high risk for pneumonia, as defined by treatment with one or\nmore of the following respiratory modalities for at least 12 hours, either\ncurrently or within the prior 7 days in patients age ≥18 year old (Arm 1)*:\n− Invasive mechanical ventilation\n− Noninvasive ventilation (bilevel positive airway pressure [BiPAP] or\ncontinuous positive airway pressure [CPAP] for any indication other\nthan obstructive sleep apnea)\n− High-flow, supplemental oxygen therapy via nasal cannula. Only\ninclude systems using an air/oxygen blender capable of delivering a\nprecise fraction of inspired oxygen [FiO2] level, not just a flow in\nliters per minute (LPM)\n− High flow supplemental oxygen therapy delivering at least 50% FiO2\nvia aerosol facemask or tracheostomy collar (mask). Only include\nsystems using an air/oxygen blender capable of delivering a precise\nFiO2 level, not just a flow in LPM.\n− Supplemental oxygen therapy delivered via either partial or non-\nrebreather face mask.\n* For patients age <18 year old (Arm 2), see Appendix B\n• Estimate the proportion of patients diagnosed with HABP/VABP who would\nbe eligible for enrollment in a clinical trial of antibacterial therapy for\nHABP/VABP per U.S. Food and Drug Administration (FDA) draft guidance\ndocument criteria.",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [
+            "*",
+            "•"
+          ],
+          "sup_markers": [],
+          "page": 7,
+          "bbox": [
+            164.5,
+            160.7,
+            535.3,
+            501.2
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r2",
+          "col_id": "c1",
+          "value_verbatim": "Arm 1: Adult (≥18 years) patients admitted to ICUs\nArm 2: Pediatric (<18 years) patients admitted to ICUs or intermediate care unit",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "bbox": [
+            164.5,
+            501.2,
+            535.3,
+            536.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r3",
+          "col_id": "c1",
+          "value_verbatim": "Arm 1: 6850 ICU patients meeting high-risk criteria\nArm 2: ~1000 pediatric (<18 years) patients",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "bbox": [
+            164.5,
+            536.3,
+            535.3,
+            571.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r4",
+          "col_id": "c1",
+          "value_verbatim": "Arm 1: 45 total: 30 in the United States, 15 outside the United States\nArm 2: ~ 10 sites in the United States",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "bbox": [
+            164.5,
+            571.3,
+            535.3,
+            606.4
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r5",
+          "col_id": "c1",
+          "value_verbatim": "None",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "bbox": [
+            164.5,
+            606.4,
+            535.3,
+            631.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r6",
+          "col_id": "c1",
+          "value_verbatim": "January 30, 2016",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "bbox": [
+            164.5,
+            631.3,
+            535.3,
+            666.4
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r7",
+          "col_id": "c1",
+          "value_verbatim": "Up to 12 months of enrollment",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 7,
+          "bbox": [
+            164.5,
+            666.4,
+            535.3,
+            701.4
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        }
+      ],
+      "footnotes": [],
+      "warnings": [
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker '*' used but not defined nearby"
+        },
+        {
+          "kind": "marker_used_undefined",
+          "detail": "marker '•' used but not defined nearby"
+        },
+        {
+          "kind": "unknown_column_role",
+          "detail": "1 columns with role=unknown",
+          "ids": [
+            "c1"
+          ]
+        }
+      ],
+      "id": "soa-2",
+      "confidence": 0.429,
+      "locator_score": 0.75
+    },
+    {
+      "title_verbatim": "(untitled table, page 4)",
+      "kind": "unknown",
+      "source_pages": [
+        4
+      ],
+      "continuation_of": null,
+      "extraction_confidence": 1.0,
+      "strategy": "explicit-lines",
+      "columns": [
+        {
+          "id": "c0",
+          "index": 0,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "",
+          "role": "row_header",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c1",
+          "index": 1,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Version 1.0 (12/17/2015)",
+          "role": "row_header",
+          "colspan": 1,
+          "footnote_markers": []
+        },
+        {
+          "id": "c2",
+          "index": 2,
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Version 2.1 (4/15/2016)",
+          "role": "row_header",
+          "colspan": 1,
+          "footnote_markers": []
+        }
+      ],
+      "rows": [
+        {
+          "id": "r0",
+          "label_verbatim": "Protocol version N/A. Original version Amendment #1",
+          "role": "metadata",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 4,
+          "possible_split": null
+        },
+        {
+          "id": "r1",
+          "label_verbatim": "Study population Adult (>= 18 years old) only Adult and Pediatric",
+          "role": "metadata",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 4,
+          "possible_split": null
+        },
+        {
+          "id": "r2",
+          "label_verbatim": "# Patients 6850 Adults 6850 Adults (Arm 1) and 1000\nPediatric (Arm 2)",
+          "role": "metadata",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 4,
+          "possible_split": null
+        },
+        {
+          "id": "r3",
+          "label_verbatim": "# study sites 45 Added 10 Pediatric sites",
+          "role": "metadata",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 4,
+          "possible_split": null
+        },
+        {
+          "id": "r4",
+          "label_verbatim": "Funding Sponsor FDA FDA and NICHD",
+          "role": "metadata",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 4,
+          "possible_split": null
+        },
+        {
+          "id": "r5",
+          "label_verbatim": "Protocol Chair Dr. Vance Fowler Added Dr. Danny Benjamin as\nPTN Chair",
+          "role": "metadata",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 4,
+          "possible_split": null
+        },
+        {
+          "id": "r6",
+          "label_verbatim": "Appendix B (Pediatric supplement) N/A Included",
+          "role": "metadata",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 4,
+          "possible_split": null
+        },
+        {
+          "id": "r7",
+          "label_verbatim": "Interim Analysis The interim analysis will\noccur after 500 high-risk\nCRFs are completed or 3\nmonths after all U.S. sites\nare activated, whichever\noccurs first. The interim analysis will occur\nthree months after 50% of US\nsites have begun enrolling\npatients.",
+          "role": "metadata",
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 4,
+          "possible_split": null
+        }
+      ],
+      "cells": [],
+      "footnotes": [],
+      "warnings": [],
+      "id": "soa-3",
+      "confidence": 0.394,
+      "locator_score": 0.65
+    }
+  ]
+}

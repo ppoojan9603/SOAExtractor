@@ -2,3 +2,6 @@ data/protocols/*.pdf
 .env
 __pycache__/
 .venv/
+
+# holdout PDFs are third-party documents; keep them out of the repo
+data/holdout/*.pdf
