@@ -17,110 +17,6 @@
       "strategy": "explicit-lines",
       "columns": [
         {
-          "id": "g0",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Screen -ing",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            1,
-            1
-          ]
-        },
-        {
-          "id": "g1",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "High-Risk Criteria Met",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            2,
-            2
-          ]
-        },
-        {
-          "id": "g2",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Other-ICU High-Risk Criteria) Meeting (Not",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            3,
-            3
-          ]
-        },
-        {
-          "id": "g3",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "High-Risk Antibiotics Undifferentiated with for Symptoms any Sepsis Pneumonia LRTI Protocol Started or or",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            4,
-            4
-          ]
-        },
-        {
-          "id": "g4",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Antibiotics Started Undifferen Other-ICU Protocol LRTI Sepsis tiated with or for",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            5,
-            5
-          ]
-        },
-        {
-          "id": "g5",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "ICU High-Risk Definition (in or HABP Meets VABP Other- Either Group) or",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            6,
-            6
-          ]
-        },
-        {
-          "id": "g6",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Obtained Cultures Respira- Lower Tract tory",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            7,
-            7
-          ]
-        },
-        {
-          "id": "g7",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Collection Stop Condition Complete Full Met or CRF Data to",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            8,
-            8
-          ]
-        },
-        {
           "id": "c0",
           "index": 0,
           "parent_id": null,
@@ -133,8 +29,8 @@
         {
           "id": "c1",
           "index": 1,
-          "parent_id": "g0",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Screen\n-ing",
           "role": "unknown",
           "colspan": 1,
@@ -143,8 +39,8 @@
         {
           "id": "c2",
           "index": 2,
-          "parent_id": "g1",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "High-Risk\nCriteria\nMet",
           "role": "unknown",
           "colspan": 1,
@@ -153,8 +49,8 @@
         {
           "id": "c3",
           "index": 3,
-          "parent_id": "g2",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Other-ICU\n(Not\nMeeting\nHigh-Risk\nCriteria)",
           "role": "unknown",
           "colspan": 1,
@@ -163,8 +59,8 @@
         {
           "id": "c4",
           "index": 4,
-          "parent_id": "g3",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "High-Risk Protocol\nwith Pneumonia\nSymptoms or\nAntibiotics Started\nfor any LRTI or\nUndifferentiated\nSepsis",
           "role": "unknown",
           "colspan": 1,
@@ -173,8 +69,8 @@
         {
           "id": "c5",
           "index": 5,
-          "parent_id": "g4",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Other-ICU\nProtocol\nwith\nAntibiotics\nStarted for\nLRTI or\nUndifferen\ntiated\nSepsis",
           "role": "unknown",
           "colspan": 1,
@@ -183,8 +79,8 @@
         {
           "id": "c6",
           "index": 6,
-          "parent_id": "g5",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Meets\nHABP or\nVABP\nDefinition\n(in Either\nHigh-Risk\nor Other-\nICU Group)",
           "role": "unknown",
           "colspan": 1,
@@ -193,8 +89,8 @@
         {
           "id": "c7",
           "index": 7,
-          "parent_id": "g6",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Lower\nRespira-\ntory\nTract\nCultures\nObtained",
           "role": "unknown",
           "colspan": 1,
@@ -203,8 +99,8 @@
         {
           "id": "c8",
           "index": 8,
-          "parent_id": "g7",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Full CRF\nComplete\nor\nCondition\nMet to\nStop Data\nCollection",
           "role": "unknown",
           "colspan": 1,
@@ -216,6 +112,8 @@
           "id": "r0",
           "label_verbatim": "Review\neligibility\ncriteria",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 22,
@@ -225,6 +123,8 @@
           "id": "r1",
           "label_verbatim": "Daily status\nworksheet",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 22,
@@ -234,6 +134,8 @@
           "id": "r2",
           "label_verbatim": "Twice weekly\nstatus\nworksheet",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 22,
@@ -243,6 +145,8 @@
           "id": "r3",
           "label_verbatim": "Collect:\ndemographic\ns, admission,\nmedical\nproblems",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 22,
@@ -252,6 +156,8 @@
           "id": "r4",
           "label_verbatim": "Evaluate\nclinical\nsigns/sympto\nms of\npneumonia\n(HABP/VABP\ndefinition)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 22,
@@ -261,6 +167,8 @@
           "id": "r5",
           "label_verbatim": "Collect\nTreatment\nExposures",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 22,
@@ -300,6 +208,8 @@
           "id": "r6",
           "label_verbatim": "Collect\nAntibiotics",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 22,
@@ -309,6 +219,8 @@
           "id": "r7",
           "label_verbatim": "Collect:\nmicrobiology",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 22,
@@ -318,6 +230,8 @@
           "id": "r8",
           "label_verbatim": "Collect Study\nOutcomes\nPage",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 22,
@@ -755,19 +669,6 @@
       "strategy": "explicit-lines",
       "columns": [
         {
-          "id": "g0",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Prospective Ventilator-Associated Observational Bacterial Study Pneumonia of the Risk (HABP/VABP) Factors for Hospital-Acquired and",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            1,
-            1
-          ]
-        },
-        {
           "id": "c0",
           "index": 0,
           "parent_id": null,
@@ -780,8 +681,8 @@
         {
           "id": "c1",
           "index": 1,
-          "parent_id": "g0",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Prospective Observational Study of the Risk Factors for Hospital-Acquired and\nVentilator-Associated Bacterial Pneumonia (HABP/VABP)",
           "role": "unknown",
           "colspan": 1,
@@ -793,6 +694,8 @@
           "id": "r0",
           "label_verbatim": "Study Design",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 7,
@@ -802,6 +705,8 @@
           "id": "r1",
           "label_verbatim": "Primary Study\nObjectives",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 7,
@@ -832,6 +737,8 @@
           "id": "r2",
           "label_verbatim": "Study Population",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 7,
@@ -841,6 +748,8 @@
           "id": "r3",
           "label_verbatim": "Number of\nSubjects",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 7,
@@ -871,6 +780,8 @@
           "id": "r4",
           "label_verbatim": "Number of Sites",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 7,
@@ -880,6 +791,8 @@
           "id": "r5",
           "label_verbatim": "Clinical Samples",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 7,
@@ -889,6 +802,8 @@
           "id": "r6",
           "label_verbatim": "Estimated Start\nof Enrollment",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 7,
@@ -898,6 +813,8 @@
           "id": "r7",
           "label_verbatim": "Estimated Time\nto Completion",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 7,
@@ -1109,6 +1026,21 @@
           "ids": [
             "c1"
           ]
+        },
+        {
+          "kind": "multi_marker_cell",
+          "detail": "1 cell(s) carry >1 footnote marker; the mark<->marker association within the cell is not recovered (values and markers are both kept)",
+          "cells": [
+            {
+              "row_id": "r1",
+              "col_id": "c1",
+              "value_verbatim": "• Estimate the rates of hospital-acquired or ventilator-associated bacterial\npneumonia (HABP/VABP) developing in intensive care unit (ICU) patients\nconsidered high risk for pneumonia, as defined by treatment with one or\nmore of the following respiratory modalities for at least 12 hours, either\ncurrently or within the prior 7 days in patients age ≥18 year old (Arm 1)*:\n− Invasive mechanical ventilation\n− Noninvasive ventilation (bilevel positive airway pressure [BiPAP] or\ncontinuous positive airway pressure [CPAP] for any indication other\nthan obstructive sleep apnea)\n− High-flow, supplemental oxygen therapy via nasal cannula. Only\ninclude systems using an air/oxygen blender capable of delivering a\nprecise fraction of inspired oxygen [FiO2] level, not just a flow in\nliters per minute (LPM)\n− High flow supplemental oxygen therapy delivering at least 50% FiO2\nvia aerosol facemask or tracheostomy collar (mask). Only include\nsystems using an air/oxygen blender capable of delivering a precise\nFiO2 level, not just a flow in LPM.\n− Supplemental oxygen therapy delivered via either partial or non-\nrebreather face mask.\n* For patients age <18 year old (Arm 2), see Appendix B\n• Estimate the proportion of patients diagnosed with HABP/VABP who would\nbe eligible for enrollment in a clinical trial of antibacterial therapy for\nHABP/VABP per U.S. Food and Drug Administration (FDA) draft guidance\ndocument criteria.",
+              "footnote_markers": [
+                "*",
+                "•"
+              ]
+            }
+          ]
         }
       ],
       "id": "soa-2",
@@ -1161,6 +1093,8 @@
           "id": "r0",
           "label_verbatim": "Protocol version N/A. Original version Amendment #1",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 4,
@@ -1170,6 +1104,8 @@
           "id": "r1",
           "label_verbatim": "Study population Adult (>= 18 years old) only Adult and Pediatric",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 4,
@@ -1179,6 +1115,8 @@
           "id": "r2",
           "label_verbatim": "# Patients 6850 Adults 6850 Adults (Arm 1) and 1000\nPediatric (Arm 2)",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 4,
@@ -1188,6 +1126,8 @@
           "id": "r3",
           "label_verbatim": "# study sites 45 Added 10 Pediatric sites",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 4,
@@ -1197,6 +1137,8 @@
           "id": "r4",
           "label_verbatim": "Funding Sponsor FDA FDA and NICHD",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 4,
@@ -1206,6 +1148,8 @@
           "id": "r5",
           "label_verbatim": "Protocol Chair Dr. Vance Fowler Added Dr. Danny Benjamin as\nPTN Chair",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 4,
@@ -1215,6 +1159,8 @@
           "id": "r6",
           "label_verbatim": "Appendix B (Pediatric supplement) N/A Included",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 4,
@@ -1224,6 +1170,8 @@
           "id": "r7",
           "label_verbatim": "Interim Analysis The interim analysis will\noccur after 500 high-risk\nCRFs are completed or 3\nmonths after all U.S. sites\nare activated, whichever\noccurs first. The interim analysis will occur\nthree months after 50% of US\nsites have begun enrolling\npatients.",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 4,

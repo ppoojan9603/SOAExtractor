@@ -16,71 +16,6 @@
       "strategy": "explicit-lines",
       "columns": [
         {
-          "id": "g0",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Year 1",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            1,
-            1
-          ]
-        },
-        {
-          "id": "g1",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Year 2",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            2,
-            2
-          ]
-        },
-        {
-          "id": "g2",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Year 3",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            3,
-            3
-          ]
-        },
-        {
-          "id": "g3",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Year 4",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            5,
-            5
-          ]
-        },
-        {
-          "id": "g4",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Year 5",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            6,
-            6
-          ]
-        },
-        {
           "id": "c0",
           "index": 0,
           "parent_id": null,
@@ -93,30 +28,30 @@
         {
           "id": "c1",
           "index": 1,
-          "parent_id": "g0",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Year 1",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
         {
           "id": "c2",
           "index": 2,
-          "parent_id": "g1",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Year 2",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
         {
           "id": "c3",
           "index": 3,
-          "parent_id": "g2",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Year 3",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
@@ -133,20 +68,20 @@
         {
           "id": "c5",
           "index": 5,
-          "parent_id": "g3",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Year 4",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
         {
           "id": "c6",
           "index": 6,
-          "parent_id": "g4",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Year 5",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         }
@@ -156,6 +91,8 @@
           "id": "r0",
           "label_verbatim": "",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -165,6 +102,8 @@
           "id": "r1",
           "label_verbatim": "Refine all procedures",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -174,6 +113,8 @@
           "id": "r2",
           "label_verbatim": "Procure supplies",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -183,6 +124,8 @@
           "id": "r3",
           "label_verbatim": "Refine recruitment methods",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -192,6 +135,8 @@
           "id": "r4",
           "label_verbatim": "Hire and train Central Personnel",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -201,6 +146,8 @@
           "id": "r5",
           "label_verbatim": "Hire & Train Additional Personnel*",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "*"
           ],
@@ -212,6 +159,8 @@
           "id": "r6",
           "label_verbatim": "Pre-trial Focus groups (n=4)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -221,6 +170,8 @@
           "id": "r7",
           "label_verbatim": "Train Clinic Personnel",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -230,6 +181,8 @@
           "id": "r8",
           "label_verbatim": "Study Enrollment",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -239,6 +192,8 @@
           "id": "r9",
           "label_verbatim": "Cumulative Clinics to Begin Enrollment**",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "**"
           ],
@@ -250,6 +205,8 @@
           "id": "r10",
           "label_verbatim": "Cumulative N to start**a",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "**",
             "a"
@@ -264,6 +221,8 @@
           "id": "r11",
           "label_verbatim": "First Participant Starts",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -273,6 +232,8 @@
           "id": "r12",
           "label_verbatim": "First Participant Completes",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -282,6 +243,8 @@
           "id": "r13",
           "label_verbatim": "Last Participant Starts",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -291,6 +254,8 @@
           "id": "r14",
           "label_verbatim": "Last Participant Completes",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -300,6 +265,8 @@
           "id": "r15",
           "label_verbatim": "Data Analysis",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -309,6 +276,8 @@
           "id": "r16",
           "label_verbatim": "Manuscript Preparation",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -1042,14 +1011,9 @@
         },
         {
           "kind": "unknown_column_role",
-          "detail": "6 columns with role=unknown",
+          "detail": "1 columns with role=unknown",
           "ids": [
-            "c1",
-            "c2",
-            "c3",
-            "c4",
-            "c5",
-            "c6"
+            "c4"
           ]
         }
       ],

@@ -17,71 +17,6 @@
       "strategy": "explicit-lines",
       "columns": [
         {
-          "id": "g0",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "chemotherapy) beginning (prior Visit 1 to",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            1,
-            1
-          ]
-        },
-        {
-          "id": "g1",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "chemotherapy (mid-point treatment Visit 2 or of",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            2,
-            2
-          ]
-        },
-        {
-          "id": "g2",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "completion (one more Visit week after 3 or of",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            3,
-            3
-          ]
-        },
-        {
-          "id": "g3",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Unscheduled readings oximetry EPR",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            4,
-            4
-          ]
-        },
-        {
-          "id": "g4",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Blood Visits Draw",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            5,
-            5
-          ]
-        },
-        {
           "id": "c0",
           "index": 0,
           "parent_id": null,
@@ -94,18 +29,20 @@
         {
           "id": "c1",
           "index": 1,
-          "parent_id": "g0",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Visit 1\n(prior to\nbeginning\nchemotherapy)",
           "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "window_verbatim": "Visit 1\n(prior to\nbeginning\nchemotherapy)",
+          "window_parsed": null
         },
         {
           "id": "c2",
           "index": 2,
-          "parent_id": "g1",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Visit 2\n(mid-point of\nchemotherapy\ntreatment or",
           "role": "study_day",
           "colspan": 1,
@@ -114,18 +51,20 @@
         {
           "id": "c3",
           "index": 3,
-          "parent_id": "g2",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Visit 3\n(one week or\nmore after\ncompletion of",
           "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "window_verbatim": "Visit 3\n(one week or\nmore after\ncompletion of",
+          "window_parsed": null
         },
         {
           "id": "c4",
           "index": 4,
-          "parent_id": "g3",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Unscheduled\nEPR\noximetry\nreadings",
           "role": "unknown",
           "colspan": 1,
@@ -134,10 +73,10 @@
         {
           "id": "c5",
           "index": 5,
-          "parent_id": "g4",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Blood Draw\nVisits",
-          "role": "study_day",
+          "role": "unknown",
           "colspan": 1,
           "footnote_markers": []
         }
@@ -147,6 +86,8 @@
           "id": "r0",
           "label_verbatim": "",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -156,6 +97,8 @@
           "id": "r1",
           "label_verbatim": "Informed Consent",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -165,6 +108,8 @@
           "id": "r2",
           "label_verbatim": "Inclusion/Exclusion\nCriteria",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -174,6 +119,8 @@
           "id": "r3",
           "label_verbatim": "Neurological Exam",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -183,6 +130,8 @@
           "id": "r4",
           "label_verbatim": "Neurologic History",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -192,6 +141,8 @@
           "id": "r5",
           "label_verbatim": "Ink Injection",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -201,6 +152,8 @@
           "id": "r6",
           "label_verbatim": "Nerve Conduction\nStudy",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -210,6 +163,8 @@
           "id": "r7",
           "label_verbatim": "Sudoscan",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -219,6 +174,8 @@
           "id": "r8",
           "label_verbatim": "EPR Oximetry\nReading",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -228,6 +185,8 @@
           "id": "r9",
           "label_verbatim": "Total Neuropathy\nScore",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -235,8 +194,10 @@
         },
         {
           "id": "r10",
-          "label_verbatim": "National Common\nInstitute –\nCommon Toxicity\nCriteria V.3",
+          "label_verbatim": "Toronto Clinical\nNeuropathy\nScoring System",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 21,
@@ -244,8 +205,10 @@
         },
         {
           "id": "r11",
-          "label_verbatim": "Questionnaires-\n- McGill pain\n- Survey of\nAutonomic\nSymptoms\n- Subset of NQol-\nDN\n-NTSS-6",
+          "label_verbatim": "National Common\nInstitute –\nCommon Toxicity\nCriteria V.3",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 21,
@@ -253,8 +216,10 @@
         },
         {
           "id": "r12",
-          "label_verbatim": "Blood Draw for\nGenetic Testing",
+          "label_verbatim": "Questionnaires-\n- McGill pain\n- Survey of\nAutonomic\nSymptoms\n- Subset of NQol-\nDN\n-NTSS-6",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 21,
@@ -262,8 +227,21 @@
         },
         {
           "id": "r13",
+          "label_verbatim": "Blood Draw for\nGenetic Testing",
+          "role": "assessment",
+          "parent_id": null,
+          "level": 0,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 21,
+          "possible_split": null
+        },
+        {
+          "id": "r14",
           "label_verbatim": "Blood Draws for\nNF-L Assay",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 21,
@@ -789,6 +767,75 @@
           "page": 21,
           "bbox": [
             168.1,
+            72.2,
+            245.6,
+            107.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c2",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 21,
+          "bbox": [
+            245.6,
+            72.2,
+            320.5,
+            107.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r10",
+          "col_id": "c3",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 21,
+          "bbox": [
+            320.5,
+            72.2,
+            398.0,
+            107.3
+          ],
+          "evidence": [
+            "text_layer"
+          ],
+          "authored_by": "geometry",
+          "ambiguous": false,
+          "ambiguity_reason": null
+        },
+        {
+          "row_id": "r11",
+          "col_id": "c1",
+          "value_verbatim": "X",
+          "shaded": false,
+          "colspan": 1,
+          "rowspan": 1,
+          "footnote_markers": [],
+          "sup_markers": [],
+          "page": 21,
+          "bbox": [
+            168.1,
             107.3,
             245.6,
             153.7
@@ -801,7 +848,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r10",
+          "row_id": "r11",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -824,7 +871,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r10",
+          "row_id": "r11",
           "col_id": "c3",
           "value_verbatim": "X",
           "shaded": false,
@@ -847,7 +894,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r12",
           "col_id": "c1",
           "value_verbatim": "X",
           "shaded": false,
@@ -870,7 +917,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r12",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -893,7 +940,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r12",
           "col_id": "c3",
           "value_verbatim": "X",
           "shaded": false,
@@ -916,7 +963,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r12",
+          "row_id": "r13",
           "col_id": "c5",
           "value_verbatim": "X3",
           "shaded": false,
@@ -939,7 +986,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r13",
+          "row_id": "r14",
           "col_id": "c5",
           "value_verbatim": "X4",
           "shaded": false,
@@ -966,9 +1013,10 @@
       "warnings": [
         {
           "kind": "unknown_column_role",
-          "detail": "1 columns with role=unknown",
+          "detail": "2 columns with role=unknown",
           "ids": [
-            "c4"
+            "c4",
+            "c5"
           ]
         }
       ],

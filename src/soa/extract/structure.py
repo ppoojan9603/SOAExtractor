@@ -10,7 +10,7 @@ import re
 
 from .grid import (PageGrid, evaluate_split, detect_divider_columns,
                    detect_divider_rows, promote_equal_size_markers,
-                   _header_row_count, _is_tp_tok)
+                   _header_row_count, _is_tp_tok, is_mark_token)
 
 from .grid import TIMEPOINT_ROW as _TIMEPOINT_ROW
 _INT = re.compile(r"^\d{1,3}([/\-–]\w+)?$")
@@ -456,7 +456,7 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
     deferred_pages: list[int] = []
     current_category = None          # row_id of the section the current rows fall under
     rid = 0
-    for pg in pagegrids:
+    for pg_i, pg in enumerate(pagegrids):
         sizes = [ch.get("size") for row in pg.cells for c in row for ch in c.chars
                  if ch.get("size")]
         median_size = (sorted(sizes)[len(sizes) // 2] if sizes else 10.0)
@@ -473,6 +473,19 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
             deferred_pages.append(pg.page)
             continue
         start = _find_header_rows(pg)                # skip each page's header
+        # A continuation page has a header only if it REPEATS one; a header row
+        # never carries cell marks. So on pages after the first, never skip past
+        # the first marked body row -- NCT03348956 p21 has no repeated header and
+        # no timepoint vocabulary, so _find_header_rows falls to its default 1 and
+        # would eat the real first assessment row ('Toronto ...', body X X X).
+        # min() is a no-op on the five (protocol9 p27/p28, protocol15 p53/p54 all
+        # have their first marked row at or beyond the computed header end).
+        if pg_i > 0:
+            marked = next((r for r in range(pg.n_rows)
+                           if any(is_mark_token(pg.cells[r][c].text.strip())
+                                  for c in range(pg.n_cols) if c not in stub)),
+                          pg.n_rows)
+            start = min(start, marked)
         for r in range(start, pg.n_rows):
             rowcells = pg.cells[r]
             label = " ".join(rowcells[c].text for c in stub).strip()
