@@ -3964,6 +3964,12 @@
       "footnotes": [],
       "warnings": [
         {
+          "kind": "orphan_word",
+          "page": 9,
+          "detail": "5 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "13 24 26 analysis complete)"
+        },
+        {
           "kind": "unknown_column_role",
           "detail": "2 columns with role=unknown",
           "ids": [

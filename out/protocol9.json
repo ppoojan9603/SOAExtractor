@@ -6136,6 +6136,18 @@
       ],
       "warnings": [
         {
+          "kind": "orphan_word",
+          "page": 26,
+          "detail": "4 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "(all (randomized QID) Discharge"
+        },
+        {
+          "kind": "orphan_word",
+          "page": 28,
+          "detail": "5 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "Monday, Wednesday, Friday, Discharge Needed"
+        },
+        {
           "kind": "marker_used_undefined",
           "detail": "marker '01' used but not defined nearby"
         },
@@ -7833,6 +7845,12 @@
       ],
       "warnings": [
         {
+          "kind": "orphan_word",
+          "page": 8,
+          "detail": "8 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "Combined available). Combined PM) Study L2 (second lofexidine"
+        },
+        {
           "kind": "unknown_column_role",
           "detail": "6 columns with role=unknown",
           "ids": [
@@ -7957,7 +7975,7 @@
         },
         {
           "id": "r4",
-          "label_verbatim": "DETOXIFICATION/\nDOUBLE BLIND",
+          "label_verbatim": "DTOXTON/ DOUBLE BLIND",
           "role": "assessment",
           "parent_id": null,
           "level": 0,
@@ -8378,6 +8396,12 @@
       ],
       "footnotes": [],
       "warnings": [
+        {
+          "kind": "orphan_word",
+          "page": 20,
+          "detail": "6 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "Group Subjects 48 Group Subjects 48"
+        },
         {
           "kind": "marker_used_undefined",
           "detail": "marker 'a' used but not defined nearby"

@@ -402,7 +402,11 @@ def _leading_label_cols(pg: PageGrid, n_hdr: int) -> int:
 
 
 def _row_labels(pg: PageGrid, n_hdr: int) -> list[str]:
-    return [" ".join(pg.cells[r][c].text for c in pg.stub_cols).strip()
+    # .value, not .text: strip a raised footnote marker out of the label the way
+    # cell values already do (protocol12 'Alcohol breathalyzer' + marker 'f',
+    # not 'breathalyzerf'). The marker stays in the row's footnote_markers; this
+    # removes the identical double-count we already fixed on value_verbatim.
+    return [" ".join(pg.cells[r][c].value for c in pg.stub_cols).strip()
             for r in range(n_hdr, pg.n_rows)]
 
 
@@ -488,7 +492,7 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
             start = min(start, marked)
         for r in range(start, pg.n_rows):
             rowcells = pg.cells[r]
-            label = " ".join(rowcells[c].text for c in stub).strip()
+            label = " ".join(rowcells[c].value for c in stub).strip()  # marker-stripped (see _row_labels)
             if not label and not any(rowcells[c].text.strip() or rowcells[c].shaded
                                      for c in range(n_cols) if c not in stub):
                 continue                              # wholly empty row

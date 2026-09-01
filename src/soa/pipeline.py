@@ -153,7 +153,8 @@ def run(pdf_path: str, max_candidates: int | None = None,
             # the raw score is kept as locator_score for debugging.
             table["confidence"] = round(cand.score / (cand.score + 1.0), 3)
             table["locator_score"] = round(cand.score, 3)
-            table["warnings"] = verify(table, pagegrids)
+            words_by_page = {pg.page: by_page[pg.page].words for pg in pagegrids}
+            table["warnings"] = verify(table, pagegrids, words_by_page)
             tables.append(table)
 
     # --- Vision fallback for pages with NO text layer (behaviour B) ---

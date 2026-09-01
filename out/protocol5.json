@@ -5160,6 +5160,12 @@
       "footnotes": [],
       "warnings": [
         {
+          "kind": "orphan_word",
+          "page": 51,
+          "detail": "7 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "Type Per a b Number of per"
+        },
+        {
           "kind": "unknown_column_role",
           "detail": "4 columns with role=unknown",
           "ids": [

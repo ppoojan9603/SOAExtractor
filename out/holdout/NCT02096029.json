@@ -203,7 +203,7 @@
         },
         {
           "id": "r10",
-          "label_verbatim": "Cumulative N to start**a",
+          "label_verbatim": "Cumulative N to start**",
           "role": "assessment",
           "parent_id": null,
           "level": 0,
@@ -981,6 +981,12 @@
         }
       ],
       "warnings": [
+        {
+          "kind": "orphan_word",
+          "page": 8,
+          "detail": "5 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "(months) new sites come line"
+        },
         {
           "kind": "marker_used_undefined",
           "detail": "marker '**' used but not defined nearby"

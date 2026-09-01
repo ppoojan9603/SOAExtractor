@@ -325,7 +325,7 @@
         },
         {
           "id": "r10",
-          "label_verbatim": "Physical exam/FEV d\n1",
+          "label_verbatim": "Physical exam/FEV1",
           "role": "assessment",
           "parent_id": "r9",
           "level": 1,
@@ -15195,6 +15195,24 @@
       "footnotes": [],
       "warnings": [
         {
+          "kind": "orphan_word",
+          "page": 52,
+          "detail": "7 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "Events Treatment Group Cabergoline Group Placebo Group"
+        },
+        {
+          "kind": "orphan_word",
+          "page": 53,
+          "detail": "7 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "Events Treatment Group Cabergoline Group Placebo Group"
+        },
+        {
+          "kind": "orphan_word",
+          "page": 54,
+          "detail": "15 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "Events Treatment Group Cabergoline Group Placebo Group 33 6 73 137 1=mild, case each, available)"
+        },
+        {
           "kind": "marker_used_undefined",
           "detail": "marker '*' used but not defined nearby"
         },
@@ -15840,6 +15858,12 @@
       ],
       "footnotes": [],
       "warnings": [
+        {
+          "kind": "orphan_word",
+          "page": 55,
+          "detail": "2 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
+          "text": "Clinically Significant"
+        },
         {
           "kind": "unknown_column_role",
           "detail": "2 columns with role=unknown",

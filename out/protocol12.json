@@ -315,7 +315,7 @@
         },
         {
           "id": "r9",
-          "label_verbatim": "Alcohol breathalyzerf",
+          "label_verbatim": "Alcohol breathalyzer",
           "role": "assessment",
           "parent_id": "r0",
           "level": 1,
@@ -431,7 +431,7 @@
         },
         {
           "id": "r19",
-          "label_verbatim": "Adverse eventsd",
+          "label_verbatim": "Adverse events",
           "role": "assessment",
           "parent_id": "r10",
           "level": 1,
@@ -538,7 +538,7 @@
         },
         {
           "id": "r28",
-          "label_verbatim": "CANTABelectJ",
+          "label_verbatim": "CANTABelect",
           "role": "assessment",
           "parent_id": "r21",
           "level": 1,
@@ -688,7 +688,7 @@
         },
         {
           "id": "r37",
-          "label_verbatim": "CBT compliance ****h",
+          "label_verbatim": "CBT compliance ****",
           "role": "assessment",
           "parent_id": "r21",
           "level": 1,
