@@ -128,7 +128,9 @@ def test_recall_row_and_column_counts(docs):
     they are grouping nodes not timepoints) so a future change that drops a row or
     column trips here -- the highest-penalty failure."""
     expect = {   # (rows, data columns)
-        "protocol1": (29, 17), "protocol5": (31, 12), "protocol9": (43, 12),
+        # protocol1 is 28, not 29: its 'ACTIVITY'/study-week header line is now
+        # recognised as a second header row, not a phantom assessment row.
+        "protocol1": (28, 17), "protocol5": (31, 12), "protocol9": (43, 12),
         "protocol12": (40, 10), "protocol15": (34, 11),
     }
     for name, (nr, nc) in expect.items():

@@ -74,13 +74,33 @@ def _cell_grid(v: list[float], h: list[float]) -> list[list[tuple]]:
     return out
 
 
+#: A short numeric / range / ET-RT token, the content of a timepoint header row.
+_TP_TOK = re.compile(r"^-?\.?\d{1,3}([/\-–]\s*\w+)?$|^(ET|RT|EOT)$", re.I)
+
+
+def _is_tp_tok(s: str) -> bool:
+    return bool(_TP_TOK.match((s or "").strip()))
+
+
 def _header_row_count(text_grid: list[list[str]], stub_cols: list[int]) -> int:
-    """Rows through the timepoint row are header; the rest is body."""
-    stub = stub_cols[0] if stub_cols else 0
+    """Header rows = through the LAST leading row that carries the timepoint
+    VOCABULARY (candidate D), scanning the WHOLE row, not just the stub.
+
+    The old rule tested only the stub cell, so protocol1 -- whose 'VISIT'/'WEEK'
+    header words sit in column 1, not the stub -- fell through to 1 and misfiled
+    its study-week line as a data row. Matching the keyword anywhere in the row
+    catches it (VISIT in row0, WEEK in row1 -> 2 header rows).
+
+    Crucially this keys off the vocabulary word, NOT numeric content: a results
+    table (protocol9 dose stats: N / Mean / Standard Deviation; protocol15 AE
+    frequency) has no VISIT/WEEK/DAY header word, so it stays at 1 and its numeric
+    data rows are NOT swallowed into the header -- which a numeric-token rule did.
+    """
+    last = None
     for r in range(min(len(text_grid), 8)):
-        if TIMEPOINT_ROW.search(text_grid[r][stub] or ""):
-            return r + 1
-    return 1
+        if any(TIMEPOINT_ROW.search(cell or "") for cell in text_grid[r]):
+            last = r
+    return (last + 1) if last is not None else 1
 
 
 def _row_spans(words, cell_bboxes, n_cols, median_size, start_row):
@@ -440,16 +460,16 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
                              colspan=colspan_map.get((r, c), 1),
                              chars=chars_by_cell.get((r, c), [])))
         cells.append(row)
-    # Period bands only exist when a group-header row sits ABOVE the timepoint
-    # row. With a single header row (protocol1: 'VISIT 1 2 3 ...') the numbers ARE
-    # the timepoints, not groups -- the word-extent fallback otherwise invents a
-    # band per visit column.
-    if hdr_rows >= 2:
-        bands = _group_bands_from_rules(pdf_page, g, v, h, cell_bboxes, n_cols,
-                                        stub_cols, hdr_rows)
-        if not bands:                               # fallback: word-extent bands
-            bands = _group_bands(g.words, cell_bboxes, n_cols, g.median_char_size)
-    else:
+    bands = _group_bands_from_rules(pdf_page, g, v, h, cell_bboxes, n_cols,
+                                    stub_cols, hdr_rows)
+    if not bands:                                   # fallback: word-extent bands
+        bands = _group_bands(g.words, cell_bboxes, n_cols, g.median_char_size)
+    # A real group row has at least one header cell SPANNING more than one
+    # column. If every 'band' is a single column, they are just the columns of a
+    # timepoint row (protocol1's 'VISIT 1 2 3 ...'), not groups -- drop them all.
+    # This replaces the old hdr_rows>=2 guard, which broke once protocol1 became
+    # two header rows.
+    if not any(c1 > c0 for c0, c1, _ in bands):
         bands = []
 
     # A window value can span several columns (protocol15 '-4 to 0*' over the

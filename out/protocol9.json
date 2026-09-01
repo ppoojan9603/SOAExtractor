@@ -7874,7 +7874,7 @@
           "index": 1,
           "parent_id": null,
           "level": 0,
-          "label_verbatim": "",
+          "label_verbatim": "Study\nDay",
           "role": "unknown",
           "colspan": 1,
           "footnote_markers": []
@@ -7884,7 +7884,7 @@
           "index": 2,
           "parent_id": null,
           "level": 0,
-          "label_verbatim": "",
+          "label_verbatim": "Morphine",
           "role": "unknown",
           "colspan": 1,
           "footnote_markers": []
@@ -7894,8 +7894,8 @@
           "index": 3,
           "parent_id": null,
           "level": 0,
-          "label_verbatim": "Group I\nSubjects = 48",
-          "role": "study_day",
+          "label_verbatim": "Study Medication\nLofexidine",
+          "role": "unknown",
           "colspan": 1,
           "footnote_markers": []
         },
@@ -7904,8 +7904,8 @@
           "index": 4,
           "parent_id": null,
           "level": 0,
-          "label_verbatim": "Group II\nSubjects = 48",
-          "role": "study_day",
+          "label_verbatim": "Study Medication\nPlacebo",
+          "role": "unknown",
           "colspan": 1,
           "footnote_markers": []
         }
@@ -7913,17 +7913,6 @@
       "rows": [
         {
           "id": "r0",
-          "label_verbatim": "",
-          "role": "assessment",
-          "parent_id": null,
-          "level": 0,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 20,
-          "possible_split": null
-        },
-        {
-          "id": "r1",
           "label_verbatim": "PHASE I",
           "role": "assessment",
           "parent_id": null,
@@ -7934,7 +7923,7 @@
           "possible_split": null
         },
         {
-          "id": "r2",
+          "id": "r1",
           "label_verbatim": "STABILIZATION",
           "role": "assessment",
           "parent_id": null,
@@ -7945,7 +7934,7 @@
           "possible_split": null
         },
         {
-          "id": "r3",
+          "id": "r2",
           "label_verbatim": "",
           "role": "assessment",
           "parent_id": null,
@@ -7956,7 +7945,7 @@
           "possible_split": null
         },
         {
-          "id": "r4",
+          "id": "r3",
           "label_verbatim": "PHASE II",
           "role": "assessment",
           "parent_id": null,
@@ -7967,7 +7956,7 @@
           "possible_split": null
         },
         {
-          "id": "r5",
+          "id": "r4",
           "label_verbatim": "DETOXIFICATION/\nDOUBLE BLIND",
           "role": "assessment",
           "parent_id": null,
@@ -7992,7 +7981,7 @@
           "possible_split": null
         },
         {
-          "id": "r6",
+          "id": "r5",
           "label_verbatim": "MEDICATION",
           "role": "assessment",
           "parent_id": null,
@@ -8003,7 +7992,7 @@
           "possible_split": null
         },
         {
-          "id": "r7",
+          "id": "r6",
           "label_verbatim": "PHASE III",
           "role": "assessment",
           "parent_id": null,
@@ -8014,7 +8003,7 @@
           "possible_split": null
         },
         {
-          "id": "r8",
+          "id": "r7",
           "label_verbatim": "POST MEDICATION",
           "role": "metadata",
           "parent_id": null,
@@ -8028,98 +8017,6 @@
       "cells": [
         {
           "row_id": "r0",
-          "col_id": "c1",
-          "value_verbatim": "Study\nDay",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 20,
-          "bbox": [
-            200.8,
-            157.8,
-            250.2,
-            201.9
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c2",
-          "value_verbatim": "Morphine",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 20,
-          "bbox": [
-            250.2,
-            157.8,
-            340.2,
-            201.9
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c3",
-          "value_verbatim": "Study Medication\nLofexidine",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 20,
-          "bbox": [
-            340.2,
-            157.8,
-            452.8,
-            201.9
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c4",
-          "value_verbatim": "Study Medication\nPlacebo",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 20,
-          "bbox": [
-            452.8,
-            157.8,
-            566.6,
-            201.9
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r1",
           "col_id": "c1",
           "value_verbatim": "1",
           "shaded": true,
@@ -8143,7 +8040,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r1",
+          "row_id": "r0",
           "col_id": "c2",
           "value_verbatim": "75 -100 mg/day",
           "shaded": true,
@@ -8167,7 +8064,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r2",
+          "row_id": "r1",
           "col_id": "c2",
           "value_verbatim": "(s.c.)\n(25 mg TID or\nQID)",
           "shaded": true,
@@ -8191,7 +8088,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r3",
+          "row_id": "r2",
           "col_id": "c1",
           "value_verbatim": "2-3",
           "shaded": true,
@@ -8215,7 +8112,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r3",
+          "row_id": "r2",
           "col_id": "c2",
           "value_verbatim": "100 mg/day\n(s.c.)\n(25 mg QID)",
           "shaded": true,
@@ -8239,7 +8136,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r4",
+          "row_id": "r3",
           "col_id": "c1",
           "value_verbatim": "4-7",
           "shaded": true,
@@ -8263,7 +8160,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r4",
+          "row_id": "r3",
           "col_id": "c3",
           "value_verbatim": "3.2 mg/day (p.o.)",
           "shaded": true,
@@ -8287,7 +8184,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r4",
+          "row_id": "r3",
           "col_id": "c4",
           "value_verbatim": "Placebo (QID)",
           "shaded": true,
@@ -8311,7 +8208,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r5",
+          "row_id": "r4",
           "col_id": "c3",
           "value_verbatim": "(0. 8 mg QID)",
           "shaded": true,
@@ -8335,7 +8232,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r6",
+          "row_id": "r5",
           "col_id": "c1",
           "value_verbatim": "8",
           "shaded": true,
@@ -8359,7 +8256,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r6",
+          "row_id": "r5",
           "col_id": "c3",
           "value_verbatim": "1.6 mg/day (p.o.)\n(0.4 mg QID)",
           "shaded": true,
@@ -8383,7 +8280,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r6",
+          "row_id": "r5",
           "col_id": "c4",
           "value_verbatim": "Placebo (QID)",
           "shaded": true,
@@ -8407,7 +8304,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r7",
+          "row_id": "r6",
           "col_id": "c1",
           "value_verbatim": "9-10",
           "shaded": true,
@@ -8431,7 +8328,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r7",
+          "row_id": "r6",
           "col_id": "c3",
           "value_verbatim": "Placebo (QID)",
           "shaded": true,
@@ -8455,7 +8352,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r7",
+          "row_id": "r6",
           "col_id": "c4",
           "value_verbatim": "Placebo (QID)",
           "shaded": true,
@@ -8503,10 +8400,12 @@
         },
         {
           "kind": "unknown_column_role",
-          "detail": "2 columns with role=unknown",
+          "detail": "4 columns with role=unknown",
           "ids": [
             "c1",
-            "c2"
+            "c2",
+            "c3",
+            "c4"
           ]
         }
       ],

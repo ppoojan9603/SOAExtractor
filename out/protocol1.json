@@ -44,7 +44,8 @@
           "label_verbatim": "1",
           "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "study_day_verbatim": "-2"
         },
         {
           "id": "c3",
@@ -54,7 +55,8 @@
           "label_verbatim": "2",
           "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "study_day_verbatim": "-.3"
         },
         {
           "id": "c4",
@@ -64,7 +66,8 @@
           "label_verbatim": "3",
           "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "study_day_verbatim": "0"
         },
         {
           "id": "c5",
@@ -74,7 +77,8 @@
           "label_verbatim": "4",
           "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "study_day_verbatim": "2"
         },
         {
           "id": "c6",
@@ -84,7 +88,8 @@
           "label_verbatim": "5",
           "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "study_day_verbatim": "4"
         },
         {
           "id": "c7",
@@ -104,7 +109,8 @@
           "label_verbatim": "7",
           "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "study_day_verbatim": "6"
         },
         {
           "id": "c9",
@@ -114,7 +120,8 @@
           "label_verbatim": "8",
           "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "study_day_verbatim": "8"
         },
         {
           "id": "c10",
@@ -123,7 +130,8 @@
           "role": "study_day",
           "colspan": 1,
           "footnote_markers": [],
-          "page": 54
+          "page": 54,
+          "study_day_verbatim": "12"
         },
         {
           "id": "c11",
@@ -132,7 +140,8 @@
           "role": "study_day",
           "colspan": 1,
           "footnote_markers": [],
-          "page": 54
+          "page": 54,
+          "study_day_verbatim": "16"
         },
         {
           "id": "c12",
@@ -141,7 +150,8 @@
           "role": "study_day",
           "colspan": 1,
           "footnote_markers": [],
-          "page": 54
+          "page": 54,
+          "study_day_verbatim": "20"
         },
         {
           "id": "c13",
@@ -150,7 +160,8 @@
           "role": "study_day",
           "colspan": 1,
           "footnote_markers": [],
-          "page": 54
+          "page": 54,
+          "study_day_verbatim": "24"
         },
         {
           "id": "c14",
@@ -159,13 +170,14 @@
           "role": "study_day",
           "colspan": 1,
           "footnote_markers": [],
-          "page": 54
+          "page": 54,
+          "study_day_verbatim": "26"
         },
         {
           "id": "c15",
           "index": 15,
           "label_verbatim": "ET",
-          "role": "study_day",
+          "role": "visit",
           "colspan": 1,
           "footnote_markers": [],
           "page": 54
@@ -174,7 +186,7 @@
           "id": "c16",
           "index": 16,
           "label_verbatim": "RT",
-          "role": "study_day",
+          "role": "visit",
           "colspan": 1,
           "footnote_markers": [],
           "page": 54
@@ -183,17 +195,6 @@
       "rows": [
         {
           "id": "r0",
-          "label_verbatim": "ACTIVITY",
-          "role": "assessment",
-          "parent_id": null,
-          "level": 0,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 53,
-          "possible_split": null
-        },
-        {
-          "id": "r1",
           "label_verbatim": "Informed consent",
           "role": "assessment",
           "parent_id": null,
@@ -204,7 +205,7 @@
           "possible_split": null
         },
         {
-          "id": "r2",
+          "id": "r1",
           "label_verbatim": "Patient number assigned",
           "role": "assessment",
           "parent_id": null,
@@ -215,7 +216,7 @@
           "possible_split": null
         },
         {
-          "id": "r3",
+          "id": "r2",
           "label_verbatim": "Hachinski ≤4",
           "role": "assessment",
           "parent_id": null,
@@ -226,7 +227,7 @@
           "possible_split": null
         },
         {
-          "id": "r4",
+          "id": "r3",
           "label_verbatim": "MMSE 10-23",
           "role": "assessment",
           "parent_id": null,
@@ -237,7 +238,7 @@
           "possible_split": null
         },
         {
-          "id": "r5",
+          "id": "r4",
           "label_verbatim": "Physical examination",
           "role": "assessment",
           "parent_id": null,
@@ -248,7 +249,7 @@
           "possible_split": null
         },
         {
-          "id": "r6",
+          "id": "r5",
           "label_verbatim": "Medical History",
           "role": "assessment",
           "parent_id": null,
@@ -259,7 +260,7 @@
           "possible_split": null
         },
         {
-          "id": "r7",
+          "id": "r6",
           "label_verbatim": "Habits",
           "role": "assessment",
           "parent_id": null,
@@ -270,7 +271,7 @@
           "possible_split": null
         },
         {
-          "id": "r8",
+          "id": "r7",
           "label_verbatim": "Chest x-ray",
           "role": "assessment",
           "parent_id": null,
@@ -281,7 +282,7 @@
           "possible_split": null
         },
         {
-          "id": "r9",
+          "id": "r8",
           "label_verbatim": "Apo E genotyping",
           "role": "assessment",
           "parent_id": null,
@@ -292,7 +293,7 @@
           "possible_split": null
         },
         {
-          "id": "r10",
+          "id": "r9",
           "label_verbatim": "Patient randomized",
           "role": "assessment",
           "parent_id": null,
@@ -303,7 +304,7 @@
           "possible_split": null
         },
         {
-          "id": "r11",
+          "id": "r10",
           "label_verbatim": "Vital signs/Temperature",
           "role": "assessment",
           "parent_id": null,
@@ -314,7 +315,7 @@
           "possible_split": null
         },
         {
-          "id": "r12",
+          "id": "r11",
           "label_verbatim": "Ambulatory ECG placed",
           "role": "assessment",
           "parent_id": null,
@@ -325,7 +326,7 @@
           "possible_split": null
         },
         {
-          "id": "r13",
+          "id": "r12",
           "label_verbatim": "Ambulatory ECG removed",
           "role": "assessment",
           "parent_id": null,
@@ -336,7 +337,7 @@
           "possible_split": null
         },
         {
-          "id": "r14",
+          "id": "r13",
           "label_verbatim": "ECG",
           "role": "assessment",
           "parent_id": null,
@@ -347,7 +348,7 @@
           "possible_split": null
         },
         {
-          "id": "r15",
+          "id": "r14",
           "label_verbatim": "Placebo TTS test",
           "role": "assessment",
           "parent_id": null,
@@ -358,7 +359,7 @@
           "possible_split": null
         },
         {
-          "id": "r16",
+          "id": "r15",
           "label_verbatim": "CT Scan (if not within\nlast year and patient passes\nall other screens)",
           "role": "assessment",
           "parent_id": null,
@@ -369,7 +370,7 @@
           "possible_split": null
         },
         {
-          "id": "r17",
+          "id": "r16",
           "label_verbatim": "Concomitant Medications",
           "role": "assessment",
           "parent_id": null,
@@ -380,7 +381,7 @@
           "possible_split": null
         },
         {
-          "id": "r18",
+          "id": "r17",
           "label_verbatim": "Laboratory (Chem/Hemat):",
           "role": "assessment",
           "parent_id": null,
@@ -391,7 +392,7 @@
           "possible_split": null
         },
         {
-          "id": "r19",
+          "id": "r18",
           "label_verbatim": "Laboratory (Urinalysis)",
           "role": "assessment",
           "parent_id": null,
@@ -402,7 +403,7 @@
           "possible_split": null
         },
         {
-          "id": "r20",
+          "id": "r19",
           "label_verbatim": "Plasma Specimen\n(Xanomeline)",
           "role": "assessment",
           "parent_id": null,
@@ -413,7 +414,7 @@
           "possible_split": null
         },
         {
-          "id": "r21",
+          "id": "r20",
           "label_verbatim": "Hemoglobin A1C",
           "role": "assessment",
           "parent_id": null,
@@ -424,7 +425,7 @@
           "possible_split": null
         },
         {
-          "id": "r22",
+          "id": "r21",
           "label_verbatim": "Study drug record\nMedications dispensed\nMedications returned",
           "role": "assessment",
           "parent_id": null,
@@ -435,7 +436,7 @@
           "possible_split": null
         },
         {
-          "id": "r23",
+          "id": "r22",
           "label_verbatim": "TTS Acceptability Survey",
           "role": "assessment",
           "parent_id": null,
@@ -446,7 +447,7 @@
           "possible_split": null
         },
         {
-          "id": "r24",
+          "id": "r23",
           "label_verbatim": "ADAS-Cog",
           "role": "assessment",
           "parent_id": null,
@@ -457,7 +458,7 @@
           "possible_split": null
         },
         {
-          "id": "r25",
+          "id": "r24",
           "label_verbatim": "CIBIC+",
           "role": "assessment",
           "parent_id": null,
@@ -468,7 +469,7 @@
           "possible_split": null
         },
         {
-          "id": "r26",
+          "id": "r25",
           "label_verbatim": "DAD",
           "role": "assessment",
           "parent_id": null,
@@ -479,7 +480,7 @@
           "possible_split": null
         },
         {
-          "id": "r27",
+          "id": "r26",
           "label_verbatim": "NPI-X",
           "role": "assessment",
           "parent_id": null,
@@ -490,7 +491,7 @@
           "possible_split": null
         },
         {
-          "id": "r28",
+          "id": "r27",
           "label_verbatim": "Adverse events",
           "role": "assessment",
           "parent_id": null,
@@ -504,190 +505,6 @@
       "cells": [
         {
           "row_id": "r0",
-          "col_id": "c1",
-          "value_verbatim": "WEEK",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 53,
-          "bbox": [
-            238.2,
-            157.8,
-            274.5,
-            171.6
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c2",
-          "value_verbatim": "-2",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 53,
-          "bbox": [
-            274.5,
-            157.8,
-            306.0,
-            171.6
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c3",
-          "value_verbatim": "-.3",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 53,
-          "bbox": [
-            306.0,
-            157.8,
-            337.5,
-            171.6
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c4",
-          "value_verbatim": "0",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 53,
-          "bbox": [
-            337.5,
-            157.8,
-            369.0,
-            171.6
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c5",
-          "value_verbatim": "2",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 53,
-          "bbox": [
-            369.0,
-            157.8,
-            400.5,
-            171.6
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c6",
-          "value_verbatim": "4",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 53,
-          "bbox": [
-            400.5,
-            157.8,
-            432.0,
-            171.6
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c8",
-          "value_verbatim": "6",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 53,
-          "bbox": [
-            463.5,
-            157.8,
-            495.0,
-            171.6
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c9",
-          "value_verbatim": "8",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 53,
-          "bbox": [
-            495.0,
-            157.8,
-            526.5,
-            171.6
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r1",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -710,7 +527,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r2",
+          "row_id": "r1",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -733,7 +550,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r3",
+          "row_id": "r2",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -756,7 +573,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r4",
+          "row_id": "r3",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -779,7 +596,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r5",
+          "row_id": "r4",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -802,7 +619,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r6",
+          "row_id": "r5",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -825,7 +642,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r7",
+          "row_id": "r6",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -848,7 +665,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r8",
+          "row_id": "r7",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -871,7 +688,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r9",
+          "row_id": "r8",
           "col_id": "c5",
           "value_verbatim": "X",
           "shaded": false,
@@ -894,7 +711,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r10",
+          "row_id": "r9",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -917,7 +734,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -940,7 +757,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c3",
           "value_verbatim": "X",
           "shaded": false,
@@ -963,7 +780,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -986,7 +803,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c5",
           "value_verbatim": "X",
           "shaded": false,
@@ -1009,7 +826,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c6",
           "value_verbatim": "X",
           "shaded": false,
@@ -1032,7 +849,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c8",
           "value_verbatim": "X",
           "shaded": false,
@@ -1055,7 +872,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c9",
           "value_verbatim": "X",
           "shaded": false,
@@ -1078,7 +895,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r12",
+          "row_id": "r11",
           "col_id": "c3",
           "value_verbatim": "X",
           "shaded": false,
@@ -1101,7 +918,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r13",
+          "row_id": "r12",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -1124,7 +941,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -1147,7 +964,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c5",
           "value_verbatim": "X",
           "shaded": false,
@@ -1170,7 +987,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c6",
           "value_verbatim": "X",
           "shaded": false,
@@ -1193,7 +1010,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c8",
           "value_verbatim": "X",
           "shaded": false,
@@ -1216,7 +1033,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c9",
           "value_verbatim": "X",
           "shaded": false,
@@ -1239,7 +1056,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r15",
+          "row_id": "r14",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -1262,7 +1079,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r16",
+          "row_id": "r15",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -1285,7 +1102,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -1308,7 +1125,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -1331,7 +1148,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c5",
           "value_verbatim": "X",
           "shaded": false,
@@ -1354,7 +1171,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c6",
           "value_verbatim": "X",
           "shaded": false,
@@ -1377,7 +1194,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c8",
           "value_verbatim": "X",
           "shaded": false,
@@ -1400,7 +1217,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c9",
           "value_verbatim": "X",
           "shaded": false,
@@ -1423,7 +1240,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -1446,7 +1263,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c5",
           "value_verbatim": "X",
           "shaded": false,
@@ -1469,7 +1286,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c6",
           "value_verbatim": "X",
           "shaded": false,
@@ -1492,7 +1309,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c8",
           "value_verbatim": "X",
           "shaded": false,
@@ -1515,7 +1332,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c9",
           "value_verbatim": "X",
           "shaded": false,
@@ -1538,7 +1355,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r19",
+          "row_id": "r18",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -1561,7 +1378,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r19",
+          "row_id": "r18",
           "col_id": "c5",
           "value_verbatim": "X",
           "shaded": false,
@@ -1584,7 +1401,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r20",
+          "row_id": "r19",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -1607,7 +1424,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r20",
+          "row_id": "r19",
           "col_id": "c5",
           "value_verbatim": "X",
           "shaded": false,
@@ -1630,7 +1447,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r20",
+          "row_id": "r19",
           "col_id": "c6",
           "value_verbatim": "X",
           "shaded": false,
@@ -1653,7 +1470,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r20",
+          "row_id": "r19",
           "col_id": "c8",
           "value_verbatim": "X",
           "shaded": false,
@@ -1676,7 +1493,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r21",
+          "row_id": "r20",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -1703,7 +1520,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -1726,7 +1543,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c5",
           "value_verbatim": "X",
           "shaded": false,
@@ -1749,7 +1566,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c6",
           "value_verbatim": "X",
           "shaded": false,
@@ -1772,7 +1589,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c8",
           "value_verbatim": "X",
           "shaded": false,
@@ -1795,7 +1612,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c9",
           "value_verbatim": "X",
           "shaded": false,
@@ -1818,7 +1635,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r24",
+          "row_id": "r23",
           "col_id": "c2",
           "value_verbatim": "P",
           "shaded": false,
@@ -1841,7 +1658,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r24",
+          "row_id": "r23",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -1864,7 +1681,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r24",
+          "row_id": "r23",
           "col_id": "c9",
           "value_verbatim": "X",
           "shaded": false,
@@ -1887,7 +1704,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r25",
+          "row_id": "r24",
           "col_id": "c2",
           "value_verbatim": "P",
           "shaded": false,
@@ -1910,7 +1727,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r25",
+          "row_id": "r24",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -1933,7 +1750,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r25",
+          "row_id": "r24",
           "col_id": "c9",
           "value_verbatim": "X",
           "shaded": false,
@@ -1956,7 +1773,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r26",
+          "row_id": "r25",
           "col_id": "c2",
           "value_verbatim": "P",
           "shaded": false,
@@ -1979,7 +1796,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r26",
+          "row_id": "r25",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -2002,7 +1819,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r26",
+          "row_id": "r25",
           "col_id": "c9",
           "value_verbatim": "X",
           "shaded": false,
@@ -2025,7 +1842,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c2",
           "value_verbatim": "P",
           "shaded": false,
@@ -2048,7 +1865,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -2071,7 +1888,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c5",
           "value_verbatim": "X",
           "shaded": false,
@@ -2094,7 +1911,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c6",
           "value_verbatim": "X",
           "shaded": false,
@@ -2117,7 +1934,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c8",
           "value_verbatim": "X",
           "shaded": false,
@@ -2140,7 +1957,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c9",
           "value_verbatim": "X",
           "shaded": false,
@@ -2167,7 +1984,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c2",
           "value_verbatim": "X",
           "shaded": false,
@@ -2190,7 +2007,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c3",
           "value_verbatim": "X",
           "shaded": false,
@@ -2213,7 +2030,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c4",
           "value_verbatim": "X",
           "shaded": false,
@@ -2236,7 +2053,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c5",
           "value_verbatim": "X",
           "shaded": false,
@@ -2259,7 +2076,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c6",
           "value_verbatim": "X",
           "shaded": false,
@@ -2282,7 +2099,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c8",
           "value_verbatim": "X",
           "shaded": false,
@@ -2305,7 +2122,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c9",
           "value_verbatim": "X",
           "shaded": false,
@@ -2328,122 +2145,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r0",
-          "col_id": "c10",
-          "value_verbatim": "12",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 54,
-          "bbox": [
-            270.2,
-            105.1,
-            305.6,
-            118.9
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c11",
-          "value_verbatim": "16",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 54,
-          "bbox": [
-            305.6,
-            105.1,
-            341.0,
-            118.9
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c12",
-          "value_verbatim": "20",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 54,
-          "bbox": [
-            341.0,
-            105.1,
-            376.5,
-            118.9
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c13",
-          "value_verbatim": "24",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 54,
-          "bbox": [
-            376.5,
-            105.1,
-            412.0,
-            118.9
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r0",
-          "col_id": "c14",
-          "value_verbatim": "26",
-          "shaded": false,
-          "colspan": 1,
-          "rowspan": 1,
-          "footnote_markers": [],
-          "sup_markers": [],
-          "page": 54,
-          "bbox": [
-            412.0,
-            105.1,
-            447.4,
-            118.9
-          ],
-          "evidence": [
-            "text_layer"
-          ],
-          "authored_by": "geometry",
-          "ambiguous": false,
-          "ambiguity_reason": null
-        },
-        {
-          "row_id": "r5",
+          "row_id": "r4",
           "col_id": "c14",
           "value_verbatim": "X",
           "shaded": false,
@@ -2466,7 +2168,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r5",
+          "row_id": "r4",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -2489,7 +2191,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c10",
           "value_verbatim": "X",
           "shaded": false,
@@ -2512,7 +2214,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c11",
           "value_verbatim": "X",
           "shaded": false,
@@ -2535,7 +2237,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c12",
           "value_verbatim": "X",
           "shaded": false,
@@ -2558,7 +2260,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -2581,7 +2283,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c14",
           "value_verbatim": "X",
           "shaded": false,
@@ -2604,7 +2306,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -2627,7 +2329,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r11",
+          "row_id": "r10",
           "col_id": "c16",
           "value_verbatim": "X",
           "shaded": false,
@@ -2650,7 +2352,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c10",
           "value_verbatim": "X",
           "shaded": false,
@@ -2673,7 +2375,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c11",
           "value_verbatim": "X",
           "shaded": false,
@@ -2696,7 +2398,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c12",
           "value_verbatim": "X",
           "shaded": false,
@@ -2719,7 +2421,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -2742,7 +2444,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c14",
           "value_verbatim": "X",
           "shaded": false,
@@ -2765,7 +2467,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r14",
+          "row_id": "r13",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -2788,7 +2490,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c10",
           "value_verbatim": "X",
           "shaded": false,
@@ -2811,7 +2513,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c11",
           "value_verbatim": "X",
           "shaded": false,
@@ -2834,7 +2536,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c12",
           "value_verbatim": "X",
           "shaded": false,
@@ -2857,7 +2559,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -2880,7 +2582,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c14",
           "value_verbatim": "X",
           "shaded": false,
@@ -2903,7 +2605,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -2926,7 +2628,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r17",
+          "row_id": "r16",
           "col_id": "c16",
           "value_verbatim": "X",
           "shaded": false,
@@ -2949,7 +2651,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c10",
           "value_verbatim": "X",
           "shaded": false,
@@ -2972,7 +2674,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c11",
           "value_verbatim": "X",
           "shaded": false,
@@ -2995,7 +2697,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c12",
           "value_verbatim": "X",
           "shaded": false,
@@ -3018,7 +2720,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -3041,7 +2743,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c14",
           "value_verbatim": "X",
           "shaded": false,
@@ -3064,7 +2766,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r18",
+          "row_id": "r17",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -3087,7 +2789,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r19",
+          "row_id": "r18",
           "col_id": "c10",
           "value_verbatim": "X",
           "shaded": false,
@@ -3110,7 +2812,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r19",
+          "row_id": "r18",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -3133,7 +2835,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r19",
+          "row_id": "r18",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -3156,7 +2858,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r20",
+          "row_id": "r19",
           "col_id": "c10",
           "value_verbatim": "X",
           "shaded": false,
@@ -3179,7 +2881,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r20",
+          "row_id": "r19",
           "col_id": "c12",
           "value_verbatim": "X",
           "shaded": false,
@@ -3202,7 +2904,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r20",
+          "row_id": "r19",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -3225,7 +2927,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c10",
           "value_verbatim": "X",
           "shaded": false,
@@ -3248,7 +2950,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c11",
           "value_verbatim": "X",
           "shaded": false,
@@ -3271,7 +2973,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c12",
           "value_verbatim": "X",
           "shaded": false,
@@ -3294,7 +2996,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -3317,7 +3019,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c14",
           "value_verbatim": "X",
           "shaded": false,
@@ -3340,7 +3042,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r22",
+          "row_id": "r21",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -3363,7 +3065,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r23",
+          "row_id": "r22",
           "col_id": "c14",
           "value_verbatim": "X",
           "shaded": false,
@@ -3386,7 +3088,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r23",
+          "row_id": "r22",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -3409,7 +3111,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r24",
+          "row_id": "r23",
           "col_id": "c11",
           "value_verbatim": "X",
           "shaded": false,
@@ -3432,7 +3134,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r24",
+          "row_id": "r23",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -3455,7 +3157,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r24",
+          "row_id": "r23",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -3478,7 +3180,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r24",
+          "row_id": "r23",
           "col_id": "c16",
           "value_verbatim": "X",
           "shaded": false,
@@ -3501,7 +3203,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r25",
+          "row_id": "r24",
           "col_id": "c11",
           "value_verbatim": "X",
           "shaded": false,
@@ -3524,7 +3226,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r25",
+          "row_id": "r24",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -3547,7 +3249,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r25",
+          "row_id": "r24",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -3570,7 +3272,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r25",
+          "row_id": "r24",
           "col_id": "c16",
           "value_verbatim": "X",
           "shaded": false,
@@ -3593,7 +3295,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r26",
+          "row_id": "r25",
           "col_id": "c11",
           "value_verbatim": "X",
           "shaded": false,
@@ -3616,7 +3318,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r26",
+          "row_id": "r25",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -3639,7 +3341,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r26",
+          "row_id": "r25",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -3662,7 +3364,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r26",
+          "row_id": "r25",
           "col_id": "c16",
           "value_verbatim": "X",
           "shaded": false,
@@ -3685,7 +3387,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c10",
           "value_verbatim": "X",
           "shaded": false,
@@ -3712,7 +3414,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c11",
           "value_verbatim": "X",
           "shaded": false,
@@ -3739,7 +3441,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c12",
           "value_verbatim": "X",
           "shaded": false,
@@ -3766,7 +3468,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -3789,7 +3491,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c14",
           "value_verbatim": "X",
           "shaded": false,
@@ -3812,7 +3514,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -3835,7 +3537,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r27",
+          "row_id": "r26",
           "col_id": "c16",
           "value_verbatim": "X",
           "shaded": false,
@@ -3858,7 +3560,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c10",
           "value_verbatim": "X",
           "shaded": false,
@@ -3881,7 +3583,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c11",
           "value_verbatim": "X",
           "shaded": false,
@@ -3904,7 +3606,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c12",
           "value_verbatim": "X",
           "shaded": false,
@@ -3927,7 +3629,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c13",
           "value_verbatim": "X",
           "shaded": false,
@@ -3950,7 +3652,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c14",
           "value_verbatim": "X",
           "shaded": false,
@@ -3973,7 +3675,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c15",
           "value_verbatim": "X",
           "shaded": false,
@@ -3996,7 +3698,7 @@
           "ambiguity_reason": null
         },
         {
-          "row_id": "r28",
+          "row_id": "r27",
           "col_id": "c16",
           "value_verbatim": "X",
           "shaded": false,

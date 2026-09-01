@@ -9,7 +9,8 @@ from __future__ import annotations
 import re
 
 from .grid import (PageGrid, evaluate_split, detect_divider_columns,
-                   detect_divider_rows, promote_equal_size_markers)
+                   detect_divider_rows, promote_equal_size_markers,
+                   _header_row_count, _is_tp_tok)
 
 from .grid import TIMEPOINT_ROW as _TIMEPOINT_ROW
 _INT = re.compile(r"^\d{1,3}([/\-–]\w+)?$")
@@ -17,12 +18,12 @@ _MARKER_SUFFIX = re.compile(r"([*]{1,4}|[a-jA-J])$")
 
 
 def _find_header_rows(pg: PageGrid) -> int:
-    """Return the number of header rows (through the timepoint row)."""
-    for r in range(min(pg.n_rows, 8)):
-        label = pg.cells[r][pg.stub_cols[-1]].text if pg.stub_cols else pg.cells[r][0].text
-        if _TIMEPOINT_ROW.search(label or ""):
-            return r + 1
-    return 1
+    """Number of header rows -- delegates to the canonical body-cell rule
+    (grid._header_row_count, candidate C). Inspecting the whole row rather than
+    just the stub is what lets protocol1's stacked VISIT/WEEK header (vocabulary
+    in column 1) be recognised as two header rows instead of one."""
+    text_grid = [[c.text for c in row] for row in pg.cells]
+    return _header_row_count(text_grid, pg.stub_cols)
 
 
 def _split_marker(text: str) -> tuple[str, list[str]]:
@@ -216,10 +217,32 @@ def header_bands(pg: PageGrid, n_hdr: int, data_start: int) -> list[tuple[int, i
     return bands
 
 
+def _timepoint_rows(header: PageGrid, n_header_rows: int) -> list[int]:
+    """Header rows that are timepoint rows (body cells majority short timepoint
+    tokens). A group row (text like 'Screening/Baseline') has none; protocol1 has
+    two stacked (VISIT numbers, then study WEEK)."""
+    stub = set(header.stub_cols)
+    out = []
+    for r in range(n_header_rows):
+        ne = [header.cells[r][c].text for c in range(header.n_cols)
+              if c not in stub and header.cells[r][c].text.strip()]
+        if ne and sum(1 for b in ne if _is_tp_tok(b)) >= 0.5 * len(ne):
+            out.append(r)
+    return out
+
+
 def build_columns(header: PageGrid, n_header_rows: int) -> list[dict]:
     """Columns as a tree: period bands parent the timepoint columns they cover."""
     cols = []
-    tp_row = n_header_rows - 1
+    # Which header rows are timepoint rows (majority short timepoint tokens in
+    # the body). protocol1 has TWO stacked -- VISIT number (row0) and study WEEK
+    # (row1); the others have one. The primary timepoint row (last one) drives
+    # role/window/study_day; when two are stacked, the FIRST supplies the visit
+    # label and the LAST the study-day/week value.
+    tp_rows = _timepoint_rows(header, n_header_rows)
+    day_row = tp_rows[-1] if tp_rows else n_header_rows - 1
+    label_row = tp_rows[0] if len(tp_rows) >= 2 else day_row
+    two_stacked = len(tp_rows) >= 2
     data_start = _leading_label_cols(header, n_header_rows)
     bands = [b for b in header.group_bands if b[0] >= data_start]
     dividers = set(detect_divider_columns(header, n_header_rows))
@@ -236,7 +259,7 @@ def build_columns(header: PageGrid, n_header_rows: int) -> list[dict]:
             band_of[c] = bid
 
     for c in range(header.n_cols):
-        label = header.cells[tp_row][c].text
+        label = header.cells[label_row][c].text
         if c in dividers:
             # a milestone letter-stack: never a timepoint (DECISIONS row 9)
             joined = "".join(
@@ -249,7 +272,11 @@ def build_columns(header: PageGrid, n_header_rows: int) -> list[dict]:
         if c in header.stub_cols:
             role, window = "row_header", None
         else:
-            role, window = _column_role_and_window(label)
+            role, window = _column_role_and_window(header.cells[day_row][c].text)
+            # stacked headers: an ET/RT visit column has no study-week value, so
+            # the day row is empty -> fall back to the visit-label row for the role
+            if two_stacked and role == "unknown":
+                role = _column_role_and_window(header.cells[label_row][c].text)[0]
             # a window value spanning several columns (protocol15 '-4 to 0*'):
             # use the reconstructed full run, not this column's fragment label
             if c in header.header_spans:
@@ -260,6 +287,13 @@ def build_columns(header: PageGrid, n_header_rows: int) -> list[dict]:
                "level": 1 if parent else 0,
                "label_verbatim": label, "role": role, "colspan": 1,
                "footnote_markers": []}
+        # two stacked timepoint rows (protocol1): the visit number is the label,
+        # the study day/week is a distinct axis -- NOT a window (a window is an
+        # allowable range like 'Day 15 +/- 3 days'; '-2' is a study week).
+        if two_stacked and role in ("study_day", "visit"):
+            sd = header.cells[day_row][c].text
+            if sd.strip():
+                col["study_day_verbatim"] = sd
         if window is not None:
             col["window_verbatim"] = window          # graded, lossless
             col["window_parsed"] = _parse_window(window)   # advisory, may be null
@@ -608,14 +642,25 @@ def _assemble_column_continuation(pagegrids, fn_pages_text, pages, title) -> dic
             continue
         data_start = _leading_label_cols(pg, pg_hdr)
         appended = {}
-        tp = pg_hdr - 1
+        # same stacked-header mapping as build_columns: visit number labels,
+        # study day/week as a distinct axis (protocol1 p54: visits 9-13/ET/RT,
+        # weeks 12/16/20/24/26).
+        pg_tp = _timepoint_rows(pg, pg_hdr)
+        pg_day = pg_tp[-1] if pg_tp else pg_hdr - 1
+        pg_label = pg_tp[0] if len(pg_tp) >= 2 else pg_day
+        pg_two = len(pg_tp) >= 2
         for c in range(data_start, pg.n_cols):
             cid = f"c{next_col}"; next_col += 1
             appended[c] = cid
-            label = pg.cells[tp][c].text
-            role = "study_day" if _TP_VALUE.match((label or "").strip()) else "unknown"
-            columns.append({"id": cid, "index": next_col - 1, "label_verbatim": label,
-                            "role": role, "colspan": 1, "footnote_markers": [], "page": pg.page})
+            label = pg.cells[pg_label][c].text
+            role, _win = _column_role_and_window(pg.cells[pg_day][c].text)
+            if pg_two and role == "unknown":          # ET/RT: role from visit label
+                role = _column_role_and_window(label)[0]
+            col = {"id": cid, "index": next_col - 1, "label_verbatim": label,
+                   "role": role, "colspan": 1, "footnote_markers": [], "page": pg.page}
+            if pg_two and role in ("study_day", "visit") and pg.cells[pg_day][c].text.strip():
+                col["study_day_verbatim"] = pg.cells[pg_day][c].text
+            columns.append(col)
         for ri, label in enumerate(pg_labels):
             row_id = row_id_by_label.get(label)
             if row_id is None:
