@@ -246,23 +246,82 @@ def build_columns(header: PageGrid, n_header_rows: int) -> list[dict]:
                          "label_verbatim": joined, "role": "divider", "colspan": 1,
                          "footnote_markers": []})
             continue
-        role = "row_header" if c in header.stub_cols else "unknown"
-        if role == "unknown":
-            if _TP_VALUE.match((label or "").strip()):
+        if c in header.stub_cols:
+            role, window = "row_header", None
+        else:
+            role, window = _column_role_and_window(label)
+            # a window value spanning several columns (protocol15 '-4 to 0*'):
+            # use the reconstructed full run, not this column's fragment label
+            if c in header.header_spans:
                 role = "study_day"
-            elif re.search(r"day|week|visit", label or "", re.I):
-                role = "study_day"
+                window = header.header_spans[c]
         parent = band_of.get(c) if role != "row_header" else None
-        cols.append({"id": f"c{c}", "index": c, "parent_id": parent,
-                     "level": 1 if parent else 0,
-                     "label_verbatim": label, "role": role, "colspan": 1,
-                     "footnote_markers": []})
+        col = {"id": f"c{c}", "index": c, "parent_id": parent,
+               "level": 1 if parent else 0,
+               "label_verbatim": label, "role": role, "colspan": 1,
+               "footnote_markers": []}
+        if window is not None:
+            col["window_verbatim"] = window          # graded, lossless
+            col["window_parsed"] = _parse_window(window)   # advisory, may be null
+        cols.append(col)
     return cols
 
 
-def _body_has_content(cells, stub_cols, n_cols) -> bool:
+def _column_role_and_window(label: str) -> tuple[str, str | None]:
+    """Role + window_verbatim for a timepoint column.
+
+    A bare point ('4', '-6', 'ET') is a study_day/visit with no window. A label
+    that expresses a span or relative timing ('1-3', '9 -11', '12/ Term',
+    '-4 to 0*', 'Up to -35', '14-21 days prior to randomization', 'Day 15 ± 3
+    days') is still a timepoint column, and its verbatim label is the visit
+    window -- named explicitly in the spec. Whitespace is normalised only for
+    the TEST; window_verbatim keeps the original label losslessly.
+    """
+    n = re.sub(r"\s+", " ", (label or "")).strip()
+    if not n:
+        return "unknown", None
+    if re.fullmatch(r"-?\d{1,3}", n):                     # bare point
+        return "study_day", None
+    if re.fullmatch(r"(ET|RT|EOT)", n, re.I):
+        return "visit", None
+    is_window = bool(re.search(r"\d", n) and (
+        re.search(r"[-–]\s*\d", n) or
+        re.search(r"\b(to|thru|through|prior|up to)\b|±|\+/-|/\s*term|day|week", n, re.I)))
+    if is_window:
+        return "study_day", label                         # verbatim, unnormalised
+    if re.search(r"\d", n):
+        return "study_day", None
+    # A words-only header ('VISIT', 'WEEK', 'Study Day') is a LABEL column, not a
+    # timepoint -- real timepoint columns always carry a digit/ET/RT. Do NOT use a
+    # bare day|week|visit word match here: it misclassified protocol1's 'VISIT'
+    # label column as a timepoint and shifted the column merge.
+    return "unknown", None
+
+
+def _parse_window(verbatim: str) -> dict | None:
+    """Advisory parse of the 'Day N ± M days' window form. Null for anything else.
+
+    Handles ASCII '+/-' and unicode '±'. Deliberately does NOT invent parses for
+    forms we cannot test on the five (ranges/relative strings keep parsed=null);
+    window_verbatim already carries those losslessly.
+    """
+    n = re.sub(r"\s+", " ", verbatim or "")
+    m = re.search(r"(?:day|week)?\s*(-?\d+)\s*(?:±|\+/-)\s*(\d+)", n, re.I)
+    if m:
+        day, delta = int(m.group(1)), int(m.group(2))
+        return {"day": day, "minus": delta, "plus": delta}
+    return None
+
+
+def _body_has_content(cells, stub_cols, n_cols, divider_cols=frozenset()) -> bool:
+    """Any real body content, ignoring stub and divider columns.
+
+    Divider columns (RANDOMIZATION) leak a stacked letter into every row; without
+    excluding them a section row like 'Safety' looks non-empty (its band row
+    catches the divider's 'Z') and is misread as an assessment.
+    """
     return any(cells[c].text.strip() or cells[c].shaded
-               for c in range(n_cols) if c not in stub_cols)
+               for c in range(n_cols) if c not in stub_cols and c not in divider_cols)
 
 
 def classify_empty_band(label: str) -> str:
@@ -300,8 +359,10 @@ def _leading_label_cols(pg: PageGrid, n_hdr: int) -> int:
     """
     tp = n_hdr - 1
     for c in range(pg.n_cols):
-        val = (pg.cells[tp][c].text or "").strip()
-        if _TP_VALUE.match(val):
+        if c in pg.stub_cols:
+            continue
+        role, _ = _column_role_and_window(pg.cells[tp][c].text)
+        if role in ("study_day", "visit"):     # first real timepoint column
             return c
     return max(pg.stub_cols) + 1 if pg.stub_cols else 1
 
@@ -359,6 +420,7 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
 
     rows, cells = [], []
     deferred_pages: list[int] = []
+    current_category = None          # row_id of the section the current rows fall under
     rid = 0
     for pg in pagegrids:
         sizes = [ch.get("size") for row in pg.cells for c in row for ch in c.chars
@@ -391,7 +453,10 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
                 for part in split[1]:
                     row_id = f"r{rid}"
                     rows.append({"id": row_id, "label_verbatim": part["label"],
-                                 "role": "assessment", "footnote_markers": [],
+                                 "role": "assessment",
+                                 "parent_id": current_category,
+                                 "level": 1 if current_category else 0,
+                                 "footnote_markers": [],
                                  "sup_markers": [], "page": pg.page,
                                  "possible_split": None, "split_from_band": True})
                     for c, txt in part["marks"]:
@@ -410,7 +475,7 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
                     rid += 1
                 continue
 
-            if not _body_has_content(rowcells, stub, n_cols):
+            if not _body_has_content(rowcells, stub, n_cols, divider_cols):
                 role = classify_empty_band(label)
                 if role == "label_continuation" and rows:
                     # merge overflow line into the previous row's label
@@ -418,17 +483,34 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
                         rows[-1]["label_verbatim"] + " " + label.strip()
                     ).strip()
                     continue
+                # a body-empty row sitting in a full-width stub-covering band is a
+                # SECTION header (protocol12/15 Screening/Safety/Efficacy). Zebra
+                # rows also band the stub but have body content, so they never
+                # reach here. Only promote when the band signal agrees; otherwise
+                # keep the classify_empty_band verdict (':' category / metadata).
+                if r in pg.banded_rows and role != "category_header":
+                    role = "category_header"
             else:
                 role = "assessment"
             row_id = f"r{rid}"
             row_sup = [m for c in stub for m in rowcells[c].sup_markers]
             if r in divider_rows:
                 role = "divider"
+            # row hierarchy: assessment rows fall under the current category until
+            # the next category row. Categories/dividers/metadata sit at top level.
+            if role == "category_header":
+                current_category = row_id
+                parent_id, level = None, 0
+            elif role == "assessment" and current_category:
+                parent_id, level = current_category, 1
+            else:
+                parent_id, level = None, 0
             grey = ({"stub_lines": [{"label": p["label"], "marks": p["marks"]}
                                     for p in split[1]]}
                     if split and split[0] == "grey" else None)
             rows.append({"id": row_id, "label_verbatim": label,
-                         "role": role, "footnote_markers": [],
+                         "role": role, "parent_id": parent_id, "level": level,
+                         "footnote_markers": [],
                          "sup_markers": row_sup, "page": pg.page,
                          "possible_split": grey})
             for c in range(n_cols):
@@ -502,7 +584,7 @@ def _assemble_column_continuation(pagegrids, fn_pages_text, pages, title) -> dic
         row_id = f"r{ri}"
         row_id_by_label[label] = row_id
         rows.append({"id": row_id, "label_verbatim": label, "role": "assessment",
-                     "footnote_markers": [],
+                     "parent_id": None, "level": 0, "footnote_markers": [],
                      "sup_markers": [m for c in stub for m in head.cells[r][c].sup_markers],
                      "page": head.page, "possible_split": None})
         for c in range(head.n_cols):

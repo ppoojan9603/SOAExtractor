@@ -37,23 +37,36 @@
           "level": 0,
           "label_verbatim": "Detoxification:",
           "role": "period",
-          "colspan": 3,
+          "colspan": 5,
           "footnote_markers": [],
           "covers": [
-            5,
-            7
+            4,
+            8
           ]
         },
         {
           "id": "g2",
           "parent_id": null,
           "level": 0,
-          "label_verbatim": "Post Med/ Medical",
+          "label_verbatim": "Post Med/",
           "role": "period",
-          "colspan": 3,
+          "colspan": 2,
           "footnote_markers": [],
           "covers": [
             9,
+            10
+          ]
+        },
+        {
+          "id": "g3",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Medical",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            11,
             11
           ]
         },
@@ -100,8 +113,8 @@
         {
           "id": "c4",
           "index": 4,
-          "parent_id": null,
-          "level": 0,
+          "parent_id": "g1",
+          "level": 1,
           "label_verbatim": "4",
           "role": "study_day",
           "colspan": 1,
@@ -140,8 +153,8 @@
         {
           "id": "c8",
           "index": 8,
-          "parent_id": null,
-          "level": 0,
+          "parent_id": "g1",
+          "level": 1,
           "label_verbatim": "8",
           "role": "study_day",
           "colspan": 1,
@@ -170,7 +183,7 @@
         {
           "id": "c11",
           "index": 11,
-          "parent_id": "g2",
+          "parent_id": "g3",
           "level": 1,
           "label_verbatim": "11",
           "role": "study_day",
@@ -183,6 +196,8 @@
           "id": "r0",
           "label_verbatim": "Date",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 26,
@@ -192,6 +207,8 @@
           "id": "r1",
           "label_verbatim": "Day of Week",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 26,
@@ -201,6 +218,8 @@
           "id": "r2",
           "label_verbatim": "Informed Consent, Screening Opiate\n(01),\nScreening\n(02)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "01",
             "02"
@@ -213,6 +232,8 @@
           "id": "r3",
           "label_verbatim": "* Morphine (0600, 1100, 1630, 2200 h)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "*"
           ],
@@ -224,6 +245,8 @@
           "id": "r4",
           "label_verbatim": "**Lofexidine or Placebo\n(0800, 1300, 1800, 2300 h)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "**"
           ],
@@ -235,6 +258,8 @@
           "id": "r5",
           "label_verbatim": "Medical History\n(03)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "03"
           ],
@@ -246,6 +271,8 @@
           "id": "r6",
           "label_verbatim": "Physical Examination\n(04) (Study Day 1 and Exit Day)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "04"
           ],
@@ -257,6 +284,8 @@
           "id": "r7",
           "label_verbatim": "Prior Medications\n(05)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "05"
           ],
@@ -268,6 +297,8 @@
           "id": "r8",
           "label_verbatim": "Laboratory Assessments: Blood Urine\n(06,07), (08)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "08"
           ],
@@ -279,6 +310,8 @@
           "id": "r9",
           "label_verbatim": "Serum Pregnancy Test (Beta HCG)\n(09)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "09"
           ],
@@ -290,6 +323,8 @@
           "id": "r10",
           "label_verbatim": "Tuberculosis Skin Test (PPD), RPR, CD4\n(10)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "10"
           ],
@@ -301,6 +336,8 @@
           "id": "r11",
           "label_verbatim": "HIV (optional, per separate consent)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 26,
@@ -310,6 +347,8 @@
           "id": "r12",
           "label_verbatim": "Psychiatric Assessment (SCID, Axis I, DSM IV)\n(11)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "11"
           ],
@@ -321,6 +360,8 @@
           "id": "r13",
           "label_verbatim": "Addiction Severity Index (ASI)\n(12)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "12"
           ],
@@ -332,6 +373,8 @@
           "id": "r14",
           "label_verbatim": "Weight (on admission & 0630-0800h ā\nbreakfast)\n(13)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "13"
           ],
@@ -343,6 +386,8 @@
           "id": "r15",
           "label_verbatim": "Primary Outcome Measure:",
           "role": "category_header",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 26,
@@ -352,6 +397,8 @@
           "id": "r16",
           "label_verbatim": "*** Modified Himmelsbach (MHOWS),\nobtained at 1000h\n(13)",
           "role": "assessment",
+          "parent_id": "r15",
+          "level": 1,
           "footnote_markers": [
             "***",
             "13"
@@ -364,6 +411,8 @@
           "id": "r17",
           "label_verbatim": "Emesis Tracking\n(14)",
           "role": "assessment",
+          "parent_id": "r15",
+          "level": 1,
           "footnote_markers": [
             "14"
           ],
@@ -375,6 +424,8 @@
           "id": "r18",
           "label_verbatim": "Secondary Outcome Measures:",
           "role": "category_header",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 27,
@@ -384,6 +435,8 @@
           "id": "r19",
           "label_verbatim": "•Modified Himmelsbach (MHOWS)\n(13)\nPeak Effect Detox/Med Phase",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "•",
             "13"
@@ -396,6 +449,8 @@
           "id": "r20",
           "label_verbatim": "•Objective Opiate Withdrawal Scale\n(15)\n(OOWS Handlesman) (1000h)",
           "role": "assessment",
+          "parent_id": "r18",
+          "level": 1,
           "footnote_markers": [
             "•",
             "15"
@@ -408,6 +463,8 @@
           "id": "r21",
           "label_verbatim": "•Short Opiate Withdrawal Scale\n(16)\n(SOWS Gossop) (1000h)",
           "role": "assessment",
+          "parent_id": "r18",
+          "level": 1,
           "footnote_markers": [
             "•",
             "16"
@@ -420,6 +477,8 @@
           "id": "r22",
           "label_verbatim": "•Modified Clinical Global Impressions Scale -\nPatient (NIMH MCGI) ( 1000h)\n(17)",
           "role": "assessment",
+          "parent_id": "r18",
+          "level": 1,
           "footnote_markers": [
             "•",
             "17"
@@ -432,6 +491,8 @@
           "id": "r23",
           "label_verbatim": "•Modified Clinical Global Impressions Scale -\nRater (NIMH MCGI) (1000h)\n(18)",
           "role": "assessment",
+          "parent_id": "r18",
+          "level": 1,
           "footnote_markers": [
             "•",
             "18"
@@ -444,6 +505,8 @@
           "id": "r24",
           "label_verbatim": "•Subjective Opiate Withdrawal Scale\n(19)\n(SOWS Handlesman) (1000h)",
           "role": "assessment",
+          "parent_id": "r18",
+          "level": 1,
           "footnote_markers": [
             "•",
             "19"
@@ -456,6 +519,8 @@
           "id": "r25",
           "label_verbatim": "•Visual Analog Scale (VAS-E) Efficacy of\n(20)–\nMedication for Reducing Withdrawal Sickness\n(1000h)",
           "role": "assessment",
+          "parent_id": "r18",
+          "level": 1,
           "footnote_markers": [
             "•",
             "20"
@@ -468,6 +533,8 @@
           "id": "r26",
           "label_verbatim": "Medication Administration/Concomitant\nMedications\n(21)",
           "role": "assessment",
+          "parent_id": "r18",
+          "level": 1,
           "footnote_markers": [
             "21"
           ],
@@ -479,6 +546,8 @@
           "id": "r27",
           "label_verbatim": "Drop Out Day (cf. End of Study Form\n(31)\n(Reason for Drop Out)",
           "role": "assessment",
+          "parent_id": "r18",
+          "level": 1,
           "footnote_markers": [
             "31"
           ],
@@ -490,6 +559,8 @@
           "id": "r28",
           "label_verbatim": "Abuse Potential Assessment:",
           "role": "category_header",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 28,
@@ -499,6 +570,8 @@
           "id": "r29",
           "label_verbatim": "Addiction Research Center Inventory\n(22)",
           "role": "assessment",
+          "parent_id": "r28",
+          "level": 1,
           "footnote_markers": [
             "22"
           ],
@@ -510,6 +583,8 @@
           "id": "r30",
           "label_verbatim": "- (ARCI-MBG) (1000h)",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 28,
@@ -519,6 +594,8 @@
           "id": "r31",
           "label_verbatim": "Visual Analog Scale (VAS-High) (1000h)\n(23)",
           "role": "assessment",
+          "parent_id": "r28",
+          "level": 1,
           "footnote_markers": [
             "23"
           ],
@@ -530,6 +607,8 @@
           "id": "r32",
           "label_verbatim": "Safety Measures:",
           "role": "category_header",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 28,
@@ -539,6 +618,8 @@
           "id": "r33",
           "label_verbatim": "(Sitting) Vital Signs\n(24, 33)",
           "role": "assessment",
+          "parent_id": "r32",
+          "level": 1,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 28,
@@ -548,6 +629,8 @@
           "id": "r34",
           "label_verbatim": "(0800, 1000, 1100, 1300, 1800 2300h and at\n0800 at day 11)",
           "role": "assessment",
+          "parent_id": "r32",
+          "level": 1,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 28,
@@ -557,6 +640,8 @@
           "id": "r35",
           "label_verbatim": "Orthostatic (Standing) Vital Signs\n(24,33)",
           "role": "assessment",
+          "parent_id": "r32",
+          "level": 1,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 28,
@@ -566,6 +651,8 @@
           "id": "r36",
           "label_verbatim": "(800, 1100, 1300, 1800, 2300 and only at 0800 at\nday 11)",
           "role": "assessment",
+          "parent_id": "r32",
+          "level": 1,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 28,
@@ -575,6 +662,8 @@
           "id": "r37",
           "label_verbatim": "Electrocardiogram (1300 to 1430h)\n(25)",
           "role": "assessment",
+          "parent_id": "r32",
+          "level": 1,
           "footnote_markers": [
             "25"
           ],
@@ -586,6 +675,8 @@
           "id": "r38",
           "label_verbatim": "Adverse Events & Abnormal Clinical Signs:\n(1000h)\n(26)",
           "role": "assessment",
+          "parent_id": "r32",
+          "level": 1,
           "footnote_markers": [
             "26"
           ],
@@ -597,6 +688,8 @@
           "id": "r39",
           "label_verbatim": "Tobacco Withdrawal Scale (1700)\n(27)",
           "role": "assessment",
+          "parent_id": "r32",
+          "level": 1,
           "footnote_markers": [
             "27"
           ],
@@ -608,6 +701,8 @@
           "id": "r40",
           "label_verbatim": "Urine Toxicology\n(28)",
           "role": "assessment",
+          "parent_id": "r32",
+          "level": 1,
           "footnote_markers": [
             "28"
           ],
@@ -619,6 +714,8 @@
           "id": "r41",
           "label_verbatim": "Plasma Lofexidine Pk (LCMS)\n(29)",
           "role": "assessment",
+          "parent_id": "r32",
+          "level": 1,
           "footnote_markers": [
             "29"
           ],
@@ -630,6 +727,8 @@
           "id": "r42",
           "label_verbatim": "Total of 12 samples (10 ml of plasma each ),\nDay 4: 1X, 0800h; Day 6: 1X, 0800h\nDay 7: 8X, 0800, 0900, 1000, 1100, 1200, 1300,\n1600, 1800h; 2100, 2300; Day 8: 1X:0800; Day\n10: 1000h after MHOWS",
           "role": "assessment",
+          "parent_id": "r32",
+          "level": 1,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 28,
@@ -6160,84 +6259,6 @@
       "strategy": "explicit-lines",
       "columns": [
         {
-          "id": "g0",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "N",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            1,
-            1
-          ]
-        },
-        {
-          "id": "g1",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Mean",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            2,
-            2
-          ]
-        },
-        {
-          "id": "g2",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Deviation Standard",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            3,
-            3
-          ]
-        },
-        {
-          "id": "g3",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Standard Error",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            4,
-            4
-          ]
-        },
-        {
-          "id": "g4",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Minimum",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            5,
-            5
-          ]
-        },
-        {
-          "id": "g5",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Maximum",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            6,
-            6
-          ]
-        },
-        {
           "id": "c0",
           "index": 0,
           "parent_id": null,
@@ -6250,8 +6271,8 @@
         {
           "id": "c1",
           "index": 1,
-          "parent_id": "g0",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "N",
           "role": "unknown",
           "colspan": 1,
@@ -6260,8 +6281,8 @@
         {
           "id": "c2",
           "index": 2,
-          "parent_id": "g1",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Mean",
           "role": "unknown",
           "colspan": 1,
@@ -6270,8 +6291,8 @@
         {
           "id": "c3",
           "index": 3,
-          "parent_id": "g2",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Standard\nDeviation",
           "role": "unknown",
           "colspan": 1,
@@ -6280,8 +6301,8 @@
         {
           "id": "c4",
           "index": 4,
-          "parent_id": "g3",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Standard\nError",
           "role": "unknown",
           "colspan": 1,
@@ -6290,8 +6311,8 @@
         {
           "id": "c5",
           "index": 5,
-          "parent_id": "g4",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Minimum",
           "role": "unknown",
           "colspan": 1,
@@ -6300,8 +6321,8 @@
         {
           "id": "c6",
           "index": 6,
-          "parent_id": "g5",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Maximum",
           "role": "unknown",
           "colspan": 1,
@@ -6313,6 +6334,8 @@
           "id": "r0",
           "label_verbatim": "1.6 mg/day",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -6322,6 +6345,8 @@
           "id": "r1",
           "label_verbatim": "2.4 mg/day",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -6331,6 +6356,8 @@
           "id": "r2",
           "label_verbatim": "3.2 mg/day",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -6340,6 +6367,8 @@
           "id": "r3",
           "label_verbatim": "4.0 mg/day",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -6349,6 +6378,8 @@
           "id": "r4",
           "label_verbatim": "nel B. Combi\nbined (AM & P\nond day of lofex",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -6416,6 +6447,8 @@
           "id": "r5",
           "label_verbatim": "Dose",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -6425,6 +6458,8 @@
           "id": "r6",
           "label_verbatim": "1.6 mg/day",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -6434,6 +6469,8 @@
           "id": "r7",
           "label_verbatim": "2.4 mg/day",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -6443,6 +6480,8 @@
           "id": "r8",
           "label_verbatim": "3.2 mg/day\n*AM only",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "*"
           ],
@@ -6454,6 +6493,8 @@
           "id": "r9",
           "label_verbatim": "4.0 mg/day",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
@@ -7819,32 +7860,6 @@
       "strategy": "explicit-lines",
       "columns": [
         {
-          "id": "g0",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Subjects Group = I 48",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            3,
-            3
-          ]
-        },
-        {
-          "id": "g1",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Subjects Group = II 48",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            4,
-            4
-          ]
-        },
-        {
           "id": "c0",
           "index": 0,
           "parent_id": null,
@@ -7877,20 +7892,20 @@
         {
           "id": "c3",
           "index": 3,
-          "parent_id": "g0",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Group I\nSubjects = 48",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
         {
           "id": "c4",
           "index": 4,
-          "parent_id": "g1",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Group II\nSubjects = 48",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         }
@@ -7900,6 +7915,8 @@
           "id": "r0",
           "label_verbatim": "",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -7909,6 +7926,8 @@
           "id": "r1",
           "label_verbatim": "PHASE I",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -7918,6 +7937,8 @@
           "id": "r2",
           "label_verbatim": "STABILIZATION",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -7927,6 +7948,8 @@
           "id": "r3",
           "label_verbatim": "",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -7936,6 +7959,8 @@
           "id": "r4",
           "label_verbatim": "PHASE II",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -7945,6 +7970,8 @@
           "id": "r5",
           "label_verbatim": "DETOXIFICATION/\nDOUBLE BLIND",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "e",
             "i",
@@ -7968,6 +7995,8 @@
           "id": "r6",
           "label_verbatim": "MEDICATION",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -7977,6 +8006,8 @@
           "id": "r7",
           "label_verbatim": "PHASE III",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -7986,6 +8017,8 @@
           "id": "r8",
           "label_verbatim": "POST MEDICATION",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 20,
@@ -8470,12 +8503,10 @@
         },
         {
           "kind": "unknown_column_role",
-          "detail": "4 columns with role=unknown",
+          "detail": "2 columns with role=unknown",
           "ids": [
             "c1",
-            "c2",
-            "c3",
-            "c4"
+            "c2"
           ]
         }
       ],

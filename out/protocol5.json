@@ -19,6 +19,32 @@
           "id": "g0",
           "parent_id": null,
           "level": 0,
+          "label_verbatim": "Screening intake Pre-",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "g1",
+          "parent_id": null,
+          "level": 0,
+          "label_verbatim": "Screening Intake",
+          "role": "period",
+          "colspan": 1,
+          "footnote_markers": [],
+          "covers": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": "g2",
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Screening Infusions",
           "role": "period",
           "colspan": 1,
@@ -29,7 +55,7 @@
           ]
         },
         {
-          "id": "g1",
+          "id": "g3",
           "parent_id": null,
           "level": 0,
           "label_verbatim": "Infusions Baseline",
@@ -42,20 +68,20 @@
           ]
         },
         {
-          "id": "g2",
+          "id": "g4",
           "parent_id": null,
           "level": 0,
           "label_verbatim": "Treatment Infusions",
           "role": "period",
-          "colspan": 2,
+          "colspan": 4,
           "footnote_markers": [],
           "covers": [
-            7,
-            8
+            6,
+            9
           ]
         },
         {
-          "id": "g3",
+          "id": "g5",
           "parent_id": null,
           "level": 0,
           "label_verbatim": "charge Dis-",
@@ -68,7 +94,7 @@
           ]
         },
         {
-          "id": "g4",
+          "id": "g6",
           "parent_id": null,
           "level": 0,
           "label_verbatim": "Follow- up",
@@ -93,29 +119,33 @@
         {
           "id": "c1",
           "index": 1,
-          "parent_id": null,
-          "level": 0,
+          "parent_id": "g0",
+          "level": 1,
           "label_verbatim": "Up to -35",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "window_verbatim": "Up to -35",
+          "window_parsed": null
         },
         {
           "id": "c2",
           "index": 2,
-          "parent_id": null,
-          "level": 0,
+          "parent_id": "g1",
+          "level": 1,
           "label_verbatim": "-15* to -9",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": [
             "*"
-          ]
+          ],
+          "window_verbatim": "-15* to -9",
+          "window_parsed": null
         },
         {
           "id": "c3",
           "index": 3,
-          "parent_id": "g0",
+          "parent_id": "g2",
           "level": 1,
           "label_verbatim": "-6",
           "role": "study_day",
@@ -125,7 +155,7 @@
         {
           "id": "c4",
           "index": 4,
-          "parent_id": "g1",
+          "parent_id": "g3",
           "level": 1,
           "label_verbatim": "-2",
           "role": "study_day",
@@ -135,7 +165,7 @@
         {
           "id": "c5",
           "index": 5,
-          "parent_id": "g1",
+          "parent_id": "g3",
           "level": 1,
           "label_verbatim": "-1",
           "role": "study_day",
@@ -145,8 +175,8 @@
         {
           "id": "c6",
           "index": 6,
-          "parent_id": null,
-          "level": 0,
+          "parent_id": "g4",
+          "level": 1,
           "label_verbatim": "7",
           "role": "study_day",
           "colspan": 1,
@@ -155,7 +185,7 @@
         {
           "id": "c7",
           "index": 7,
-          "parent_id": "g2",
+          "parent_id": "g4",
           "level": 1,
           "label_verbatim": "8",
           "role": "study_day",
@@ -165,7 +195,7 @@
         {
           "id": "c8",
           "index": 8,
-          "parent_id": "g2",
+          "parent_id": "g4",
           "level": 1,
           "label_verbatim": "12",
           "role": "study_day",
@@ -175,8 +205,8 @@
         {
           "id": "c9",
           "index": 9,
-          "parent_id": null,
-          "level": 0,
+          "parent_id": "g4",
+          "level": 1,
           "label_verbatim": "13",
           "role": "study_day",
           "colspan": 1,
@@ -185,7 +215,7 @@
         {
           "id": "c10",
           "index": 10,
-          "parent_id": "g3",
+          "parent_id": "g5",
           "level": 1,
           "label_verbatim": "17",
           "role": "study_day",
@@ -195,7 +225,7 @@
         {
           "id": "c11",
           "index": 11,
-          "parent_id": "g4",
+          "parent_id": "g6",
           "level": 1,
           "label_verbatim": "31",
           "role": "study_day",
@@ -208,6 +238,8 @@
           "id": "r0",
           "label_verbatim": "Informed consent",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -217,6 +249,8 @@
           "id": "r1",
           "label_verbatim": "Locator form/Demographics",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -226,6 +260,8 @@
           "id": "r2",
           "label_verbatim": "Cocaine use by timeline follow-back",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -235,6 +271,8 @@
           "id": "r3",
           "label_verbatim": "Breathalyzer test",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -244,6 +282,8 @@
           "id": "r4",
           "label_verbatim": "12-lead ECG",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -253,6 +293,8 @@
           "id": "r5",
           "label_verbatim": "SCID",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -262,6 +304,8 @@
           "id": "r6",
           "label_verbatim": "Medical History",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -271,6 +315,8 @@
           "id": "r7",
           "label_verbatim": "Physical Exam (complete)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -280,6 +326,8 @@
           "id": "r8",
           "label_verbatim": "Physical Exam (brief)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -289,6 +337,8 @@
           "id": "r9",
           "label_verbatim": "ASI-Lite",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -298,6 +348,8 @@
           "id": "r10",
           "label_verbatim": "Vital Signs",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -307,6 +359,8 @@
           "id": "r11",
           "label_verbatim": "Chemistries plus liver function tests**",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "**"
           ],
@@ -318,6 +372,8 @@
           "id": "r12",
           "label_verbatim": "Hematology",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -327,6 +383,8 @@
           "id": "r13",
           "label_verbatim": "Pregnancy Test***",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "***"
           ],
@@ -338,6 +396,8 @@
           "id": "r14",
           "label_verbatim": "Infectious disease serology",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -347,6 +407,8 @@
           "id": "r15",
           "label_verbatim": "Plasma alcohol",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -356,6 +418,8 @@
           "id": "r16",
           "label_verbatim": "Urine toxicology screen",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -365,6 +429,8 @@
           "id": "r17",
           "label_verbatim": "POMS, BSCS",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -374,6 +440,8 @@
           "id": "r18",
           "label_verbatim": "Cognitive assessments****",
           "role": "metadata",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [
             "****"
           ],
@@ -385,6 +453,8 @@
           "id": "r19",
           "label_verbatim": "Atomoxetine or placebo",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -394,6 +464,8 @@
           "id": "r20",
           "label_verbatim": "Atomoxetine blood levels",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -403,6 +475,8 @@
           "id": "r21",
           "label_verbatim": "Adverse Events",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -412,6 +486,8 @@
           "id": "r22",
           "label_verbatim": "Cocaine Infusion Session #",
           "role": "divider",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -421,6 +497,8 @@
           "id": "r23",
           "label_verbatim": "Saline/20 mg cocaine/40 mg cocaine i.v.",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -431,6 +509,8 @@
           "id": "r24",
           "label_verbatim": "20 mg cocaine i.v.",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -441,6 +521,8 @@
           "id": "r25",
           "label_verbatim": "40 mg cocaine i.v.",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -450,6 +532,8 @@
           "id": "r26",
           "label_verbatim": "VAS",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -459,6 +543,8 @@
           "id": "r27",
           "label_verbatim": "ARCI",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -468,6 +554,8 @@
           "id": "r28",
           "label_verbatim": "Continuous BP, HR, ECG monitoring",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -477,6 +565,8 @@
           "id": "r29",
           "label_verbatim": "BPRS",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -486,6 +576,8 @@
           "id": "r30",
           "label_verbatim": "Cocaine Blood PK",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 50,
@@ -3020,14 +3112,6 @@
         {
           "kind": "marker_used_undefined",
           "detail": "marker 'f' used but not defined nearby"
-        },
-        {
-          "kind": "unknown_column_role",
-          "detail": "2 columns with role=unknown",
-          "ids": [
-            "c1",
-            "c2"
-          ]
         }
       ],
       "id": "soa-1",
@@ -3045,45 +3129,6 @@
       "strategy": "explicit-lines",
       "columns": [
         {
-          "id": "g0",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Session Number",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            1,
-            1
-          ]
-        },
-        {
-          "id": "g1",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Study Day",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            2,
-            2
-          ]
-        },
-        {
-          "id": "g2",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Infusion",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            3,
-            3
-          ]
-        },
-        {
           "id": "c0",
           "index": 0,
           "parent_id": null,
@@ -3096,8 +3141,8 @@
         {
           "id": "c1",
           "index": 1,
-          "parent_id": "g0",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Session\nNumber",
           "role": "unknown",
           "colspan": 1,
@@ -3106,18 +3151,18 @@
         {
           "id": "c2",
           "index": 2,
-          "parent_id": "g1",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Study\nDay",
-          "role": "study_day",
+          "role": "unknown",
           "colspan": 1,
           "footnote_markers": []
         },
         {
           "id": "c3",
           "index": 3,
-          "parent_id": "g2",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "Infusion",
           "role": "unknown",
           "colspan": 1,
@@ -3129,6 +3174,8 @@
           "id": "r0",
           "label_verbatim": "Screening",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 24,
@@ -3138,6 +3185,8 @@
           "id": "r1",
           "label_verbatim": "Baseline",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 24,
@@ -3147,6 +3196,8 @@
           "id": "r2",
           "label_verbatim": "Baseline",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 24,
@@ -3156,6 +3207,8 @@
           "id": "r3",
           "label_verbatim": "Treatment\n(dose 80 mg)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 24,
@@ -3194,6 +3247,8 @@
           "id": "r4",
           "label_verbatim": "Treatment\n(dose 80 mg)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 24,
@@ -3232,6 +3287,8 @@
           "id": "r5",
           "label_verbatim": "Treatment\n(dose 100 mg)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 24,
@@ -3270,6 +3327,8 @@
           "id": "r6",
           "label_verbatim": "Treatment\n(dose 100 mg)",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 24,
@@ -3794,9 +3853,10 @@
       "warnings": [
         {
           "kind": "unknown_column_role",
-          "detail": "2 columns with role=unknown",
+          "detail": "3 columns with role=unknown",
           "ids": [
             "c1",
+            "c2",
             "c3"
           ]
         }
@@ -3817,45 +3877,6 @@
       "columns": [
         {
           "id": "g0",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Volume Sample Per",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            1,
-            1
-          ]
-        },
-        {
-          "id": "g1",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Type a",
-          "role": "period",
-          "colspan": 1,
-          "footnote_markers": [],
-          "covers": [
-            2,
-            2
-          ]
-        },
-        {
-          "id": "g2",
-          "parent_id": null,
-          "level": 0,
-          "label_verbatim": "Number of Samples per Day b",
-          "role": "period",
-          "colspan": 5,
-          "footnote_markers": [],
-          "covers": [
-            6,
-            10
-          ]
-        },
-        {
-          "id": "g3",
           "parent_id": null,
           "level": 0,
           "label_verbatim": "Volume Total",
@@ -3880,8 +3901,8 @@
         {
           "id": "c1",
           "index": 1,
-          "parent_id": "g0",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "",
           "role": "unknown",
           "colspan": 1,
@@ -3890,8 +3911,8 @@
         {
           "id": "c2",
           "index": 2,
-          "parent_id": "g1",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "",
           "role": "unknown",
           "colspan": 1,
@@ -3913,9 +3934,11 @@
           "parent_id": null,
           "level": 0,
           "label_verbatim": "D-8",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "window_verbatim": "D-8",
+          "window_parsed": null
         },
         {
           "id": "c5",
@@ -3923,57 +3946,59 @@
           "parent_id": null,
           "level": 0,
           "label_verbatim": "D-1",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
-          "footnote_markers": []
+          "footnote_markers": [],
+          "window_verbatim": "D-1",
+          "window_parsed": null
         },
         {
           "id": "c6",
           "index": 6,
-          "parent_id": "g2",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "D1",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
         {
           "id": "c7",
           "index": 7,
-          "parent_id": "g2",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "D2",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
         {
           "id": "c8",
           "index": 8,
-          "parent_id": "g2",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "D3",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
         {
           "id": "c9",
           "index": 9,
-          "parent_id": "g2",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "D6",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
         {
           "id": "c10",
           "index": 10,
-          "parent_id": "g2",
-          "level": 1,
+          "parent_id": null,
+          "level": 0,
           "label_verbatim": "D8",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
@@ -3983,7 +4008,7 @@
           "parent_id": null,
           "level": 0,
           "label_verbatim": "D11",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
@@ -3993,7 +4018,7 @@
           "parent_id": null,
           "level": 0,
           "label_verbatim": "D13",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
@@ -4003,7 +4028,7 @@
           "parent_id": null,
           "level": 0,
           "label_verbatim": "D17",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
@@ -4013,14 +4038,14 @@
           "parent_id": null,
           "level": 0,
           "label_verbatim": "D31",
-          "role": "unknown",
+          "role": "study_day",
           "colspan": 1,
           "footnote_markers": []
         },
         {
           "id": "c15",
           "index": 15,
-          "parent_id": "g3",
+          "parent_id": "g0",
           "level": 1,
           "label_verbatim": "",
           "role": "unknown",
@@ -4033,6 +4058,8 @@
           "id": "r0",
           "label_verbatim": "Chemistries plus\nliver function\ntests",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 51,
@@ -4042,6 +4069,8 @@
           "id": "r1",
           "label_verbatim": "Hematology",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 51,
@@ -4051,6 +4080,8 @@
           "id": "r2",
           "label_verbatim": "Infectious\ndisease\nserology",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 51,
@@ -4060,6 +4091,8 @@
           "id": "r3",
           "label_verbatim": "PK Samples\nfor cocaine",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 51,
@@ -4069,6 +4102,8 @@
           "id": "r4",
           "label_verbatim": "PK Samples\nfor Atomoxetine",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 51,
@@ -4078,6 +4113,8 @@
           "id": "r5",
           "label_verbatim": "Pregnancy Test",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 51,
@@ -4087,6 +4124,8 @@
           "id": "r6",
           "label_verbatim": "Alcohol Test",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 51,
@@ -4096,6 +4135,8 @@
           "id": "r7",
           "label_verbatim": "Total",
           "role": "assessment",
+          "parent_id": null,
+          "level": 0,
           "footnote_markers": [],
           "sup_markers": [],
           "page": 51,
@@ -5120,22 +5161,11 @@
       "warnings": [
         {
           "kind": "unknown_column_role",
-          "detail": "15 columns with role=unknown",
+          "detail": "4 columns with role=unknown",
           "ids": [
             "c1",
             "c2",
             "c3",
-            "c4",
-            "c5",
-            "c6",
-            "c7",
-            "c8",
-            "c9",
-            "c10",
-            "c11",
-            "c12",
-            "c13",
-            "c14",
             "c15"
           ]
         }

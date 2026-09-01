@@ -57,6 +57,8 @@ class PageGrid:
     stub_cols: list[int]
     fills: list = field(default_factory=list)   # classified Fill objects (audit)
     group_bands: list = field(default_factory=list)  # (c0, c1, label) spans in header row 0
+    banded_rows: set = field(default_factory=set)     # full-width stub-covering bands (section candidates)
+    header_spans: dict = field(default_factory=dict)  # col -> full window run when a timepoint value spans cols
     header_rows: int = 2
 
 
@@ -393,6 +395,7 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
     # real marks; the only reliable discriminator is whether the fill touches
     # the label column.
     shaded_cells: set[tuple[int, int]] = set()
+    banded_rows: set[int] = set()
     for r in range(len(cell_bboxes)):
         cols_filled = {c for (rr, c) in fill_by_cell if rr == r}
         if not cols_filled:
@@ -404,6 +407,12 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
                 f.classification = klass
             if klass == "mark":
                 shaded_cells.add((r, c))
+        # A full-width band covering the stub is a candidate SECTION band
+        # (protocol12/15 Screening/Safety/Efficacy). Zebra striping also covers
+        # the stub, so structure.py confirms with "no real body content"; a
+        # zebra row has marks and is rejected there.
+        if covers_stub and len(cols_filled) >= 0.6 * n_cols:
+            banded_rows.add(r)
 
     # assign chars to cells for superscript-marker detection
     chars_by_cell: dict[tuple[int, int], list] = {}
@@ -431,9 +440,86 @@ def gridify_page(pdf_page, g: PageIngest) -> PageGrid:
                              colspan=colspan_map.get((r, c), 1),
                              chars=chars_by_cell.get((r, c), [])))
         cells.append(row)
-    bands = _group_bands(g.words, cell_bboxes, n_cols, g.median_char_size)
+    # Period bands only exist when a group-header row sits ABOVE the timepoint
+    # row. With a single header row (protocol1: 'VISIT 1 2 3 ...') the numbers ARE
+    # the timepoints, not groups -- the word-extent fallback otherwise invents a
+    # band per visit column.
+    if hdr_rows >= 2:
+        bands = _group_bands_from_rules(pdf_page, g, v, h, cell_bboxes, n_cols,
+                                        stub_cols, hdr_rows)
+        if not bands:                               # fallback: word-extent bands
+            bands = _group_bands(g.words, cell_bboxes, n_cols, g.median_char_size)
+    else:
+        bands = []
+
+    # A window value can span several columns (protocol15 '-4 to 0*' over the
+    # Screening+Baseline columns). Same colspan mechanism as body cells, applied
+    # to the timepoint header row: reconstruct the full run so window_verbatim is
+    # not the fragment '-4 t'.
+    header_spans: dict[int, str] = {}
+    tp = hdr_rows - 1
+    for r, items in _row_spans(g.words, cell_bboxes, n_cols, g.median_char_size, tp).items():
+        if r != tp:
+            continue
+        for c0, width, text in items:
+            if c0 in stub_cols:
+                continue
+            for c in range(c0, c0 + width):
+                header_spans[c] = text
+
     return PageGrid(g.page_number, len(cell_bboxes), n_cols, cells, stub_cols,
-                    fills=g.fills, group_bands=bands)
+                    fills=g.fills, group_bands=bands, banded_rows=banded_rows,
+                    header_spans=header_spans)
+
+
+def _group_bands_from_rules(pdf_page, g, v, h, cell_bboxes, n_cols, stub_cols, hdr_rows):
+    """Period bands from the header row's SPANNING-CELL geometry (ARCHITECTURE §4).
+
+    A group header cell that spans several timepoint columns suppresses the
+    interior vertical rules beneath it in header row 0; the rules that DO cross
+    row 0 are the real group boundaries. Partitioning the columns at those
+    boundaries gives exact group spans -- including edge columns the group's
+    centred text does not reach (protocol12 'Study Medication Administration'
+    truly spans 1-3 .. 12/Term, not just 4..8). Labelled from the row-0 words in
+    each span.
+    """
+    if hdr_rows < 2 or len(v) < 3:
+        return []
+    from statistics import median
+    sizes = [c["size"] for c in pdf_page.chars if c.get("size")]
+    min_thick = 0.25 * (median(sizes) if sizes else 10.0)
+    vsegs = []
+    for r in pdf_page.rects:
+        w, ht = r["x1"] - r["x0"], r["bottom"] - r["top"]
+        if w <= min_thick and ht > min_thick:
+            vsegs.append(((r["x0"] + r["x1"]) / 2, r["top"], r["bottom"]))
+    for ln in pdf_page.lines:
+        w, ht = abs(ln["x1"] - ln["x0"]), abs(ln["bottom"] - ln["top"])
+        if w <= min_thick and ht > min_thick:
+            vsegs.append(((ln["x0"] + ln["x1"]) / 2,
+                          min(ln["top"], ln["bottom"]), max(ln["top"], ln["bottom"])))
+    y0, y1 = h[0], h[1]
+    ymid = (y0 + y1) / 2
+    # column boundary i is "present at row 0" if a vertical segment crosses ymid
+    present = [i for i in range(len(v))
+               if any(abs(x - v[i]) < 2 and t <= ymid <= b for x, t, b in vsegs)]
+    if len(present) < 3:
+        return []
+    words0 = [w for w in g.words
+              if y0 - 1 <= (w["top"] + w["bottom"]) / 2 <= y1 + 1]
+    bands = []
+    for a, b in zip(present, present[1:]):
+        c0, c1 = a, b - 1                       # columns spanned by this header cell
+        if c0 > c1 or c0 in stub_cols:
+            continue
+        xlo, xhi = v[a], v[b]
+        label = " ".join(w["text"] for w in sorted(
+            (w for w in words0 if xlo - 1 <= (w["x0"] + w["x1"]) / 2 <= xhi + 1),
+            key=lambda w: w["x0"])).strip()
+        label = re.sub(r"\s+", " ", label)
+        if label:                               # a real group header, not a bare col
+            bands.append((c0, c1, label))
+    return bands
 
 
 def _text_lines(cell: "GCell", tol: float) -> list[tuple[float, str]]:
