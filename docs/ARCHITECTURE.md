@@ -286,11 +286,29 @@ The old "row count == gridify's y-band count" and "cell count == rows × cols"
 checks were circular (comparing gridify to itself, always green) and are
 removed. Replaced by:
 
-- **Orphan-word audit (primary drop detector).** Every word inside the table
-  bbox must land in exactly one emitted cell. Leftover words are a loud warning
-  — this is the one check that catches a dropped row, a dropped column, or a
-  botched merge, because a dropped structure leaves its words homeless. ~20
-  lines, and it is the backstop for the whole recall story.
+- **Orphan-word audit (primary drop detector).** Every `extract_words()` word
+  inside a table's ruled bbox must be accounted for by emitted output: its
+  tokens present in an emitted row/column label (exact-token match, plus a
+  de-spaced substring match so intra-word spacing, wrapping and glued footnote
+  markers still reconcile), or its centre inside an emitted body cell (kept
+  strictly geometric — a substring test would let a dropped `X` hide behind an
+  `x` in some label). Unaccounted words are a loud warning naming the page and
+  the exact text; a dropped row leaves its distinctive label words homeless, so
+  it surfaces here. Explicit, testable exclusions (not blanket suppression):
+  anything outside the ruled bbox (title, footnote block, running heads/page
+  numbers); divider-stack columns (`detect_divider_columns` geometry); and a
+  leading row's own stub-header and axis-vocabulary words (`ACTIVITY`, `VISIT`,
+  `WEEK`). The header band is taken as the rows *before the first marked row* —
+  the same no-marks rule the assembler uses — so a real assessment row (marks in
+  its body) is never mistaken for header and hidden. The audit does **not**
+  re-derive a header-row count of its own: when an earlier version did, it
+  disagreed with the assembler on a defaulted continuation page and flagged an
+  already-emitted row. History note: this check was dead code for most of the
+  project — defined, wired nowhere, a thin per-page textful-cell count that
+  could not have caught a single dropped row — until the M7.5 holdout forced a
+  real dropped row (NCT03348956 p21) into the open. It now runs on every table.
+  Residual warnings on the five are header text on results/secondary tables
+  (see README known gaps), not lost body data.
 - **Orphan-fill audit (DECISIONS row 11).** Every area-fill must end up
   explicitly classified as `mark`, `banding`, or `flagged` — none may be
   silently dropped. This is the shading counterpart to the word audit: it is

