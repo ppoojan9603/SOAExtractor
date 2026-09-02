@@ -199,7 +199,31 @@ function renderGrid() {
     const mark = c.role === 'divider' ? ' ⇄' : '';
     h += '<th title="' + esc(c.role) + '">' + esc(c.label_verbatim || '') + mark + '</th>';
   });
-  h += '</tr></thead><tbody>';
+  h += '</tr>';
+
+  // Every POPULATED header level, whatever the depth -- not a fixed two.
+  // The extractor stacks visit number over study day/week over window; drawing
+  // only the top level made a level that IS present look missing to a reviewer
+  // comparing against the page. Levels are discovered from the data, so a new
+  // *_verbatim header field renders without touching this code. (Defect 4)
+  const LEVEL_NAMES = {study_day_verbatim: 'Study day/week', window_verbatim: 'Window'};
+  const PREFERRED = ['study_day_verbatim', 'window_verbatim'];
+  const found = {};
+  dataCols.forEach(c => Object.keys(c).forEach(k => {
+    if (/_verbatim$/.test(k) && k !== 'label_verbatim'
+        && c[k] != null && String(c[k]).trim() !== '') found[k] = 1;
+  }));
+  const levels = PREFERRED.filter(k => found[k])
+    .concat(Object.keys(found).filter(k => PREFERRED.indexOf(k) < 0).sort());
+  levels.forEach(k => {
+    const name = LEVEL_NAMES[k] || k.replace(/_verbatim$/, '').replace(/_/g, ' ');
+    h += '<tr><th class="rowlab">' + esc(name) + '</th>';
+    dataCols.forEach(c => {
+      h += '<th title="' + esc(k) + '">' + esc(c[k] == null ? '' : String(c[k])) + '</th>';
+    });
+    h += '</tr>';
+  });
+  h += '</thead><tbody>';
 
   t.rows.forEach(r => {
     const cls = [

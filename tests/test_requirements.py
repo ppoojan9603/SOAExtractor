@@ -130,7 +130,14 @@ def test_recall_row_and_column_counts(docs):
     expect = {   # (rows, data columns)
         # protocol1 is 28, not 29: its 'ACTIVITY'/study-week header line is now
         # recognised as a second header row, not a phantom assessment row.
-        "protocol1": (28, 17), "protocol5": (31, 12), "protocol9": (43, 12),
+        # protocol9 is 40, not 43. This DECREASE is the removal of spurious rows,
+        # NOT a recall regression: three cells that span two ruled day-bands
+        # (p28 '(Sitting) Vital Signs', 'Orthostatic ...', 'Plasma Lofexidine Pk')
+        # were each emitted as an empty-but-shaded half plus a marked half. They
+        # are now rejoined into one row apiece, carrying both label lines and the
+        # same marks -- no assessment and no mark was dropped (27 duplicated
+        # shaded marks went with them, 220 -> 193).
+        "protocol1": (28, 17), "protocol5": (31, 12), "protocol9": (40, 12),
         "protocol12": (40, 10), "protocol15": (34, 11),
     }
     for name, (nr, nc) in expect.items():

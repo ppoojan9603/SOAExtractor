@@ -351,7 +351,7 @@ group, and `page` only on a column merged in from a continuation page.
 ## Verification results, per protocol
 
 Full detail, including the holdout, is in [`docs/VERIFICATION.md`](docs/VERIFICATION.md).
-Summary of the five design protocols (test suite: **167 passed, 3 skipped**,
+Summary of the five design protocols (test suite: **187 passed, 3 skipped**,
 `python -m pytest`):
 
 `Cols` is the data-column count (period-group nodes excluded), the figure the
@@ -359,11 +359,16 @@ recall gate pins. Counts are read from the committed `out/`.
 
 | Protocol | SoA span | Data cols | Rows | Cells | Shaded marks | Footnotes bound |
 |---|---|---|---|---|---|---|
-| protocol1 | 53–54 (column-merged) | 17 (visits 1–13, ET, RT + labels) | 28 | 139 | 0 | — |
+| protocol1 | 53–54 (column-merged) | 17 (visits 1–13, ET, RT + labels) | 28 | 139 | 0 | 4 / 4 |
 | protocol5 | 50 | 12 | 31 | 107 | 0 | — |
-| protocol9 | 26–29 | 12 (days 1–11) | 43 | 224 | 220 | 4 / 4 |
+| protocol9 | 26–29 | 12 (days 1–11) | 40 | 197 | 193 | 4 / 4 |
 | protocol12 | 48–50 | 10 | 40 | 132 | 0 | 13 / 14 |
 | protocol15 | 25–26 | 11 | 34 | 128 | 0 | 5 / 5 |
+
+protocol9's 40 rows / 193 shaded marks are **after** rejoining three cells that a
+ruled band boundary had split (see *Where it breaks*); the earlier 43 / 220
+counted each split cell twice. protocol1's footnotes bind now that definitions
+keyed by value+marker (`Xa = ...`) and marker-less legends are recognised.
 
 Outputs are committed under [`out/`](out/). The pipeline is deterministic: no API
 keys, no network, byte-identical across runs.
@@ -411,14 +416,19 @@ message) rather than silently producing a wrong table:
   Baseline). Modelled as a flagged single-parent approximation; a strict tree
   cannot hold a child with two parents.
 
-- **Vertically merged (rowspan) stub cells** are emitted as one row per ruled
-  band. protocol9 p20 renders the single cell `PHASE I / STABILIZATION` as three
-  rows. No content is lost; both label lines are present. Spurious rows are the
-  less-penalised direction. The principled fix is the vertical twin of the
-  colspan detector (test whether a horizontal rule actually spans a given
-  column's x-range), deliberately not built: it rewrites the row axis that row
-  ids, cell keys, category parents, the recall gates and the orphan-word audit
-  all sit on, for a cosmetic gain on a secondary table.
+- **Vertically merged (rowspan) cells — handled only in the shaded form.** A cell
+  spanning two ruled bands is rejoined when the signature is unambiguous: the
+  upper row's cells all empty with at least one shaded, and the row below
+  re-marking exactly the same columns (protocol9 p28's vital-signs cells). The
+  **unshaded** form is still split: protocol9 p20 renders the single cell
+  `PHASE I / STABILIZATION` as three rows. No content is lost there — both label
+  lines are present — and spurious rows are the less-penalised direction. The
+  general fix is the vertical twin of the colspan detector (test whether a
+  horizontal rule actually spans a given column's x-range), still not built: it
+  rewrites the row axis that row ids, cell keys, category parents, the recall
+  gates and the orphan-word audit all sit on, and a read-only probe could not
+  compute it reliably (a naive rect filter misreads divider columns and
+  protocol9's own rules), so it needs its own validation pass.
 - **Multi-row headers on results / secondary tables that carry no timepoint
   vocabulary.** Header-row detection keys off the timepoint vocabulary
   (VISIT / WEEK / DAY / …), so a results table whose header is `N / Mean /
@@ -450,10 +460,12 @@ In priority order, from what the holdout exposed:
 3. **Rowspan detection (A2)** — the vertical twin of the colspan `_row_spans`
    detector: where a horizontal rule has no drawn segment across a column's
    x-range, the cells it appears to separate are one merged cell (emit with
-   `rowspan`, union the text). Deferred because it rewrites the row axis that row
-   ids, cell keys, category parents, the recall gates and the orphan-word audit
-   all sit on — high blast radius for a cosmetic gain on a secondary table (see
-   *Where it breaks*). Needs full five + holdout re-validation.
+   `rowspan`, union the text). The **shaded** form of this defect is now handled
+   structurally (see *Where it breaks*); the general geometric form is still
+   deferred because it rewrites the row axis that row ids, cell keys, category
+   parents, the recall gates and the orphan-word audit all sit on, and a
+   read-only probe could not compute the rule coverage reliably. Needs full five
+   + holdout re-validation.
 4. **Scanned-page OCR** as an opt-in, behind the existing loud-failure detector.
 5. **The `--enrich` model pass** (adapter already built, off by default) for the
    advisory role/hierarchy fields, with the id+label echo assertion.

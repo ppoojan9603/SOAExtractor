@@ -243,6 +243,18 @@ Every cell is emitted, including empty ones, with `page` + `bbox` provenance.
 Spanning values (`Prior to Day 4`, protocol9 p26) keep their `colspan` and are
 not distributed across the columns they cover.
 
+**The vertical case is only half-solved, deliberately.** The grid is built from
+the union of ALL horizontal rules, so a rule drawn for other columns slices a
+cell it does not physically cross — a merged cell comes out as one row per band.
+Where such a cell is *shaded*, structure.py rejoins it (`_merge_shaded_rowspan`):
+the upper half is empty-but-shaded and the lower half re-marks exactly the same
+columns, an unambiguous signature that also inflated the mark count by
+double-counting one grey fill (protocol9 p28, 3 cells → 3 spurious rows and 27
+spurious marks). The **unshaded** case has no such signature and is left split;
+the general fix — testing whether a horizontal rule actually spans a column's
+x-range, the vertical twin of `_row_spans` — would rewrite the whole row axis
+and is recorded as future work in the README.
+
 ### 4. Structure (`src/soa/extract/structure.py`) — deterministic, no model
 
 Everything the model used to be asked for turned out to be computable. This
@@ -257,11 +269,26 @@ protocol5 p50's `Baseline Infusions` covers days −2/−1.
 
 **Footnote binding = marker matching** (per §2's lookahead). Markers extracted
 at char level (§1) are matched against definition keys collected from the span's
-footnote pages. Flexible marker forms are supported — letter, symbol, digit,
-parenthesised. **Whatever does not match is flagged, never guessed.**
+footnote pages. **Whatever does not match is flagged, never guessed.**
 protocol12 is the hardest case (its definitions are keyed `Xa -` while the
 in-table marker is a bare superscript `f`, and `*` is defined but printed
 nowhere): bind what matches, flag the rest.
+
+Definition **keys are matched as a family**, because documents key the same
+footnote several ways: a symbol run (`*`, `**`, `†`), a bare marker (`a - …`,
+`b: …`), the full marked token on any mark glyph (`Xa = …`, `✓b: …`), or a
+bracketed marker (`(a)`, `[a]`) — across the separator set `- – — : =`. Keying
+by the full token is not exotic: protocol1 keys its entire block that way
+(`Xa = Performed at this visit if …`), and before the family was covered its
+tables came back with no footnotes at all. A definition carrying **no** marker
+(`X = Performed at this visit.`, `P = Practice only …`) is a *legend*: it
+defines a printed value rather than a marker, and binds to the table
+(`attaches_to.kind: "table"`). Legends are recognised only when their key is a
+value the table actually prints, which is what keeps prose (`CT = computed
+tomography`) out. The punctuated shape `a. body` is deliberately excluded — it
+is indistinguishable from a lettered prose outline, which protocol12/15 both
+contain. Parenthesised **numbers** are not markers at all (protocol9's
+`(01)`–`(33)` are CRF form numbers); they stay verbatim in the label.
 
 **Roles = transparent heuristics.** `period` / `visit` / `study_day` / `window`
 / `divider` / `category` are assigned by readable rules (a header row of bare

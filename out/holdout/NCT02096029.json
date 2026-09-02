@@ -591,9 +591,7 @@
           "shaded": false,
           "colspan": 1,
           "rowspan": 1,
-          "footnote_markers": [
-            "2"
-          ],
+          "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
           "bbox": [
@@ -616,9 +614,7 @@
           "shaded": false,
           "colspan": 1,
           "rowspan": 1,
-          "footnote_markers": [
-            "7"
-          ],
+          "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
           "bbox": [
@@ -641,9 +637,7 @@
           "shaded": false,
           "colspan": 1,
           "rowspan": 1,
-          "footnote_markers": [
-            "13"
-          ],
+          "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
           "bbox": [
@@ -666,9 +660,7 @@
           "shaded": false,
           "colspan": 1,
           "rowspan": 1,
-          "footnote_markers": [
-            "17"
-          ],
+          "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
           "bbox": [
@@ -691,9 +683,7 @@
           "shaded": false,
           "colspan": 1,
           "rowspan": 1,
-          "footnote_markers": [
-            "20"
-          ],
+          "footnote_markers": [],
           "sup_markers": [],
           "page": 8,
           "bbox": [
@@ -990,26 +980,6 @@
         {
           "kind": "marker_used_undefined",
           "detail": "marker '**' used but not defined nearby"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker '13' used but not defined nearby"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker '17' used but not defined nearby"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker '2' used but not defined nearby"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker '20' used but not defined nearby"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker '7' used but not defined nearby"
         },
         {
           "kind": "marker_used_undefined",

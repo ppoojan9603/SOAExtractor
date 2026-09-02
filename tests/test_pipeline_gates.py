@@ -100,10 +100,31 @@ def test_footnotes_bind_to_targets(docs):
     assert star and not star[0]["attaches_to"], "protocol12 '*' must stay unanchored"
 
 
-def test_protocol9_form_numbers_flagged_not_bound(docs):
-    kinds = [w["kind"] for w in main_table(docs["protocol9"])["warnings"]]
-    assert "marker_used_undefined" in kinds, \
-        "protocol9 (01)-(33) form numbers must surface as used-but-undefined"
+def test_protocol9_form_numbers_are_not_markers(docs):
+    """protocol9's (01)-(33) are CRF form numbers, not footnotes.
+
+    This gate used to assert they surfaced as `marker_used_undefined`. That was
+    the best available answer while they were still being read as markers, but
+    the classification itself was wrong: every table page prints "Form numbers
+    may change", and across all five protocols no parenthesised number is ever
+    DEFINED as a footnote. They are no longer extracted as markers at all, so
+    there is nothing to flag -- which is why those 27 warnings are gone.
+
+    What the old gate really protected -- that a form number is never bound to
+    an invented footnote -- still holds, and more strongly. Asserted here as:
+    kept verbatim in the label, absent from footnote_markers, bound to nothing.
+    """
+    t = main_table(docs["protocol9"])
+    row = next(r for r in t["rows"] if "Tobacco Withdrawal Scale" in r["label_verbatim"])
+    assert "(27)" in row["label_verbatim"]            # verbatim, still printed
+    assert row["footnote_markers"] == []              # not a marker
+
+    numeric = [m for r in t["rows"] for m in (r.get("footnote_markers") or [])
+               if str(m).isdigit()]
+    assert not numeric, f"parenthesised numbers leaked back as markers: {numeric}"
+    assert not [f for f in t["footnotes"] if str(f.get("marker") or "").isdigit()]
+    undef = [w for w in t["warnings"] if w["kind"] == "marker_used_undefined"]
+    assert not any(any(c.isdigit() for c in w["detail"]) for w in undef)
 
 
 def test_kind_classification(docs):

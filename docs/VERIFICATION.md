@@ -214,24 +214,82 @@ kept). One narrow limitation remains and is pinned by a test: an *all*-small-cap
 line (no full-size leading capital) above a body line still falls to the
 alone-on-line branch — no page in the five or holdout hits it.
 
-A second defect on the same p20 cell — a vertically merged (rowspan) stub cell
-emitted as one row per ruled band — was left unfixed by design; it loses no
-content and its fix rewrites the whole row axis for a cosmetic gain on a
-secondary table (README *Where it breaks* / *What I would build next* A2).
+### M8 (cont.) — three more classes, from review of protocol9's MAIN SoA
+
+The rowspan defect first seen on p20 was **not** confined to that secondary
+table, as originally recorded. Manual review of protocol9 soa-1 (pp. 26–29)
+found it on the graded table too, and two further classes with it.
+
+**Split cells rejoined (rowspan, narrow form).** On p28 three cells span two
+ruled day-bands — `(Sitting) Vital Signs`, `Orthostatic (Standing) Vital Signs`,
+`Plasma Lofexidine Pk (LCMS)`. Each came out as an empty-but-shaded upper half
+plus a marked lower half: 3 spurious rows, 27 duplicated shaded marks, and a
+label divorced from its data. They are now rejoined when the signature is
+unambiguous — every emitted cell of the upper row empty with at least one
+shaded, and the row below re-marking *exactly* the same columns. Counts:
+43 → 40 rows, 220 → 193 shaded marks. Three guards, each pinned by a test:
+neither row may be a category header (protocol9's `Prior Medications` /
+`Laboratory Assessments:` pair matches by coincidence on one column and stays
+separate); column sets must be **equal**, not merely overlapping, because a
+split cell is one rectangle — equality needs no threshold to tune; and a
+shaded-empty row with **no** mark-twin below is a legitimate mark row (on
+protocol9 shading *is* the mark) — seven such rows, `Emesis Tracking`,
+`Drop Out Day` and others, keep every one of their marks. That last is the
+failure that would lose real data, so it is gated explicitly.
+
+*On validating a shaded-only rule:* the other four protocols emit **zero**
+shaded cells, so they cannot express this signature at all. That is not weak
+validation — it is a condition they are incapable of expressing, and their
+byte-identical output is the negative gate proving the rule is inert wherever
+it does not apply.
+
+**Footnote definition keys generalised.** Definitions were matched only when
+keyed by the bare marker. protocol1 keys its block by the full marked token —
+`Xa = Performed at this visit if ...` — and separates key from body with `=`,
+which was not in the separator set, so *every* protocol1 table came back with
+`footnotes: []` while markers `a`/`b` sat used-and-unbound. The key family is
+now covered as a family (symbol run, bare marker, value+marker on any mark
+glyph, bracketed `(a)`/`[a]`) across the separator set `- – — : =`, and
+marker-less **legend** definitions (`X = Performed at this visit.`,
+`P = Practice only ...`) bind to the table — populating the `attaches_to.kind:
+"table"` the schema always had and nothing produced. protocol1 now binds 4/4
+with 2 legends; protocol9 4/4, protocol12 13/14, protocol15 5/5 unmoved. The
+punctuated shape `a. body` is **deliberately not covered**: protocol12 p50 and
+protocol15 p26 print `a. BSCS`, `b. CGI-S` as an assessment outline while those
+same letters are genuine markers elsewhere, so a "keep it if the marker is used"
+guard cannot separate them either — covering it added 4 spurious footnotes to
+protocol12 and 6 to protocol15, so it was left out rather than shipped.
+
+**Parenthesised numbers are not markers.** `(27)` was extracted as marker `27`
+*and* left in `label_verbatim` — the same double-count class as the breathalyzer
+fix, reached by a text regex rather than superscript geometry — and applied
+inconsistently (`(27)` matched, `(24, 33)` did not). Across all five no protocol
+defines a parenthesised number as a footnote; every one that occurs is
+undefined. Numeric extraction is removed, letters and symbols untouched. The
+numbers stay verbatim in the labels, and protocol9's 27 false
+`marker_used_undefined` warnings are gone. The same rule corrected the holdout
+NCT02096029, whose `(2)`/`(7)` cumulative counts were also being marked.
+
+**UI: every populated header level.** Stacked headers were extracted correctly
+but drawn one level deep, so a reviewer comparing against the page saw a level
+that looked missing when it was present. The header now renders each populated
+`*_verbatim` level, discovered from the data rather than a fixed two: protocol1
+gains its study-day row, protocol5/12/15 their window row, protocol9 none (it
+populates none). No JSON change.
 
 ---
 
 ## The five sample protocols (design set — not evidence of generalisation)
 
-Automated gates: **171 passed, 3 skipped**, `python -m pytest`.
+Automated gates: **187 passed, 3 skipped**, `python -m pytest`.
 
 | Protocol | SoA span | Cols | Rows | Cells | Marks | Footnotes bound |
 |---|---|---|---|---|---|---|
-| protocol1 | 53–54 (column-merged) | 17 (visits 1–13, ET, RT) | 29 | 152 | 0 | 0 / 0 |
+| protocol1 | 53–54 (column-merged) | 17 (visits 1–13, ET, RT) | 28 | 139 | 0 | **4 / 4** |
 | protocol5 | 50 | 12 | 31 | 107 | 0 | 0 / 0 |
-| protocol9 | 26–29 | 12 (days 1–11) | 43 | 230 | 220 | **4 / 4** |
-| protocol12 | 48–49 | 10 | 40 | 132 | 0 | **13 / 14** |
-| protocol15 | 25–26 | 11 | 34 | 128 | 0 | **4 / 5** |
+| protocol9 | 26–29 | 12 (days 1–11) | 40 | 197 | 193 | **4 / 4** |
+| protocol12 | 48–50 | 10 | 40 | 132 | 0 | **13 / 14** |
+| protocol15 | 25–26 | 11 | 34 | 128 | 0 | **5 / 5** |
 
 Specific structures verified against the rendered page:
 

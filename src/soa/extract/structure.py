@@ -65,8 +65,10 @@ def collect_used_markers(cells: list[dict], rows: list[dict], columns: list[dict
             used.add(run)
         for d in re.findall(r"[†‡•◦]", t):
             used.add(d)
-        for num in re.findall(r"\((\d{1,2})\)", t):     # (01) form numbers
-            used.add(num)
+        # NOTE: a parenthesised number is NOT a marker. protocol9's (01)-(33) are
+        # CRF form numbers ("Form numbers may change"), and across all five no
+        # protocol defines a parenthesised number as a footnote -- every one that
+        # occurs is undefined. They stay verbatim in the label instead. (Defect 3)
         # a mark glyph followed by a superscript-ish letter: Xa, ✓b
         for letter in re.findall(rf"[{_MARK_GLYPHS}]([a-j])(?![a-z])", t):
             used.add(letter)
@@ -80,8 +82,10 @@ def extract_markers(text: str) -> list[str]:
         out.append(run)
     for d in re.findall(r"[†‡•◦]", text):
         out.append(d)
-    for num in re.findall(r"\((\d{1,2})\)", text):
-        out.append(num)
+    # Parenthesised numbers are deliberately NOT markers -- see collect_used_markers.
+    # Extracting them double-counted (kept in label_verbatim AND added to
+    # footnote_markers) and fired inconsistently ('(27)' matched, '(24, 33)' did
+    # not). No protocol in the five defines one. (Defect 3)
     for letter in re.findall(rf"[{_MARK_GLYPHS}]([a-j])(?![a-z])", text):
         out.append(letter)
     # de-dup, keep order
@@ -118,13 +122,110 @@ def bind_markers(rows: list[dict], cells: list[dict], columns: list[dict],
             targets.setdefault(m, []).append(
                 {"kind": "cell", "row_id": c["row_id"], "col_id": c["col_id"]})
     for f in footnotes:
+        if f.get("marker") is None:
+            continue                     # legend: already bound to the table
         tgt = targets.get(f.get("marker"), [])
         f["attaches_to"] = tgt
         f["unanchored"] = not tgt
 
 
-def _candidate_defs(text: str):
-    """Yield (marker, body) for lines that look like footnote definitions."""
+def _merge_shaded_rowspan(rows: list[dict], cells: list[dict]) -> None:
+    """Rejoin a shaded cell that one ruled band boundary split in two. (Defect 1)
+
+    The grid is built from the union of ALL horizontal rules, so a rule drawn for
+    other columns slices a cell it does not physically cross. Where that cell is
+    shaded, the split yields an empty-but-shaded upper half and a marked lower
+    half: a spurious row, a duplicated set of shaded marks, and a label divorced
+    from its data (protocol9 p28 '(Sitting) Vital Signs (24, 33)' over
+    '(0800, 1000, ...)', one grey cell carrying 6X across two day-bands).
+
+    Signature: every emitted cell of the upper row is EMPTY and at least one is
+    shaded, and the row immediately below re-marks EXACTLY the same columns.
+
+    Guards, each pinned by a test:
+      1. neither row may be a category_header or divider -- protocol9's
+         'Prior Medications' / 'Laboratory Assessments:' pair matches the column
+         test by coincidence (a single column) and must not be fused;
+      2. the column sets must be EQUAL, not merely overlapping. A split cell is
+         one rectangle, so both halves span exactly the same columns; requiring
+         equality (rather than a ratio) is what stops an unrelated neighbouring
+         row from being absorbed, and needs no threshold to tune;
+      3. a shaded-empty row with NO mark-twin below is a legitimate mark row --
+         on protocol9 shading IS the mark, and 7 such rows (Emesis Tracking,
+         Drop Out Day, ...) carry real data. Requiring the lower row to re-mark
+         the same columns leaves every one of them untouched. This is the
+         failure that would lose real data, so it is gated explicitly.
+
+    Validation note: the other four protocols emit ZERO shaded cells, so they
+    cannot express this signature at all -- their byte-identity is the negative
+    gate, not weak evidence.
+    """
+    by_row: dict[str, list[dict]] = {}
+    for c in cells:
+        by_row.setdefault(c["row_id"], []).append(c)
+    merged: set[str] = set()
+    for i in range(len(rows) - 1):
+        up, dn = rows[i], rows[i + 1]
+        if up["id"] in merged or dn["id"] in merged:
+            continue
+        if up.get("role") in ("category_header", "divider") or \
+           dn.get("role") in ("category_header", "divider"):
+            continue                                          # guard 1
+        ucells = by_row.get(up["id"]) or []
+        dcells = by_row.get(dn["id"]) or []
+        if not ucells:
+            continue
+        if any(c["value_verbatim"].strip() for c in ucells):
+            continue                                          # upper must be empty
+        if not any(c.get("shaded") for c in ucells):
+            continue                                          # ... and shaded
+        ucols = {c["col_id"] for c in ucells}
+        dmarked = {c["col_id"] for c in dcells if c["value_verbatim"].strip()}
+        if not dmarked or ucols != dmarked:
+            continue                                          # guards 2 and 3
+        # one cell after all: join the two stub lines, keep the marks
+        up["label_verbatim"] = (up["label_verbatim"] + "\n" + dn["label_verbatim"]).strip()
+        up["sup_markers"] = list(up.get("sup_markers") or []) + list(dn.get("sup_markers") or [])
+        for c in ucells:
+            cells.remove(c)                                   # spurious shaded halves
+        for c in dcells:
+            c["row_id"] = up["id"]
+        merged.add(dn["id"])
+    if merged:
+        rows[:] = [r for r in rows if r["id"] not in merged]
+
+
+#: Separators a document may put between a definition key and its body. '=' is
+#: the one protocol1 uses ("Xa = Performed at this visit if ..."); its absence
+#: here is why protocol1's whole footnote apparatus was lost. (Defect 2)
+_DEF_SEP = r"[-–—:=]"
+
+
+def _candidate_defs(text: str, used_values: set[str] | None = None):
+    """Yield (marker, body) for lines that look like footnote definitions.
+
+    `marker` is None for a LEGEND definition -- one keyed by a value rather than
+    a footnote marker ("X = Performed at this visit.", "P = Practice only ...").
+    Those bind to the table, not to a cell.
+
+    Key shapes covered as a family, not case by case:
+      symbol run        *  **  †  ‡  •  ◦
+      bare marker       a - ...      a: ...     a = ...
+      value+marker      Xa = ...     ✓b: ...    (any mark glyph + a-j)
+      bracketed         (a) ...      [a] ...
+      legend, no marker X = ...      P = ...         (key is a used cell value)
+
+    DELIBERATELY NOT COVERED: the punctuated shape "a. body" / "a) body". It is
+    indistinguishable from a lettered prose list, and measurement says the
+    collision is real, not hypothetical: protocol12 p50 and protocol15 p26 carry
+    'a. BSCS', 'b. CGI-S', 'c. CGI-O' ... as an assessment OUTLINE while those
+    same letters a-f are genuine footnote markers elsewhere in the table. So a
+    "keep it only if the marker is used" guard does not separate them either --
+    the markers are used. Covering the shape added 4 spurious footnotes to
+    protocol12 and 6 to protocol15. No protocol in the five keys a definition
+    that way, so it is left out rather than shipped unvalidated.
+    """
+    used_values = {v.strip().lower() for v in (used_values or set()) if v and v.strip()}
     for line in text.splitlines():
         s = line.strip()
         if not s:
@@ -134,10 +235,22 @@ def _candidate_defs(text: str):
         if m:
             yield m.group(1), m.group(2).strip()
             continue
-        # single letter (optionally X-prefixed) then a REQUIRED separator
-        m = re.match(r"^X?([a-jA-J])\s*[-–:]\s*(\S.*)$", s)
+        # bracketed marker: (a) body / [a] body
+        m = re.match(r"^[\(\[]([a-jA-J])[\)\]]\s*" + _DEF_SEP + r"?\s*(\S.*)$", s)
         if m:
             yield m.group(1).lower(), m.group(2).strip()
+            continue
+        # marker, optionally carried on its mark glyph (Xa, ✓b), then a separator
+        m = re.match(rf"^[{_MARK_GLYPHS}]?([a-jA-J])\s*{_DEF_SEP}\s*(\S.*)$", s)
+        if m:
+            yield m.group(1).lower(), m.group(2).strip()
+            continue
+        # LEGEND: keyed by a value the table actually prints ("X = ...", "P = ...").
+        # The used-values guard is what keeps prose out: "CT = computed tomography"
+        # and "SCID = The Structured ..." are not cell values, so they never match.
+        m = re.match(rf"^(\S{{1,3}})\s*{_DEF_SEP}\s+(\S.*)$", s)
+        if m and m.group(1).strip().lower() in used_values:
+            yield None, m.group(2).strip()
             continue
         # numeric marker then separator (kept only if used — see build_footnotes)
         m = re.match(r"^\(?(\d{1,2})\)?\s*[-–:.)]\s+(\S.*)$", s)
@@ -157,29 +270,38 @@ def _defined_marker_keys(fn_pages_text: list[tuple[int, str]]) -> set[str]:
             # Exclude bare digits: _candidate_defs also matches numbered prose
             # ("1. Informed consent"), and build_footnotes drops those as ordinals.
             # A stray '2' would otherwise be promoted out of 'Weekly x 2 weeks'.
-            # Real footnote markers here are letters and symbols.
-            if marker.isdigit():
+            # Real footnote markers here are letters and symbols. A legend
+            # definition (marker None) keys no marker at all.
+            if marker is None or marker.isdigit():
                 continue
             keys.add(marker.lower())
     return keys
 
 
-def build_footnotes(fn_pages_text: list[tuple[int, str]], used: set[str]) -> list[dict]:
-    """Collect definitions keyed by USED markers, plus bare symbols.
+def build_footnotes(fn_pages_text: list[tuple[int, str]], used: set[str],
+                    used_values: set[str] | None = None) -> list[dict]:
+    """Collect definitions keyed by USED markers, plus bare symbols and legends.
 
     Keep a candidate iff its marker is used, or it is a bare-symbol/letter
     footnote form. A purely numeric marker that is NOT used is an ordinal list
-    item (protocol12/15 numbered prose) and is dropped. A real footnote whose
-    usage we could not detect is kept but emitted unanchored, never invented.
+    item (protocol12/15 numbered prose) and is dropped. A LEGEND (marker None) defines a
+    printed value rather than a marker and attaches to the table. A real footnote
+    whose usage we could not detect is kept but emitted unanchored, never invented.
     """
     out = []
     seen = set()
     for page, text in fn_pages_text:
-        for marker, body in _candidate_defs(text):
+        for marker, body in _candidate_defs(text, used_values):
             if len(body) < 4:
                 continue
             key = (marker, body[:30])
             if key in seen:
+                continue
+            if marker is None:                            # legend -> binds to table
+                seen.add(key)
+                out.append({"marker": None, "text_verbatim": body[:400],
+                            "source_pages": [page], "continued_from_previous_page": False,
+                            "unanchored": False, "attaches_to": [{"kind": "table"}]})
                 continue
             is_numeric = marker.isdigit()
             used_here = marker in used
@@ -587,8 +709,14 @@ def _assemble_row_continuation(pagegrids: list[PageGrid], fn_pages_text: list[tu
                               "ambiguous": False, "ambiguity_reason": None})
             rid += 1
 
+    # rejoin cells a band boundary split before anything reads the row axis
+    _merge_shaded_rowspan(rows, cells)
+
     used_markers = collect_used_markers(cells, rows, columns)
-    footnotes = build_footnotes(fn_pages_text, used_markers)
+    # legend definitions ("X = Performed at this visit.") are keyed by a printed
+    # VALUE, so they are matched against the values this table actually contains
+    used_values = {c["value_verbatim"] for c in cells if c.get("value_verbatim")}
+    footnotes = build_footnotes(fn_pages_text, used_markers, used_values)
     bind_markers(rows, cells, columns, footnotes)
     warnings = []
     if deferred_pages:
@@ -690,7 +818,10 @@ def _assemble_column_continuation(pagegrids, fn_pages_text, pages, title) -> dic
                 cells.append(_cell(row_id, cid, gc, pg.page))
 
     used_markers = collect_used_markers(cells, rows, columns)
-    footnotes = build_footnotes(fn_pages_text, used_markers)
+    # legend definitions ("X = Performed at this visit.") are keyed by a printed
+    # VALUE, so they are matched against the values this table actually contains
+    used_values = {c["value_verbatim"] for c in cells if c.get("value_verbatim")}
+    footnotes = build_footnotes(fn_pages_text, used_markers, used_values)
     bind_markers(rows, cells, columns, footnotes)
     return {"title_verbatim": title, "kind": classify_kind(title, columns),
             "source_pages": pages,

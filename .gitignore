@@ -9,3 +9,6 @@ tests/fixtures/*.pdf
 
 # Python build artifacts
 *.egg-info/
+
+# Agent tooling (local preview config)
+.claude/

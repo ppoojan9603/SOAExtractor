@@ -32,7 +32,12 @@ def test_continuation_first_row_not_eaten_as_header():
 
 
 def test_five_row_continuation_unaffected():
-    """The cap is a no-op on the design set: protocol9 (43) and protocol15
-    (whose soa-2 is the other multi-page row-continuation span) are unchanged."""
-    assert len(run("data/protocols/protocol9.pdf", max_candidates=3)["tables"][0]["rows"]) == 43
+    """The cap is a no-op on the design set: protocol9 and protocol15 (whose
+    soa-2 is the other multi-page row-continuation span) are unchanged by it.
+
+    protocol9's count is 40 rather than the original 43 for an unrelated reason
+    -- the shaded-rowspan merge rejoined three split cells -- not because this
+    continuation cap moved anything.
+    """
+    assert len(run("data/protocols/protocol9.pdf", max_candidates=3)["tables"][0]["rows"]) == 40
     assert len(run("data/protocols/protocol15.pdf", max_candidates=3)["tables"][0]["rows"]) == 34

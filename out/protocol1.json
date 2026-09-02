@@ -3721,16 +3721,84 @@
           "ambiguity_reason": null
         }
       ],
-      "footnotes": [],
+      "footnotes": [
+        {
+          "marker": null,
+          "text_verbatim": "Performed at this visit.",
+          "source_pages": [
+            53
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": false,
+          "attaches_to": [
+            {
+              "kind": "table"
+            }
+          ]
+        },
+        {
+          "marker": "a",
+          "text_verbatim": "Performed at this visit if patient is an insulin-dependent diabetic.",
+          "source_pages": [
+            53
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": false,
+          "attaches_to": [
+            {
+              "kind": "cell",
+              "row_id": "r20",
+              "col_id": "c2"
+            }
+          ]
+        },
+        {
+          "marker": "b",
+          "text_verbatim": "Performed at this visit and via telephone interview 2 weeks following this visit.",
+          "source_pages": [
+            53
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": false,
+          "attaches_to": [
+            {
+              "kind": "cell",
+              "row_id": "r26",
+              "col_id": "c9"
+            },
+            {
+              "kind": "cell",
+              "row_id": "r26",
+              "col_id": "c10"
+            },
+            {
+              "kind": "cell",
+              "row_id": "r26",
+              "col_id": "c11"
+            },
+            {
+              "kind": "cell",
+              "row_id": "r26",
+              "col_id": "c12"
+            }
+          ]
+        },
+        {
+          "marker": null,
+          "text_verbatim": "Practice only - It is recommended that a sampling of the CIBIC+, ADAS-Cog, DAD,",
+          "source_pages": [
+            53
+          ],
+          "continued_from_previous_page": false,
+          "unanchored": false,
+          "attaches_to": [
+            {
+              "kind": "table"
+            }
+          ]
+        }
+      ],
       "warnings": [
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker 'a' used but not defined nearby"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker 'b' used but not defined nearby"
-        },
         {
           "kind": "unknown_column_role",
           "detail": "2 columns with role=unknown",
