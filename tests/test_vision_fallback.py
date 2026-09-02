@@ -89,9 +89,19 @@ def _norm(s):
     return re.sub(r"\s+", " ", (s or "")).strip().lower()
 
 
-def _clean(s):
+def _marker_free(s):
+    """Normalised, with a single trailing footnote-marker letter removed.
+
+    The deterministic path now strips a row label's footnote marker into
+    `footnote_markers` ('Alcohol breathalyzer', not 'breathalyzerf'), but the
+    recorded vision fixture is raw model output that glues it back on
+    ('Alcohol breathalyzerf', 'CANTABelectJ'). This is a marker *representation*
+    difference, not a recall difference, so the parity comparison strips a
+    trailing a-j marker from BOTH sides -- applied symmetrically it cannot inflate
+    a mismatch, only align the two spellings of the same assessment.
+    """
     import re
-    return _norm(re.sub(r"^[a-jA-J]\n", "", s or ""))
+    return re.sub(r"[a-j]$", "", _norm(s))
 
 
 def test_vision_parity_against_committed_p48(monkeypatch):
@@ -99,8 +109,8 @@ def test_vision_parity_against_committed_p48(monkeypatch):
     vt = run(FIXTURE_PDF, vision_fallback=True)["tables"][0]
     gt = json.loads(Path("out/protocol12.json").read_text(encoding="utf-8"))["tables"][0]
 
-    gt_rows = {_norm(r["label_verbatim"]) for r in gt["rows"]}
-    v_rows = {_norm(r["label_verbatim"]) for r in vt["rows"]}
+    gt_rows = {_marker_free(r["label_verbatim"]) for r in gt["rows"]}
+    v_rows = {_marker_free(r["label_verbatim"]) for r in vt["rows"]}
     row_recall = len(gt_rows & v_rows) / len(gt_rows)
     assert row_recall >= 0.95, f"row recall {row_recall:.0%}"
 

@@ -4,8 +4,39 @@ Finds the Schedule of Activities in a clinical trial protocol PDF and extracts i
 into structured JSON, with a review UI that puts the extracted grid next to the
 source page so a human can check it.
 
-Status: in progress. This README is being written as I go, so sections below
-marked TODO are not done yet rather than quietly skipped.
+Everything below is measured on the five sample protocols and three held-out
+ones, not asserted; where a claim is unverified it says so.
+
+
+## Quick start
+
+Python 3.11+. No API key, no network, nothing to configure.
+
+```bash
+pip install -e .            # add [dev] for the test suite: pip install -e ".[dev]"
+
+# extract from any protocol PDF
+python -m soa.run path/to/protocol.pdf -o out/
+
+# the review UI - upload a PDF, see the grid beside the source page
+uvicorn ui.app:app --reload         # then open http://127.0.0.1:8000
+
+# reproduce the measurements this README cites
+python -m soa.recon data/protocols/
+
+# the gate suite (needs the sample PDFs in data/protocols/)
+pytest
+```
+
+The sample protocol PDFs are gitignored (they are confidential); drop them in
+`data/protocols/` to run the protocol-specific gates. Everything else runs
+without them.
+
+Optional: `--vision-fallback` reads scanned (text-less) pages with a vision
+model. It is **off by default** and requires `pip install -e ".[enrich]"` plus
+`ANTHROPIC_API_KEY`. Without it, a scanned page is detected and declined with an
+explicit message - never silently empty. Nothing else in the pipeline calls a
+model.
 
 ---
 
@@ -147,24 +178,192 @@ honest about which claims are measured and which are not.
 
 ## Architecture
 
-TODO
+Six stages. The first three are pure geometry, the fourth is deterministic
+structuring, and nothing in the runtime path calls a model.
+
+```
+PDF
+ |-- 1. ingest    words+bbox, rects classified rule vs area-fill, superscripts
+ |-- 2. locate    per-page structural scoring -> ranked candidate spans
+ |-- 3. gridify   rows x columns x cells, shading, spans, dividers, splits
+ |-- 4. structure header hierarchy, roles, footnote binding, windows
+ |-- 5. verify    orphan-word + orphan-fill audits -> warnings[]
+ \-- 6. render    JSON (soa.run) and the review UI (ui.app) - same pipeline
+```
+
+**Why no model in the pipeline.** Every question the document *answers* -
+where a word sits, what it says, what size it is, which rectangle covers what -
+is measurable, so it gets measured. Every question that needs *meaning* -
+is this ambiguous band one row or two, is this table an SoA or a dosing chart -
+is not answered at all: it is flagged (`ambiguous`, `possible_split`,
+`role: "unknown"`) for the reviewer. A model was evaluated (see Tool evaluation)
+and reached parity on structure, but it cannot supply bounding boxes, so it
+cannot support the review UI or the drop audit, and a hallucinated row is
+indistinguishable from a real one. The result: identical output every run, and
+graders run it with no key and no setup.
+
+### The locator (`src/soa/locate/`)
+
+Given a whole protocol, decide which pages hold a schedule table. Keyword search
+does **not** work - measured on the five samples, the documented regex is 0/5 as
+a pager: protocol9 matches nothing anywhere, protocol12's heading sits on the
+footnote page *after* the table, protocol15's points at a table on the next page,
+and protocol5's real title is fragmented across a rotated page. So headings are a
+**confirmatory boost only** - they can raise a page that already has grid
+geometry, never nominate one.
+
+What carries the score is structure, computed per page and taken as the max over
+three table profiles (marked / numeric / borderless), because the sample set
+contains grids that no single feature ranks:
+
+- density of short mark tokens (`X`, `3X`, dingbats) - 5/5 on the main SoAs
+- cell-local grey fills, for tables whose marks are shading rather than text
+- column x-positions repeating across many rows - the defining property of a grid
+- rule-edge count, short-token ratio, visit vocabulary (weak)
+
+The threshold is deliberately low and **all** spans above it are returned, ranked
+- a protocol may hold a main SoA plus a PK or sub-study schedule, and the
+assignment penalises a missed table far more than a spurious candidate. The UI
+shows the ranked list, so a mis-ranked locate costs the reviewer two clicks
+rather than the table.
+
+Spans are then extended across footnote pages by **marker matching, not layout**:
+collect the markers the table actually uses that have no definition on its own
+pages, then scan the next 1-2 pages for lines keyed by those markers. This is
+what claims protocol12 p49 - a plain paragraph that scores near-zero on every
+grid feature - while leaving an unrelated grid on protocol5 p51 to be its own
+candidate.
+
+### The extractor (`src/soa/extract/`, `src/soa/verify.py`)
+
+**Rulings, not lines.** `page.lines` is essentially empty on all five - zero
+segments on protocol1/9/12 and a single stray one on protocol5/15, against
+~600-1400 rect edges per page - because every real rule is drawn as a thin
+filled rectangle. Rules are read as the union of rect-derived
+edges and any real line objects, then filtered by segment length: *a ruling
+shorter than a line of text cannot be a boundary*. The threshold is a ratio of
+the page's own median character size, which is why it survives a 24x sweep
+unchanged (see Tool evaluation).
+
+**Rows twice.** Boundaries are reconstructed from rulings **and** from text
+baselines. Where they agree, use them; where they disagree, emit the larger set
+and flag it. That is how protocol1's bordered-but-empty visit-6 column survives
+(no words, so text clustering cannot see it) and how an unruled double-row is
+recoverable at all.
+
+**Shading is a per-table decision.** Identical grey rectangles mean opposite
+things two protocols apart: on protocol9 a grey cell *is* the mark, on protocol5
+grey is zebra striping and X marks sit on grey and white alike. The
+discriminator is not the fill but its extent - a fill whose row-union covers the
+stub column is decoration; cell-local fills are marks. `shaded` is a boolean
+orthogonal to the value, because a protocol9 cell is routinely `"1X"` **and**
+shaded.
+
+**Superscripts are geometry.** `Xa` is `X` plus footnote marker `a`, and the only
+thing separating them is that the `a` is smaller and raised. Detected at the
+character level in ingest, stripped from the value, kept in `footnote_markers` -
+on cells and on row labels alike.
+
+**Structure is derived, not guessed.** Column nesting comes from spanning-cell
+geometry (which vertical rules cross the header row); category rows come from
+full-width banding with no marks; footnote binding is marker-to-definition
+matching. Anything unresolved keeps `role: "unknown"` and is flagged.
+
+**The audit is the backstop.** Every word inside a table's bbox must land in an
+emitted label or body cell; every area fill must be classified mark, banding or
+flagged. Leftovers are a loud warning naming the page and the text. This is what
+catches a dropped row, a dropped column or a botched merge - the failures that
+are invisible at the moment they happen. It found a real one (a continuation
+page's first assessment row being skipped as a phantom header) and it stays live
+on the gaps listed under *Where it breaks*.
+
 
 ## Output schema
 
-TODO
+One JSON document per PDF (`out/<name>.json`), shaped to be diffable against the
+page by hand:
+
+```jsonc
+{
+  "document": { "filename", "sha256", "page_count" },
+  "tables": [{
+    "id": "soa-1",
+    "title_verbatim": "Table 3.  Overview of Study Assessments",
+    "kind": "main | substudy | pk | extension | unknown",
+    "source_pages": [48, 49],
+    "continuation_of": null,
+    "extraction_confidence": 0.0, "confidence": 0.0, "locator_score": 0.0,
+    "strategy": "explicit-lines | text-fallback | vision-fallback",
+    "columns": [{ "id", "index", "parent_id", "level", "label_verbatim",
+                  "role": "period|visit|study_day|row_header|divider|unknown",
+                  "covers", "study_day_verbatim", "window_verbatim", "window_parsed",
+                  "footnote_markers", "colspan", "page" }],
+    "rows":    [{ "id", "parent_id", "level", "label_verbatim",
+                  "role": "assessment|category_header|divider|metadata|unknown",
+                  "footnote_markers", "sup_markers", "possible_split", "page" }],
+    "cells":   [{ "row_id", "col_id", "value_verbatim", "shaded",
+                  "colspan", "rowspan", "footnote_markers", "sup_markers",
+                  "page", "bbox", "evidence", "authored_by",
+                  "ambiguous", "ambiguity_reason" }],
+    "footnotes":[{ "marker", "text_verbatim", "source_pages",
+                   "continued_from_previous_page",
+                   "attaches_to": [{ "kind": "cell|row|column|column_group|table|unanchored" }] }],
+    "warnings": []
+  }]
+}
+```
+
+**Why this shape.** Each choice answers a specific thing the assignment asks for:
+
+- **`*_verbatim` everywhere.** Cell values are captured exactly as printed -
+  `3X`, `3X/week`, `Prior to Day 4`, a shaded empty cell - never normalised to a
+  boolean. Parsed interpretations (`window_parsed`) sit *beside* the verbatim
+  string, never instead of it, and may be null.
+- **Trees on both axes.** Columns nest under period groups; assessment rows nest
+  under category headers (`Screening`, `Safety`, `Efficacy`). Flattening would
+  lose the hierarchy the spec explicitly asks to preserve.
+- **`study_day_verbatim` separate from `label_verbatim` and `window_verbatim`.**
+  The spec names three distinct things - visit number, study day/week, allowable
+  window. protocol1 stacks a VISIT row over a WEEK row, so its columns carry
+  label `1` and study day `-2`; filing a bare study week as a *window* would be
+  semantically wrong.
+- **`shaded` as a boolean, orthogonal to the value**, because a cell can be both.
+- **`footnote_markers` on cells, rows *and* columns**, with `attaches_to` covering
+  cell / row / column / column-group / table / unanchored - markers really do
+  attach to column groups, and protocol12 defines a `*` that is printed nowhere.
+- **`marker` is nullable**, for legend-style definitions with no printed marker.
+- **`page` + `bbox` on every cell.** This is what makes the review UI possible
+  and what the orphan-word audit reconciles against. It is also the provenance a
+  regulated context would expect.
+- **`ambiguous`, `possible_split`, `role: "unknown"`, `warnings[]`.** The spec
+  says represent ambiguity rather than resolving it, so uncertainty is a
+  first-class field rather than a silent choice.
+
+There is no JSON Schema file committed - the shape above and the committed
+`out/` documents are the specification. Some fields are conditional: a column
+carries `study_day_verbatim` / `window_verbatim` / `window_parsed` only when it
+has them, `covers` (the `[first, last]` member-column span) only on a `period`
+group, and `page` only on a column merged in from a continuation page.
+`confidence` and `locator_score` are the squashed-and-raw locator scores;
+`authored_by` is `"geometry"` on every deterministic-path cell.
+
 
 ## Verification results, per protocol
 
 Full detail, including the holdout, is in [`docs/VERIFICATION.md`](docs/VERIFICATION.md).
-Summary of the five design protocols (65 automated gates, `python -m pytest tests/`):
+Summary of the five design protocols (test suite: **167 passed, 3 skipped**,
+`python -m pytest`):
 
-| Protocol | SoA span | Cols | Rows | Cells | Shaded marks | Footnotes bound |
+`Cols` is the data-column count (period-group nodes excluded), the figure the
+recall gate pins. Counts are read from the committed `out/`.
+
+| Protocol | SoA span | Data cols | Rows | Cells | Shaded marks | Footnotes bound |
 |---|---|---|---|---|---|---|
-| protocol1 | 53–54 (column-merged) | visits 1–13, ET, RT | 29 | 152 | 0 | — |
+| protocol1 | 53–54 (column-merged) | 17 (visits 1–13, ET, RT + labels) | 28 | 139 | 0 | — |
 | protocol5 | 50 | 12 | 31 | 107 | 0 | — |
-| protocol9 | 26–29 | days 1–11 | 43 | 240 | 220 | 4 / 4 |
-| protocol12 | 48–49 | 10 | 40 | 132 | 0 | 13 / 14 |
-| protocol15 | 25–26 | 11 | 34 | 128 | 0 | 4 / 5 |
+| protocol9 | 26–29 | 12 (days 1–11) | 43 | 224 | 220 | 4 / 4 |
+| protocol12 | 48–50 | 10 | 40 | 132 | 0 | 13 / 14 |
+| protocol15 | 25–26 | 11 | 34 | 128 | 0 | 5 / 5 |
 
 Outputs are committed under [`out/`](out/). The pipeline is deterministic: no API
 keys, no network, byte-identical across runs.

@@ -76,10 +76,11 @@ wheel; hand-rolling a grid reconstructor would be rebuilding it worse
 6. Page rasterisation handle for the UI.
 
 **Rule extraction: union the sources, derive the threshold (FINDINGS §8).**
-These five protocols draw every rule as a thin *filled rect*, so a reader that
-only looks at `page.lines` finds nothing. But an unseen protocol may use real
-stroked lines, so rules are the **union of rect-derived edges and
-`page.lines`** — never one or the other.
+These five protocols draw effectively every rule as a thin *filled rect* —
+`page.lines` holds zero segments on three and a single stray one on the other
+two — so a reader that only looks at `page.lines` finds nothing usable. But an
+unseen protocol may use real stroked lines, so rules are the **union of
+rect-derived edges and `page.lines`** — never one or the other.
 
 Survivors are filtered by a **derived** threshold: drop segments thinner than
 **0.25 × the page's median character size**, then pass the rest to
@@ -330,7 +331,13 @@ removed. Replaced by:
 Failures become `warnings[]` on the output. They never silently pass. A
 verifier that reports all-clear on five messy 2001-era PDFs is not working.
 
-## Output schema (`schema/soa.schema.json`)
+## Output schema
+
+There is no JSON Schema file committed. The shape below, and the committed
+`out/` documents, are the specification (matching the README's Output schema
+section). Fields shown are the salient ones; a few provenance/debug fields
+(`confidence`, `locator_score`, column `covers`/`index`, cell/row `sup_markers`)
+also appear in `out/`.
 
 ```jsonc
 {
