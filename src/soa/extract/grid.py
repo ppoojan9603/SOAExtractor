@@ -155,18 +155,36 @@ def _row_spans(words, cell_bboxes, n_cols, median_size, start_row):
     return out
 
 
-def _superscript_markers(chars: list[dict]) -> list[str]:
-    """Footnote-letter markers drawn as superscripts in a cell (DECISIONS row 6).
+def _marker_chars(chars: list[dict]) -> list[dict]:
+    """Char objects in a cell that are footnote-letter superscript markers.
 
-    A char that is both smaller than the cell's body text AND raised above its
-    baseline is a superscript; when it is a letter a-j it is a footnote marker,
-    separate from value_verbatim. Subscripts (raised DOWN, e.g. FEV1) are not
-    footnote markers and are ignored.
+    A marker is smaller than the body text AND raised above the baseline; a-j
+    only. Both the letter list and the value-strip id set derive from this one
+    function so they can never drift.
+
+    The raise test is measured PER LINE, not against a cell-global baseline.
+    That is the M8 fix: a multi-line cell (a wrapped label, or a rowspan stub
+    like protocol9 p20 'DETOXIFICATION/ DOUBLE BLIND') has one baseline per line,
+    and a cell-global median sits *between* the lines -- so an upper line's small
+    caps test as "raised" against it and small-caps letters get stripped as
+    phantom markers (DETOXIFICATION -> DTOXTON + e,i,f,c,a). Comparing each glyph
+    to the body baseline of its OWN line keeps small caps (they sit on their
+    line's baseline) while still catching a genuine superscript (raised above it)
+    and protocol12's marker-on-its-own-line 'a\\nX' pattern (handled by the
+    no-body-on-this-line branch).
+
+    KNOWN NARROW LIMITATION: a line that is ENTIRELY small caps (no full-size
+    glyph on it) sitting above a body line has no same-line body to compare
+    against, so it falls to the alone-on-line branch and its a-j letters are read
+    as markers. Every case in the five and the holdout carries a full-size
+    leading capital on such lines (protocol9 p20: P/D/M/S), so none is hit; an
+    unseen all-small-caps label line could be. Pinned by
+    tests/test_smallcaps_markers.py::test_all_smallcaps_line_above_body_is_the_known_gap.
     """
+    from statistics import median
     letters = [c for c in chars if (c.get("text") or "").strip()]
     if len(letters) < 2:
         return []
-    from statistics import median
     sizes = [c["size"] for c in letters if c.get("size")]
     if not sizes:
         return []
@@ -174,48 +192,56 @@ def _superscript_markers(chars: list[dict]) -> list[str]:
     # ['c','X'] (protocol15 p25), where the median sits between the superscript
     # and the body glyph and no char looks small.
     body_size = max(sizes)
-    body = [c for c in letters if c.get("size", body_size) >= 0.95 * body_size]
-    if not body:
-        return []
-    base_mid = median([(c["top"] + c["bottom"]) / 2 for c in body])
+
+    # cluster glyphs into text lines by vertical midpoint
+    ordered = sorted(letters, key=lambda c: (c["top"] + c["bottom"]) / 2)
+    tol = 0.6 * body_size
+    lines: list[list[dict]] = [[ordered[0]]]
+    for c in ordered[1:]:
+        prev = lines[-1][-1]
+        if (c["top"] + c["bottom"]) / 2 - (prev["top"] + prev["bottom"]) / 2 > tol:
+            lines.append([c])
+        else:
+            lines[-1].append(c)
+
+    line_of: dict[int, int] = {}
+    line_mid: list[float] = []
+    line_body_mid: list[float | None] = []
+    for li, ln in enumerate(lines):
+        body = [c for c in ln if c.get("size", body_size) >= 0.95 * body_size]
+        line_mid.append(median([(c["top"] + c["bottom"]) / 2 for c in ln]))
+        line_body_mid.append(
+            median([(c["top"] + c["bottom"]) / 2 for c in body]) if body else None)
+        for c in ln:
+            line_of[id(c)] = li
+    body_line_mids = [line_mid[i] for i in range(len(lines)) if line_body_mid[i] is not None]
+
     out = []
-    for c in letters:
-        sz = c.get("size", body_size)
+    for c in letters:                       # ORIGINAL order -> stable marker order
+        if c.get("size", body_size) >= 0.9 * body_size:
+            continue
+        if c["text"].lower() not in "abcdefghij":
+            continue
         mid = (c["top"] + c["bottom"]) / 2
-        raised = mid < base_mid - 0.1 * body_size      # sits above the body baseline
-        if sz < 0.9 * body_size and raised and c["text"].lower() in "abcdefghij":
-            out.append(c["text"].lower())
+        li = line_of[id(c)]
+        if line_body_mid[li] is not None:
+            if mid < line_body_mid[li] - 0.1 * body_size:   # raised above its own line
+                out.append(c)
+        elif any(bm > mid + 0.5 * body_size for bm in body_line_mids):
+            out.append(c)                    # marker alone on its line, value below
     return out
 
 
-def _superscript_char_ids(chars: list[dict]) -> set[int]:
-    """Object ids of the chars _superscript_markers flags as footnote markers.
+def _superscript_markers(chars: list[dict]) -> list[str]:
+    """Footnote-letter markers (a-j) drawn as superscripts in a cell. Subscripts
+    (raised DOWN) and small caps (on their own line's baseline) are ignored."""
+    return [c["text"].lower() for c in _marker_chars(chars)]
 
-    Same size+raise test as the detector, but returns the specific char objects
-    so value_verbatim can exclude exactly those glyphs -- not by string surgery
-    on the letter (which could delete real content) and not by newline-stripping
-    (which would destroy legitimate wrapped labels).
-    """
-    letters = [c for c in chars if (c.get("text") or "").strip()]
-    if len(letters) < 2:
-        return set()
-    from statistics import median
-    sizes = [c["size"] for c in letters if c.get("size")]
-    if not sizes:
-        return set()
-    body_size = max(sizes)
-    body = [c for c in letters if c.get("size", body_size) >= 0.95 * body_size]
-    if not body:
-        return set()
-    base_mid = median([(c["top"] + c["bottom"]) / 2 for c in body])
-    ids = set()
-    for c in letters:
-        sz = c.get("size", body_size)
-        mid = (c["top"] + c["bottom"]) / 2
-        raised = mid < base_mid - 0.1 * body_size
-        if sz < 0.9 * body_size and raised and c["text"].lower() in "abcdefghij":
-            ids.add(id(c))
-    return ids
+
+def _superscript_char_ids(chars: list[dict]) -> set[int]:
+    """Object ids of the marker glyphs, so value_verbatim can exclude exactly
+    those (no string surgery on the letter, no newline-stripping)."""
+    return {id(c) for c in _marker_chars(chars)}
 
 
 def _value_without_superscripts(chars: list[dict], raw_text: str,

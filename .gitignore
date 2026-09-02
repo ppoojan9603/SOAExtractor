@@ -6,3 +6,6 @@ __pycache__/
 # holdout PDFs are third-party documents; keep them out of the repo
 data/holdout/*.pdf
 tests/fixtures/*.pdf
+
+# Python build artifacts
+*.egg-info/

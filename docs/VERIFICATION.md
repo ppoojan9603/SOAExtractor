@@ -194,9 +194,36 @@ NCT02689531 reconciles clean.
 
 ---
 
+## M8 — Manual verification finding (small caps stripped as markers)
+
+Found by manual review of protocol9 p20 in the UI against the rendered page. No
+automated gate caught it; 167 tests were green. Small-caps row labels were being
+stripped as footnote markers (`DETOXIFICATION` -> `DTOXTON` + markers
+`e,i,f,c,a`). Root cause: the superscript raise-test used a cell-global
+baseline, which a two-line cell makes meaningless — the median of body glyphs
+across both lines sits *between* the lines, so an upper line's small caps test
+as "raised" against it.
+
+Fixed by measuring the raise per line: each glyph is compared to the body
+baseline of its own text line (grid.py `_marker_chars`), with an alone-on-line
+branch preserving protocol12's marker-on-its-own-line `a\nX` pattern. Gate:
+protocol1/5/12/15 `out/` byte-identical; protocol9 changes by exactly one row —
+p20 soa-3's label restored to `DETOXIFICATION/\nDOUBLE BLIND` with markers `[]`.
+Marker inventory across the five is unchanged (144/144 genuine a-j markers
+kept). One narrow limitation remains and is pinned by a test: an *all*-small-caps
+line (no full-size leading capital) above a body line still falls to the
+alone-on-line branch — no page in the five or holdout hits it.
+
+A second defect on the same p20 cell — a vertically merged (rowspan) stub cell
+emitted as one row per ruled band — was left unfixed by design; it loses no
+content and its fix rewrites the whole row axis for a cosmetic gain on a
+secondary table (README *Where it breaks* / *What I would build next* A2).
+
+---
+
 ## The five sample protocols (design set — not evidence of generalisation)
 
-Automated gates: **65 tests**, `python -m pytest tests/`.
+Automated gates: **171 passed, 3 skipped**, `python -m pytest`.
 
 | Protocol | SoA span | Cols | Rows | Cells | Marks | Footnotes bound |
 |---|---|---|---|---|---|---|

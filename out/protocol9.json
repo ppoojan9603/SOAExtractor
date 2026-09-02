@@ -7975,26 +7975,12 @@
         },
         {
           "id": "r4",
-          "label_verbatim": "DTOXTON/ DOUBLE BLIND",
+          "label_verbatim": "DETOXIFICATION/\nDOUBLE BLIND",
           "role": "assessment",
           "parent_id": null,
           "level": 0,
-          "footnote_markers": [
-            "e",
-            "i",
-            "f",
-            "c",
-            "a"
-          ],
-          "sup_markers": [
-            "e",
-            "i",
-            "f",
-            "i",
-            "c",
-            "a",
-            "i"
-          ],
+          "footnote_markers": [],
+          "sup_markers": [],
           "page": 20,
           "possible_split": null
         },
@@ -8401,26 +8387,6 @@
           "page": 20,
           "detail": "6 word(s) inside the table bbox landed in no emitted cell, row label or column label -- dropped text",
           "text": "Group Subjects 48 Group Subjects 48"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker 'a' used but not defined nearby"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker 'c' used but not defined nearby"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker 'e' used but not defined nearby"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker 'f' used but not defined nearby"
-        },
-        {
-          "kind": "marker_used_undefined",
-          "detail": "marker 'i' used but not defined nearby"
         },
         {
           "kind": "unknown_column_role",

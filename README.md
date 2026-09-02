@@ -411,6 +411,14 @@ message) rather than silently producing a wrong table:
   Baseline). Modelled as a flagged single-parent approximation; a strict tree
   cannot hold a child with two parents.
 
+- **Vertically merged (rowspan) stub cells** are emitted as one row per ruled
+  band. protocol9 p20 renders the single cell `PHASE I / STABILIZATION` as three
+  rows. No content is lost; both label lines are present. Spurious rows are the
+  less-penalised direction. The principled fix is the vertical twin of the
+  colspan detector (test whether a horizontal rule actually spans a given
+  column's x-range), deliberately not built: it rewrites the row axis that row
+  ids, cell keys, category parents, the recall gates and the orphan-word audit
+  all sit on, for a cosmetic gain on a secondary table.
 - **Multi-row headers on results / secondary tables that carry no timepoint
   vocabulary.** Header-row detection keys off the timepoint vocabulary
   (VISIT / WEEK / DAY / …), so a results table whose header is `N / Mean /
@@ -439,8 +447,15 @@ In priority order, from what the holdout exposed:
    holdout investigation — it disagrees with the current detector on 4 of 5
    samples because it misreads a leading category row (`Screening`) as header.
    A correct version needs a category-row carve-out and full re-validation.
-3. **Scanned-page OCR** as an opt-in, behind the existing loud-failure detector.
-4. **The `--enrich` model pass** (adapter already built, off by default) for the
+3. **Rowspan detection (A2)** — the vertical twin of the colspan `_row_spans`
+   detector: where a horizontal rule has no drawn segment across a column's
+   x-range, the cells it appears to separate are one merged cell (emit with
+   `rowspan`, union the text). Deferred because it rewrites the row axis that row
+   ids, cell keys, category parents, the recall gates and the orphan-word audit
+   all sit on — high blast radius for a cosmetic gain on a secondary table (see
+   *Where it breaks*). Needs full five + holdout re-validation.
+4. **Scanned-page OCR** as an opt-in, behind the existing loud-failure detector.
+5. **The `--enrich` model pass** (adapter already built, off by default) for the
    advisory role/hierarchy fields, with the id+label echo assertion.
 
 ## Documentation and CDISC alignment
