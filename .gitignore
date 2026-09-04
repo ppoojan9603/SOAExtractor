@@ -1,4 +1,3 @@
-data/protocols/*.pdf
 .env
 __pycache__/
 .venv/

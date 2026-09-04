@@ -28,9 +28,9 @@ python -m soa.recon data/protocols/
 pytest
 ```
 
-The five sample PDFs are gitignored because they're confidential. Drop them in
-`data/protocols/` if you want to run the protocol-specific gates; everything
-else runs without them.
+The five sample protocols are committed in `data/protocols/`, so the
+protocol-specific gates run out of the box. The three holdout PDFs are not in the
+repo; `out/holdout/` has their output.
 
 There's an optional `--vision-fallback` that reads scanned pages with a vision
 model. It's off by default and needs `pip install -e ".[enrich]"` plus an
