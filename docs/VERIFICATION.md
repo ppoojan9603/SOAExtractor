@@ -322,3 +322,34 @@ Specific structures verified against the rendered page:
 - The AE-frequency table in protocol15 (pp. 52–54) scores nearly as high as the
   real SoA. It is a legitimate multi-page ruled table; `kind` keeps it
   `unknown` and the candidate list makes the distinction cheap for a reviewer.
+
+## Scope of the by-hand review
+
+The automated gates cover all five design protocols and the three holdouts. My
+own page-by-page comparison against the source PDFs did not, so here is exactly
+what I checked and what I did not.
+
+**Checked against the PDF, cell by cell:**
+
+- **protocol9** — both tables. The main SoA (pp. 26–29): all rows present, 11
+  study-day columns plus the stub. This review is what found two defects. Small-caps
+  row labels were being read as superscript footnote markers and stripped, so
+  `DETOXIFICATION` came out mangled; the baseline for the "is this raised?" test
+  was being computed over the whole cell, so in a two-line cell the second line's
+  capitals dragged it until the first line's small caps tested as raised. And
+  rowspan cells on p28 were split into two rows with the shaded marks duplicated
+  into both. Both fixed; the row count went 43 → 40 and the shaded-mark count
+  220 → 193.
+- **protocol1** — the SoA on pp. 53–54, upper half. All 17 visit columns present
+  including 9-13/ET/RT. Footnotes were missing entirely: 4 on the page, 0
+  captured, because definitions are keyed `a` while the marks in cells are `Xa`.
+  Fixed — protocol1 now carries 4.
+
+**Not checked by hand:** protocol1's lower half, protocol5, protocol12,
+protocol15. Those rest on the automated gates and the orphan audits, which are
+good at catching drops but say nothing about whether a mark landed in the right
+column. I would not claim those four are verified.
+
+The reason this section exists: every defect above was found by looking at a
+page, not by a test going red. The gates were green the whole time. That is worth
+knowing about the suite.

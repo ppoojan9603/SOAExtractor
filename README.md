@@ -1,12 +1,12 @@
 # SoA Extractor
 
-Finds the Schedule of Activities in a clinical trial protocol PDF and extracts it
-into structured JSON, with a review UI that puts the extracted grid next to the
-source page so a human can check it.
+Finds the Schedule of Activities in a clinical trial protocol PDF and pulls it
+into structured JSON. There's a review UI that puts the extracted grid next to
+the source page, so you can check my output against the document instead of
+taking my word for it.
 
-Everything below is measured on the five sample protocols and three held-out
-ones, not asserted; where a claim is unverified it says so.
-
+I've tried to keep this README honest about which claims I measured and which I
+didn't. Where something is unverified, or where I know it's broken, it says so.
 
 ## Quick start
 
@@ -24,29 +24,29 @@ uvicorn ui.app:app --reload         # then open http://127.0.0.1:8000
 # reproduce the measurements this README cites
 python -m soa.recon data/protocols/
 
-# the gate suite (needs the sample PDFs in data/protocols/)
+# the gate suite
 pytest
 ```
 
-The sample protocol PDFs are gitignored (they are confidential); drop them in
-`data/protocols/` to run the protocol-specific gates. Everything else runs
-without them.
+The five sample PDFs are gitignored because they're confidential. Drop them in
+`data/protocols/` if you want to run the protocol-specific gates; everything
+else runs without them.
 
-Optional: `--vision-fallback` reads scanned (text-less) pages with a vision
-model. It is **off by default** and requires `pip install -e ".[enrich]"` plus
-`ANTHROPIC_API_KEY`. Without it, a scanned page is detected and declined with an
-explicit message - never silently empty. Nothing else in the pipeline calls a
-model.
+There's an optional `--vision-fallback` that reads scanned pages with a vision
+model. It's off by default and needs `pip install -e ".[enrich]"` plus an
+`ANTHROPIC_API_KEY`. Without it a scanned page gets detected and declined with a
+message saying so. Nothing else in the pipeline calls a model.
 
 ---
 
-## Tool evaluation
+## Which tools I tried
 
-I benchmarked before building, because grid reconstruction looked like a day of
-work and I wanted to know whether it was a day someone had already spent.
+I benchmarked before I built anything, because reconstructing a grid from
+scratch looked like a full day of work and I wanted to know whether it was a day
+someone had already spent for me.
 
-Test pages: the SoA page of all five protocols. Ground truth counted by hand from
-rendered pages where I have it.
+I ran each engine on the SoA page of all five protocols. Ground truth is my own
+hand count off the rendered pages.
 
 | Engine | p5 p50 | p9 p26 |
 |---|---|---|
@@ -54,44 +54,48 @@ rendered pages where I have it.
 | pdfplumber `extract_table()` default | 32 x **36** | 20 x **34** |
 | camelot lattice | 32 x 12 | 20 x 12 |
 | camelot stream | 36 x 12 | 35 x 7 |
-| pdfplumber + derived ruling filter | **32 x 12** | **24 x 12** |
+| pdfplumber + my ruling filter | **32 x 12** | **24 x 12** |
 
-**Chosen: pdfplumber, with rulings filtered by segment length.**
+I went with pdfplumber and my own ruling filter.
 
-**Rejected: camelot.** It matches pdfplumber and costs an OpenCV and Ghostscript
-dependency to do it. Its `stream` flavour is worse on both pages.
+I rejected camelot. It matches pdfplumber on both pages and charges me an
+OpenCV and a Ghostscript dependency for the privilege. Its `stream` flavour is
+worse on both.
 
-**Not tested: Docling.** Not installable in the environment I benchmarked in. I
-would have liked a third data point; I am flagging it as untested rather than
-pretending I ruled it out.
+I didn't test Docling. It wouldn't install in the environment I was
+benchmarking in and I ran out of patience for it. I'd have liked a third data
+point, so I'm flagging it as untested rather than pretending I ruled it out.
 
-**Deliberately not used: cloud table APIs** (Textract, Azure Document
-Intelligence). Probably the strongest option for merged cells, but the protocols
-are confidential and may not be uploaded anywhere that retains content. A local
-engine sidesteps the question. Same reasoning ruled out free-tier Gemini, whose
-terms retain submitted content for product improvement.
+I ruled out the cloud table APIs (Textract, Azure Document Intelligence) on
+purpose. They're probably the strongest option going for merged cells, but you
+told me these protocols can't be uploaded anywhere that retains content, and I
+didn't want to spend the week arguing with myself about whether a particular
+vendor's retention policy counted. A local engine makes the question go away.
+Same reasoning killed free-tier Gemini, whose terms keep submitted content for
+product improvement.
 
-### Why the default over-segments, and why I did not fix it with a tolerance
+### Why the default over-segments, and why I didn't just set a tolerance
 
-pdfplumber's default returns 36 columns on protocol5 p50 where there are 12.
-`snap_tolerance=6` fixes it, and my first instinct was to ship that. It was the
-wrong instinct: 6 works, 8 works, and 10 starts dropping rows while 12 collapses
-the table to a single row. A constant one step from a cliff, chosen because it
-happened to work on the five files I had, is exactly the kind of thing that
-passes here and fails on the protocol you actually get graded on.
+pdfplumber's default gives me 36 columns on protocol5 p50 where there are 12.
+`snap_tolerance=6` fixes it and my first instinct was to ship that.
 
-So I looked at why instead. Every column boundary in these files is drawn twice:
-the real ruling (66 tall segments, ~11pt each) and, 0.4pt away, four **0.5pt
-stubs** — corner joints. Twelve boundaries become twenty-four x-positions become
-thirty-six columns. Snapping was papering over noise.
+That was a bad instinct. 6 works, 8 works, 10 starts dropping rows, and 12
+collapses the whole table into one row. That's a constant sitting one step from
+a cliff, picked because it happened to work on the five files I was handed. It
+would pass here and fail on whatever protocol you actually grade me against.
 
-The fix is a filter, not a tolerance: **a ruling segment shorter than a line of
-text cannot be a column boundary.** The threshold comes from the page's own
-median character size, so it scales with the document instead of being a number
-I picked.
+So I went and looked at why instead. Every column boundary in these files is
+drawn twice: the real ruling (66 tall segments, about 11pt each) and, 0.4pt
+away, four 0.5pt stubs that are corner joints. Twelve boundaries become
+twenty-four x-positions become thirty-six columns. Snapping was just papering
+over noise.
 
-To check that this is robust rather than lucky, I swept the ratio across a 24x
-range on all five protocols:
+The fix turned out to be a filter, not a tolerance. A ruling segment shorter
+than a line of text can't be a column boundary. The threshold comes from the
+page's own median character size, so it scales with the document rather than
+being a number I picked and hoped about.
+
+To check that wasn't luck, I swept the ratio across a 24x range on all five:
 
 | ratio of median char size | 0.05 | 0.1 | 0.25 | 0.5 | 0.9 | 1.2 |
 |---|---|---|---|---|---|---|
@@ -101,85 +105,88 @@ range on all five protocols:
 | protocol12 p48 | 43x10 | 43x10 | 42x10 | 42x10 | 42x10 | 42x10 |
 | protocol15 p25 | 37x11 | 37x11 | 37x11 | 37x11 | 36x11 | 36x11 |
 
-Column counts do not move at all. Row counts move by at most one. The parameter
-is not load-bearing, which is the property I wanted and `snap_tolerance` did not
-have. It also recovers more rows than the tuned version on three of five pages,
-which is the direction that matters when a dropped row is the worst failure.
+Column counts don't move at all. Rows move by at most one. That's the property
+I wanted and the one `snap_tolerance` didn't have. It also recovers more rows
+than the tuned version on three of five pages, which is the direction I care
+about given a dropped row is the worst thing I can do.
 
-### What no engine does
+### What none of the engines do
 
-The benchmark also told me where the real work is. All of these survive engine
-choice:
+The benchmark was more useful for telling me where the real work was. These four
+problems survive whichever engine I pick:
 
-1. **Shaded cells.** protocol9 p26 returns 65 non-empty cells against a truth
-   nearer 100. Twenty-three cells are grey boxes containing no text — the fill
-   *is* the mark. No table extractor reports cell shading. It has to come from
-   the graphics layer. All 53 grey fills on that page land inside a cell bbox,
-   so the mapping itself is a point-in-box test.
-2. **Shading means the opposite two pages over.** protocol5 p50 has 88 grey
-   fills and every one is decoration; X marks sit on grey and white cells alike.
-   So shading cannot be classified per cell. It is a per-table decision, made
-   from whether that table's marks are carried by text or by fill.
-3. **Superscript markers.** `Xa` and `X` plus a footnote marker are different
-   facts. Engines return the string either way; only character size and baseline
-   separate them. protocol9 p26 has 8/12/14/16pt characters, so they separate
-   cleanly.
-4. **Rows lost to a missing rule.** Two real rows sharing one ruled band merge
-   into one. Rows are reconstructed from rulings and from text baselines
-   independently, the larger set wins, and the disagreement is flagged rather
-   than resolved.
+Shaded cells. protocol9 p26 gives back 65 non-empty cells against a truth nearer
+100. Twenty-three of those cells are grey boxes with no text in them at all: the
+fill *is* the mark. No table extractor reports cell shading, so it has to come
+out of the graphics layer. All 53 grey fills on that page land inside a cell
+bbox, so once you have the fills the mapping is just a point-in-box test.
 
-That is the actual scope: not a table extractor, but a correction layer over one,
-aimed at four failures I can point at on real pages.
+Shading means the opposite two protocols over. protocol5 p50 has 88 grey fills
+and every single one is decoration; X marks sit on grey and white cells alike.
+So I can't classify shading per cell. It has to be a per-table decision, made
+from whether that table's marks are carried by text or by fill.
 
-### The dropped-row problem, and three tries at solving it
+Superscript markers. `Xa` and `X` with a footnote marker are different facts.
+Every engine hands back the same string either way. Only character size and
+baseline separate them, and protocol9 p26 has 8/12/14/16pt characters, so they
+do separate cleanly.
+
+Rows lost to a missing rule. Two real rows sharing one ruled band merge into
+one. I reconstruct rows from rulings and from text baselines independently, take
+the larger set, and flag the disagreement instead of resolving it.
+
+So what I actually built isn't a table extractor. It's a correction layer on top
+of one, aimed at four failures I can point at on real pages.
+
+### The dropped row, and three tries at fixing it
 
 Both engines return 32 rows on protocol5 p50 where I count 33. The band at
-y=428-451 physically holds two rows — "Saline/20 mg cocaine/40 mg cocaine i.v."
-and "20 mg cocaine i.v.", each with its own X marks — but the author drew no
-rule between them. Rulings-only reconstruction merges them, which destroys the
-one fact that region exists to record: which infusion session got saline.
+y=428-451 physically holds two rows, "Saline/20 mg cocaine/40 mg cocaine i.v."
+and "20 mg cocaine i.v.", each with its own X marks, but the author never drew a
+rule between them. Rulings-only reconstruction merges them, and that destroys the
+one fact the region exists to record: which infusion session got the saline.
 
-My first fix: split any ruled band containing two text baselines. Wrong —
-wrapped labels are everywhere (protocol9 p26 alone has fifteen bands with a
-label wrapped onto a second line), and this shatters every one into fake rows.
+First attempt: split any ruled band holding two text baselines. Wrong. Wrapped
+labels are everywhere (protocol9 p26 alone has fifteen bands with a label
+wrapped to a second line) and this shatters every one of them into fake rows.
 
-Second fix: split only when both baselines carry marks in disjoint columns.
-That passed 18/18 bands on the two pages I designed it on, then produced 24
-false splits on protocol12 and protocol15. Cause: on those pages marks sit
-vertically centered in the band, a few points off the label's baseline, and
-superscripts shift word boxes further - so one row's marks clustered into two
-phantom "baselines". A rule tuned on two pages failed on the third. This is why
-every rule here gets run against all five protocols before it ships.
+Second attempt: split only when both baselines carry marks in disjoint columns.
+This passed 18 of 18 bands on the two pages I designed it against, and then
+produced 24 false splits on protocol12 and protocol15. The cause was that on
+those pages the marks sit vertically centred in the band, a few points off the
+label's baseline, and superscripts push word boxes further still, so one row's
+marks clustered into two phantom baselines. A rule tuned on two pages died on
+the third. This is why everything here now gets run against all five before it
+ships.
 
-Final rule, the one that survives all six SoA pages: split a band only when the
-stub column holds two or more distinct label lines AND the body marks form
-matching clusters that share a baseline with those labels (same top within
-3pt) AND the mark columns are disjoint. Typographically: two things printed on
-the same text line belong together; marks floating between two label lines
-belong to a single row that centers its content. Across all six pages this
-fires exactly once - on the genuine unruled double-row - and nowhere else.
+What finally held: split a band only when the stub column holds two or more
+distinct label lines, AND the body marks form matching clusters sharing a
+baseline with those labels (same top within 3pt), AND the mark columns are
+disjoint. In plain terms, two things printed on the same text line belong
+together, and marks floating between two label lines belong to a single row
+that centres its content. Across all six SoA pages it fires exactly once, on the
+genuine unruled double-row, and nowhere else.
 
-Known blind spot, stated rather than hidden: a true unruled double-row whose
-marks are centered instead of baseline-aligned would stay merged. When a band
-has multiple stub lines and multiple mark clusters but fails the alignment
-test, it is kept as one row and flagged ambiguous so the review UI surfaces it
-- the failure mode is visible-and-flagged, not silent.
+The blind spot, which I'd rather state than bury: a real unruled double-row
+whose marks are centred instead of baseline-aligned stays merged. When a band
+has multiple stub lines and multiple mark clusters but fails the alignment test,
+I keep it as one row and flag it so the UI surfaces it. Visible and wrong beats
+invisible and wrong.
 
-### A note on method
+### On method
 
-Everything above is measured, not reasoned about. Twice now my first answer was
-wrong and only measuring caught it - once when I recommended a tuned constant
-that sat next to a cliff, and once when I reported rotated text as garbled when
-that turned out to be an artifact of the library I happened to test with
-(pdfplumber reads the same page cleanly). I have tried to keep this README
-honest about which claims are measured and which are not.
+Everything above is measured. I'm making a point of that because twice my first
+answer was wrong and only measuring caught it: once when I was about to ship a
+tuned constant sitting next to a cliff, and once when I recorded rotated text as
+garbled and it turned out to be an artifact of the library I happened to test
+with. pdfplumber reads that same page fine.
+
 ---
 
 ## Architecture
 
-Six stages. The first three are pure geometry, the fourth is deterministic
-structuring, and nothing in the runtime path calls a model.
+Six stages. The first three are pure geometry, the fourth does deterministic
+structuring, and nothing on the runtime path calls a model.
 
 ```
 PDF
@@ -191,97 +198,101 @@ PDF
  \-- 6. render    JSON (soa.run) and the review UI (ui.app) - same pipeline
 ```
 
-**Why no model in the pipeline.** Every question the document *answers* -
-where a word sits, what it says, what size it is, which rectangle covers what -
-is measurable, so it gets measured. Every question that needs *meaning* -
-is this ambiguous band one row or two, is this table an SoA or a dosing chart -
-is not answered at all: it is flagged (`ambiguous`, `possible_split`,
-`role: "unknown"`) for the reviewer. A model was evaluated (see Tool evaluation)
-and reached parity on structure, but it cannot supply bounding boxes, so it
-cannot support the review UI or the drop audit, and a hallucinated row is
-indistinguishable from a real one. The result: identical output every run, and
-graders run it with no key and no setup.
+I want to explain the no-model choice, because it's the decision I'd expect you
+to push back on.
 
-### The locator (`src/soa/locate/`)
+Every question the document actually answers (where a word sits, what it says,
+what size it is, which rectangle covers what) is measurable, so I measure it.
+Every question that needs meaning (is this ambiguous band one row or two, is
+this table an SoA or a dosing chart) I don't answer at all. I flag it
+(`ambiguous`, `possible_split`, `role: "unknown"`) and leave it for a reviewer.
 
-Given a whole protocol, decide which pages hold a schedule table. Keyword search
-does **not** work - measured on the five samples, the documented regex is 0/5 as
-a pager: protocol9 matches nothing anywhere, protocol12's heading sits on the
-footnote page *after* the table, protocol15's points at a table on the next page,
-and protocol5's real title is fragmented across a rotated page. So headings are a
-**confirmatory boost only** - they can raise a page that already has grid
-geometry, never nominate one.
+I did evaluate a model pass and it reached parity on structure. What killed it
+was that a model can't give me bounding boxes, and without boxes I have no
+review UI and no drop audit. A hallucinated row is also indistinguishable from a
+real one, which is exactly the failure I'm most afraid of here. The upside is
+that the output is byte-identical every run and you can run it with no key and
+no setup.
+
+### The locator
+
+Given a whole protocol, work out which pages hold a schedule table.
+
+Keyword search does not work, and I have the numbers. Measured on the five
+samples, the obvious heading regex is 0 for 5 as a pager. protocol9 matches
+nothing anywhere in the document. protocol12's heading sits on the footnote page
+*after* the table. protocol15's points at a table on the following page. And
+protocol5's real title is fragmented across a rotated page. So headings are a
+confirmatory boost only. They can raise a page that already has grid geometry;
+they can never nominate one.
 
 What carries the score is structure, computed per page and taken as the max over
-three table profiles (marked / numeric / borderless), because the sample set
-contains grids that no single feature ranks:
+three table profiles (marked, numeric, borderless), because the sample set has
+grids that no single feature ranks:
 
-- density of short mark tokens (`X`, `3X`, dingbats) - 5/5 on the main SoAs
+- density of short mark tokens (`X`, `3X`, dingbats), which hits 5 of 5 on the main SoAs
 - cell-local grey fills, for tables whose marks are shading rather than text
-- column x-positions repeating across many rows - the defining property of a grid
-- rule-edge count, short-token ratio, visit vocabulary (weak)
+- column x-positions repeating across many rows, which is the defining property of a grid
+- rule-edge count, short-token ratio, and visit vocabulary as weak signals
 
-The threshold is deliberately low and **all** spans above it are returned, ranked
-- a protocol may hold a main SoA plus a PK or sub-study schedule, and the
-assignment penalises a missed table far more than a spurious candidate. The UI
-shows the ranked list, so a mis-ranked locate costs the reviewer two clicks
-rather than the table.
+The threshold is deliberately low and I return every span above it, ranked. A
+protocol can hold a main SoA plus a PK or sub-study schedule, and you said a
+missed table is penalised far harder than a spurious one. The UI shows the
+ranked list, so a mis-ranked locate costs a reviewer two clicks instead of the
+table.
 
-Spans are then extended across footnote pages by **marker matching, not layout**:
+Spans get extended onto footnote pages by marker matching rather than layout: I
 collect the markers the table actually uses that have no definition on its own
-pages, then scan the next 1-2 pages for lines keyed by those markers. This is
-what claims protocol12 p49 - a plain paragraph that scores near-zero on every
-grid feature - while leaving an unrelated grid on protocol5 p51 to be its own
+pages, then scan the next page or two for lines keyed by those markers. That's
+what claims protocol12 p49, a plain paragraph that scores near zero on every
+grid feature, while leaving an unrelated grid on protocol5 p51 to be its own
 candidate.
 
-### The extractor (`src/soa/extract/`, `src/soa/verify.py`)
+### The extractor
 
-**Rulings, not lines.** `page.lines` is essentially empty on all five - zero
-segments on protocol1/9/12 and a single stray one on protocol5/15, against
-~600-1400 rect edges per page - because every real rule is drawn as a thin
-filled rectangle. Rules are read as the union of rect-derived
-edges and any real line objects, then filtered by segment length: *a ruling
-shorter than a line of text cannot be a boundary*. The threshold is a ratio of
-the page's own median character size, which is why it survives a 24x sweep
-unchanged (see Tool evaluation).
+The first surprise was that `page.lines` is basically empty on all five files.
+Zero segments on protocol1, 9 and 12, and a single stray one on protocol5 and 15,
+against 600 to 1400 rect edges per page. Every real rule in these documents is
+drawn as a thin filled rectangle, not a line object. So I read rules as the union
+of rect-derived edges and any genuine lines, then filter by segment length the
+way I described above.
 
-**Rows twice.** Boundaries are reconstructed from rulings **and** from text
-baselines. Where they agree, use them; where they disagree, emit the larger set
-and flag it. That is how protocol1's bordered-but-empty visit-6 column survives
-(no words, so text clustering cannot see it) and how an unruled double-row is
-recoverable at all.
+I build row boundaries twice, once from rulings and once from text baselines.
+Where the two agree I use them. Where they disagree I emit the larger set and
+flag the disagreement. That's how protocol1's bordered-but-empty visit-6 column
+survives, since it has no words in it and text clustering can't see it at all,
+and it's the only reason an unruled double-row is recoverable.
 
-**Shading is a per-table decision.** Identical grey rectangles mean opposite
-things two protocols apart: on protocol9 a grey cell *is* the mark, on protocol5
-grey is zebra striping and X marks sit on grey and white alike. The
-discriminator is not the fill but its extent - a fill whose row-union covers the
-stub column is decoration; cell-local fills are marks. `shaded` is a boolean
-orthogonal to the value, because a protocol9 cell is routinely `"1X"` **and**
-shaded.
+Shading has to be decided per table rather than per cell. Identical grey
+rectangles mean opposite things two protocols apart, and the thing that
+separates them isn't the fill, it's the extent: a fill whose row-union covers
+the stub column is decoration, and cell-local fills are marks. I keep `shaded`
+as a boolean sitting alongside the value instead of replacing it, because a
+protocol9 cell is routinely `"1X"` and shaded at the same time.
 
-**Superscripts are geometry.** `Xa` is `X` plus footnote marker `a`, and the only
-thing separating them is that the `a` is smaller and raised. Detected at the
-character level in ingest, stripped from the value, kept in `footnote_markers` -
-on cells and on row labels alike.
+Superscripts are pure geometry. `Xa` is `X` plus footnote marker `a`, and the
+only thing telling them apart is that the `a` is smaller and sits higher. I catch
+it at the character level during ingest, strip it out of the value, and keep it
+in `footnote_markers`. Same treatment on cells and on row labels.
 
-**Structure is derived, not guessed.** Column nesting comes from spanning-cell
-geometry (which vertical rules cross the header row); category rows come from
-full-width banding with no marks; footnote binding is marker-to-definition
-matching. Anything unresolved keeps `role: "unknown"` and is flagged.
+The rest of the structure is derived rather than guessed at. Column nesting comes
+from spanning-cell geometry, which is to say which vertical rules cross the
+header row. Category rows come from full-width banding with no marks in it.
+Footnote binding is marker-to-definition matching. Anything I can't resolve keeps
+`role: "unknown"` and gets flagged instead of filled in.
 
-**The audit is the backstop.** Every word inside a table's bbox must land in an
-emitted label or body cell; every area fill must be classified mark, banding or
-flagged. Leftovers are a loud warning naming the page and the text. This is what
-catches a dropped row, a dropped column or a botched merge - the failures that
-are invisible at the moment they happen. It found a real one (a continuation
-page's first assessment row being skipped as a phantom header) and it stays live
-on the gaps listed under *Where it breaks*.
-
+Then there's the audit, which is the part I'd point at first if you only looked
+at one thing. Every word inside a table's bbox has to land in an emitted label or
+body cell, and every area fill has to end up classified as a mark, as banding, or
+flagged. Whatever's left over becomes a loud warning naming the page and the
+text. It's the only thing in here that can catch a dropped row or column or a
+botched merge, because those failures are completely invisible at the moment they
+happen. It has caught real ones, and it's still firing on the gaps I list below.
 
 ## Output schema
 
-One JSON document per PDF (`out/<name>.json`), shaped to be diffable against the
-page by hand:
+One JSON document per PDF, in `out/<name>.json`, shaped so you can diff it
+against the page by hand.
 
 ```jsonc
 {
@@ -313,201 +324,261 @@ page by hand:
 }
 ```
 
-**Why this shape.** Each choice answers a specific thing the assignment asks for:
+Why this shape. Each thing in it is answering something you asked for.
 
-- **`*_verbatim` everywhere.** Cell values are captured exactly as printed -
-  `3X`, `3X/week`, `Prior to Day 4`, a shaded empty cell - never normalised to a
-  boolean. Parsed interpretations (`window_parsed`) sit *beside* the verbatim
-  string, never instead of it, and may be null.
-- **Trees on both axes.** Columns nest under period groups; assessment rows nest
-  under category headers (`Screening`, `Safety`, `Efficacy`). Flattening would
-  lose the hierarchy the spec explicitly asks to preserve.
-- **`study_day_verbatim` separate from `label_verbatim` and `window_verbatim`.**
-  The spec names three distinct things - visit number, study day/week, allowable
-  window. protocol1 stacks a VISIT row over a WEEK row, so its columns carry
-  label `1` and study day `-2`; filing a bare study week as a *window* would be
-  semantically wrong.
-- **`shaded` as a boolean, orthogonal to the value**, because a cell can be both.
-- **`footnote_markers` on cells, rows *and* columns**, with `attaches_to` covering
-  cell / row / column / column-group / table / unanchored - markers really do
-  attach to column groups, and protocol12 defines a `*` that is printed nowhere.
-- **`marker` is nullable**, for legend-style definitions with no printed marker.
-- **`page` + `bbox` on every cell.** This is what makes the review UI possible
-  and what the orphan-word audit reconciles against. It is also the provenance a
-  regulated context would expect.
-- **`ambiguous`, `possible_split`, `role: "unknown"`, `warnings[]`.** The spec
-  says represent ambiguity rather than resolving it, so uncertainty is a
-  first-class field rather than a silent choice.
+`*_verbatim` on everything. Cell values come out exactly as printed: `3X`,
+`3X/week`, `Prior to Day 4`, a shaded empty cell. Nothing is normalised to a
+boolean. Where I do parse something (`window_parsed`) it sits beside the verbatim
+string, never instead of it, and it's allowed to be null.
 
-There is no JSON Schema file committed - the shape above and the committed
-`out/` documents are the specification. Some fields are conditional: a column
-carries `study_day_verbatim` / `window_verbatim` / `window_parsed` only when it
-has them, `covers` (the `[first, last]` member-column span) only on a `period`
-group, and `page` only on a column merged in from a continuation page.
-`confidence` and `locator_score` are the squashed-and-raw locator scores;
-`authored_by` is `"geometry"` on every deterministic-path cell.
+Trees on both axes. Columns nest under period groups, assessment rows nest under
+category headers like Screening or Safety. Flattening either would lose the
+hierarchy you explicitly asked to keep.
 
+`study_day_verbatim` kept separate from `label_verbatim` and `window_verbatim`.
+You named three distinct things: visit number, study day or week, and allowable
+window. protocol1 stacks a VISIT row over a WEEK row, so its columns carry label
+`1` and study day `-2`. Filing a bare study week as a *window* would be flatly
+wrong.
 
-## Verification results, per protocol
+`shaded` as a boolean orthogonal to the value, because a cell can be both.
 
-Full detail, including the holdout, is in [`docs/VERIFICATION.md`](docs/VERIFICATION.md).
-Summary of the five design protocols (test suite: **187 passed, 3 skipped**,
-`python -m pytest`):
+`footnote_markers` on cells, rows and columns, with `attaches_to` covering cell,
+row, column, column group, table and unanchored. Markers really do attach to
+column groups, and protocol12 defines a `*` that's printed nowhere in the table.
 
-`Cols` is the data-column count (period-group nodes excluded), the figure the
-recall gate pins. Counts are read from the committed `out/`.
+`marker` is nullable, for legend-style definitions that have no printed marker at
+all.
+
+`page` and `bbox` on every cell. This is what makes the review UI possible and
+what the orphan-word audit reconciles against. It's also the provenance I'd
+expect a regulated context to want.
+
+`ambiguous`, `possible_split`, `role: "unknown"` and `warnings[]`. You said
+represent the ambiguity instead of resolving it, so uncertainty is a field rather
+than a silent choice.
+
+There's no JSON Schema file committed. The shape above and the documents in
+`out/` are the spec. Some fields are conditional: a column only carries
+`study_day_verbatim` / `window_verbatim` / `window_parsed` when it has them,
+`covers` only appears on a `period` group, and `page` only on a column merged in
+from a continuation page.
+
+## What I got right and what I got wrong, per protocol
+
+Full detail including the holdout is in [`docs/VERIFICATION.md`](docs/VERIFICATION.md).
+The suite is 187 passed, 3 skipped.
+
+`Cols` is the data-column count with period-group nodes excluded, which is the
+figure my recall gate pins. All counts are read straight out of the committed
+`out/`.
 
 | Protocol | SoA span | Data cols | Rows | Cells | Shaded marks | Footnotes bound |
 |---|---|---|---|---|---|---|
-| protocol1 | 53–54 (column-merged) | 17 (visits 1–13, ET, RT + labels) | 28 | 139 | 0 | 4 / 4 |
-| protocol5 | 50 | 12 | 31 | 107 | 0 | — |
-| protocol9 | 26–29 | 12 (days 1–11) | 40 | 197 | 193 | 4 / 4 |
-| protocol12 | 48–50 | 10 | 40 | 132 | 0 | 13 / 14 |
-| protocol15 | 25–26 | 11 | 34 | 128 | 0 | 5 / 5 |
+| protocol1 | 53-54 (column-merged) | 17 (visits 1-13, ET, RT + labels) | 28 | 139 | 0 | 4 / 4 |
+| protocol5 | 50 | 12 | 31 | 107 | 0 | see below |
+| protocol9 | 26-29 | 12 (days 1-11) | 40 | 197 | 193 | 4 / 4 |
+| protocol12 | 48-50 | 10 | 40 | 132 | 0 | 13 / 14 |
+| protocol15 | 25-26 | 11 | 34 | 128 | 0 | 5 / 5 |
 
-protocol9's 40 rows / 193 shaded marks are **after** rejoining three cells that a
-ruled band boundary had split (see *Where it breaks*); the earlier 43 / 220
-counted each split cell twice. protocol1's footnotes bind now that definitions
-keyed by value+marker (`Xa = ...`) and marker-less legends are recognised.
+protocol9's 40 rows and 193 shaded marks are *after* rejoining three cells that
+a ruled band boundary had split. The earlier figures of 43 and 220 were counting
+each split cell twice. protocol1's footnotes only bind now that I recognise
+definitions keyed by value plus marker (`Xa = ...`) as well as marker-less
+legends; before that fix protocol1 reported zero footnotes against four on the
+page.
 
-Outputs are committed under [`out/`](out/). The pipeline is deterministic: no API
-keys, no network, byte-identical across runs.
+**protocol5 is the interesting one.** Its SoA uses markers `a` through `f` and
+`*` through `****` on cells, and the definitions for them do not exist anywhere
+in the document. I checked by hand. The tool doesn't invent them and doesn't
+quietly drop them either: it emits ten `marker_used_undefined` warnings naming
+each one. That's the behaviour I want, and it's the closest thing I have to a
+question for a clinical SME, so I'll ask it here. Is protocol5's SoA missing its
+footnote block, or are those markers defined somewhere in the protocol body that
+I should be searching?
 
-### Holdout — three ClinicalTrials.gov protocols, chosen after the design froze
+### What I checked by hand, and what I didn't
 
-No design decision was ever based on these; they were pulled by API order and run
-unchanged (`out/holdout/`).
+I went through protocol9's schedule and the top half of protocol1's SoA cell by
+cell against the PDF. That review is where the real defects came from:
+small-caps row labels being read as superscript markers and stripped, so
+`DETOXIFICATION` came out mangled; rowspan cells on protocol9 p28 split into two
+rows with the shaded marks duplicated into both; protocol1's footnotes missing
+entirely. All three are fixed.
 
-- **NCT03348956** — SoA located, title exact; drawn with *stroked lines* (the
-  mirror of the five samples' filled-rect rules), which the union-rule handled on
-  first contact. Headers were initially garbage (a latent `_cluster` bug, since
-  fixed); the one remaining dropped p21 row is now **fixed** — a continuation
-  page has no header to skip unless it repeats one, so the skip is capped by the
-  first marked row.
-- **NCT02096029** — no SoA in the document; the tool correctly did **not** invent
-  one (its one candidate is a project timetable, `kind: unknown`).
-- **NCT02689531** — SoA located; all 9 rows of Appendix A (Arm 1) extracted.
-  Originally recorded as a wrong Arm A/B *merge* — that was a **misdiagnosis**
-  (re-measured 2026-09-01): no merge fired (0 cells from p23), the extra columns
-  were a page-22 double-header garble since collapsed, and Appendix B (p23) is
-  *prose*, not a grid, so there is no second table to merge or miss. **0 open
-  holdout defects.**
+I did not hand-check protocol1's lower half, protocol5, protocol12 or
+protocol15. Those rest on the automated gates and the orphan audits, which are
+good at catching drops but say nothing about whether a mark landed in the right
+column. I'm not going to claim those four are verified.
 
+Worth saying plainly: every defect above was found by looking at a page, not by
+a test going red. The suite was green the whole time. That's a fact about the
+suite, not just about the bugs.
+
+### Holdout: three ClinicalTrials.gov protocols
+
+I pulled these after the design was frozen and ran them unchanged. No decision in
+this repo was ever based on them. Output is in `out/holdout/`.
+
+**NCT03348956.** SoA located, title exact. This one is drawn with stroked lines,
+the exact mirror of the five samples' filled-rect rules, and the union rule
+handled it on first contact. The headers came out as garbage initially, which
+traced back to a latent bug I'll describe below. One dropped row on p21 is also
+fixed now: a continuation page has no header to skip unless it repeats one, so
+the skip is capped by the first marked row.
+
+**NCT02096029.** There is no SoA in this document, and the tool correctly did
+not invent one. Its single candidate is a project timetable, marked
+`kind: unknown`.
+
+**NCT02689531.** SoA located, all 9 rows of Appendix A extracted. I originally
+wrote this up as a wrong Arm A/B merge. That was a misdiagnosis on my part and I
+re-measured it: no merge ever fired, the extra columns were a p22 double-header
+garble that's since collapsed, and Appendix B on p23 is prose, not a grid, so
+there was no second table to merge or miss in the first place. Zero open holdout
+defects.
 
 ## Where it breaks
 
-Known limitations, each a place the tool degrades **loud** (flag / candidate /
-message) rather than silently producing a wrong table:
+Everything in this list degrades loudly, with a flag or a candidate or a
+message, rather than quietly handing you a wrong table. Two of them are things I
+know are wrong and didn't get to.
 
-- **Scanned protocols.** A page with ~no text layer and a large image is
-  detected and shown with an explicit "OCR is a documented non-goal" message.
-  No OCR (the five samples are all born-digital).
-- **Transposed schedules** (timepoints as rows, assessments as columns). The
-  locator still finds the grid, but the row/column roles will be swapped; the
-  reviewer sees a real grid with axes labelled the wrong way, not an empty one.
-- **Non-English visit vocabulary.** The visit-word list (Day, Week, Visit,
-  Screening…) is a **weak-boost feature only** — the mark-density and grid
-  features carry the locator, so a non-English protocol still pages, but the
-  vocabulary boost contributes nothing.
-- **Footnotes beyond the 2-page lookahead.** Marker definitions are searched on
-  the grid's own pages plus the next 1-2. A definition further away leaves the
-  marker **flagged as unbound**, not silently dropped and not guessed.
-- **Two-parent header columns** (protocol15 `-4 to 0*` spans Screening +
-  Baseline). Modelled as a flagged single-parent approximation; a strict tree
-  cannot hold a child with two parents.
+The first is footnote continuation across a page break. The code is there but it
+has never once run. `continued_from_previous_page` is false on all 20 tables
+across all eight protocols I've put through this, because no footnote block in my
+corpus actually spills a page. You called this out specifically as the failure
+that's easy to miss, so I'd rather say the path is unexercised than let a passing
+test suite imply I've proven something I haven't.
 
-- **Vertically merged (rowspan) cells — handled only in the shaded form.** A cell
-  spanning two ruled bands is rejoined when the signature is unambiguous: the
-  upper row's cells all empty with at least one shaded, and the row below
-  re-marking exactly the same columns (protocol9 p28's vital-signs cells). The
-  **unshaded** form is still split: protocol9 p20 renders the single cell
-  `PHASE I / STABILIZATION` as three rows. No content is lost there — both label
-  lines are present — and spurious rows are the less-penalised direction. The
-  general fix is the vertical twin of the colspan detector (test whether a
-  horizontal rule actually spans a given column's x-range), still not built: it
-  rewrites the row axis that row ids, cell keys, category parents, the recall
-  gates and the orphan-word audit all sit on, and a read-only probe could not
-  compute it reliably (a naive rect filter misreads divider columns and
-  protocol9's own rules), so it needs its own validation pass.
-- **Multi-row headers on results / secondary tables that carry no timepoint
-  vocabulary.** Header-row detection keys off the timepoint vocabulary
-  (VISIT / WEEK / DAY / …), so a results table whose header is `N / Mean /
-  Standard Deviation` or `Cabergoline Group / Placebo Group / Severity Grade`
-  (protocol9 dose-stats soa-2/soa-3, protocol15 AE-frequency soa-2) is detected
-  as a single header row and the remaining header lines leak in as body. The
-  now-wired orphan-word audit (see ARCHITECTURE §5) **flags this loudly** — the
-  uncaptured header words are reported per page — so it degrades visibly, not
-  silently, and it is confined to non-SoA/secondary tables; the five **main**
-  SoAs reconcile clean. Not fixed: it is header text, not lost body data, and
-  off the graded main-SoA path.
+The second is protocol5's PK sub-schedule, which drops its footnotes. Page 51
+defines two markers under the table, `a` for `S = serum, P = plasma` and `b` for
+`D = day`, and my output for that table has zero. The orphan-word audit flags 7
+dropped words on it, which is how I found it in the first place. It's a
+sub-schedule rather than a main SoA, but a miss is a miss.
 
-## What I would build next
+The rest are limits I chose rather than bugs I missed.
 
-In priority order, from what the holdout exposed:
+Scanned protocols get detected and refused. A page with essentially no text layer
+and a large image comes back with a message saying OCR is a documented non-goal.
+There's no OCR in here at all; all five samples are born-digital.
 
-1. **Multi-row headers without timepoint vocabulary** (the one open holdout-era
-   gap; the p21 dropped row and the NCT02689531 "merge" are resolved — fixed and
-   misdiagnosed-then-retired respectively). Extend header detection so a results
-   table's `N / Mean / SD` or `Cabergoline / Placebo / Severity` header is read
-   in full instead of leaking into the body. The orphan-word audit already marks
-   exactly where this happens, which is the held-out signal to validate against.
-2. **Header detection that does not lean on a stub keyword.** The current
-   detector keys off `Study Day|Study Week|Visit|Week|Day` in the stub cell.
-   A geometry-based replacement was **evaluated and rejected** during the
-   holdout investigation — it disagrees with the current detector on 4 of 5
-   samples because it misreads a leading category row (`Screening`) as header.
-   A correct version needs a category-row carve-out and full re-validation.
-3. **Rowspan detection (A2)** — the vertical twin of the colspan `_row_spans`
-   detector: where a horizontal rule has no drawn segment across a column's
-   x-range, the cells it appears to separate are one merged cell (emit with
-   `rowspan`, union the text). The **shaded** form of this defect is now handled
-   structurally (see *Where it breaks*); the general geometric form is still
-   deferred because it rewrites the row axis that row ids, cell keys, category
-   parents, the recall gates and the orphan-word audit all sit on, and a
-   read-only probe could not compute the rule coverage reliably. Needs full five
-   + holdout re-validation.
-4. **Scanned-page OCR** as an opt-in, behind the existing loud-failure detector.
-5. **The `--enrich` model pass** (adapter already built, off by default) for the
-   advisory role/hierarchy fields, with the id+label echo assertion.
+Transposed schedules, meaning timepoints as rows and assessments as columns, will
+locate fine and then come out with the row and column roles swapped. You'd get a
+real grid with its axes labelled backwards, not an empty one.
 
-## Documentation and CDISC alignment
+A non-English protocol still pages, because mark density and grid geometry carry
+the locator and the visit word list is only a weak boost. The vocabulary just
+stops contributing anything.
 
-The output schema is column/row trees with verbatim-everywhere values and
-per-cell provenance. A natural next step for a clinical-trial audience is a
-mapping paragraph to **CDISC / ICH M11** SoA representations — future work, not
-built here.
+I only search for footnote definitions on the grid's own pages plus the next one
+or two. Anything defined further out leaves its marker flagged as unbound, rather
+than dropped or guessed at.
 
-## AI tools used
+protocol15 has a column, `-4 to 0*`, that spans both Screening and Baseline. I
+model it as a flagged single-parent approximation, because a strict tree can't
+hold a child with two parents and I'd rather approximate visibly than restructure
+the schema around one column.
 
-Built with Claude Code (Anthropic). The whole thing was written by AI under
-human direction; the design decisions were captured in `docs/DECISIONS.md` and
-folded into the docs before implementation.
+Vertically merged cells only work in the shaded case. I rejoin a cell spanning
+two ruled bands when the signature is unambiguous, meaning the upper row's cells
+are all empty with at least one shaded and the row below re-marks exactly the
+same columns. That covers protocol9 p28. The unshaded form still splits, so
+protocol9 p20 renders the single cell `PHASE I / STABILIZATION` as three rows. No
+content is lost and spurious rows are the less-penalised direction, but it's
+wrong and I know it's wrong. The proper fix is the vertical twin of my colspan
+detector. I didn't build it because it rewrites the row axis that row ids, cell
+keys, category parents, the recall gates and the orphan audit all sit on, and
+that needs its own validation pass I didn't have time for.
 
-The single strongest piece of evidence that the process finds **real** causes
-rather than plausible ones is the header-bug investigation, so it is worth
-telling straight:
+Last one: multi-row headers on secondary tables that carry no timepoint
+vocabulary. Header detection keys off VISIT / WEEK / DAY and friends, so a
+results table headed `N / Mean / Standard Deviation` reads as a single header row
+and the rest of the header leaks into the body. The orphan-word audit flags it.
+It's confined to secondary tables and all five main SoAs reconcile clean, so I
+left it.
 
-1. The true-holdout run (a ClinicalTrials.gov protocol never touched by any
-   design decision) produced **garbage column headers**.
-2. The obvious suspect was the header-detection heuristic — a stub-keyword
-   matcher that clearly could not handle this table's empty stub and 6-line
-   wrapped visit labels. That diagnosis was written down.
-3. A **read-only investigation** (no edits, diagnosis only) was run against that
-   suspicion. It traced the failure through the grid to its actual origin: a
-   one-line ordering bug in `_cluster` that silently dropped the minimum rule
-   coordinate whenever it was not first in input order — deleting the header's
-   top rule so the header text fell outside the grid entirely. The header
-   detector had returned the correct answer for the broken grid it was handed.
-4. The proposed geometry-based header fix was checked on paper against all five
-   samples **before** being written, and **rejected**: it would have changed 4 of
-   5 header boundaries by misreading leading category rows.
-5. The real fix was one line, pinned by `tests/test_cluster.py`. It not only
-   fixed the holdout header but **corrected two latent verbatim truncations on
-   the design set** that 61 existing gates had never caught (protocol15's main
-   SoA read `nformed consent`, not `Informed consent`). An initial "byte-identical"
-   claim was itself caught as under-verified — the check had compared cell values
-   but not row labels — and corrected.
+## What I'd build next with two more weeks
 
-Plausible cause named, then falsified by measurement; a fix evaluated and
-rejected before it was written; a verification gap in the reviewer's own earlier
-claim surfaced and corrected. That loop is the point.
+Roughly in the order I'd actually do them.
+
+1. Manufacture a footnote continuation case and validate that path properly.
+   It's the one graded requirement where I have code and no evidence, which
+   bothers me more than the things that are plainly broken. I'd split a footnote
+   block across a synthetic page break first, then go find a real protocol that
+   does it.
+2. Fix protocol5's PK footnotes, and more generally get footnote capture on
+   sub-schedules up to where it is on main SoAs. The orphan audit already points
+   at exactly where to look.
+3. Multi-row headers on tables with no timepoint vocabulary. Same story: the
+   audit marks precisely where this happens, so I have a held-out signal to
+   validate against instead of guessing.
+4. Header detection that doesn't lean on a stub keyword. I tried a
+   geometry-based replacement during the holdout work and rejected it, because
+   it disagrees with the current detector on 4 of 5 samples by misreading a
+   leading `Screening` category row as header. Doing it right needs a
+   category-row carve-out and a full re-validation.
+5. General rowspan detection, the vertical twin of the colspan detector. Where a
+   horizontal rule has no drawn segment across a column's x-range, the cells it
+   looks like it separates are actually one merged cell.
+6. Opt-in OCR for scanned pages, sitting behind the loud-failure detector that's
+   already there.
+
+## AI tools I used, and where they got in the way
+
+I built this with Claude Code. Almost all the code was written by the model
+under my direction, and I want to be specific about what that actually looked
+like, because "I used AI" on its own tells you nothing.
+
+What worked was a split. I decided what to build and what counted as evidence,
+the model wrote it, and then I went back through looking for where it had lied to
+me. That last part was not optional.
+
+So, where it got in the way.
+
+It kept proposing fixes tuned on the data in front of it. The `snap_tolerance`
+constant was one. The two-baseline row splitter was worse: it passed 18 of 18
+bands on the two pages it was designed against and then produced 24 false splits
+the moment I ran it on the other three. Both times the model was confident. The
+only thing that caught either was a rule I made early on and had to keep
+enforcing, that no rule ships until it's run against all five protocols.
+
+It reported findings it hadn't actually verified. It told me rotated text came
+out garbled, which turned out to be an artifact of the library it happened to
+test with rather than a property of the document. It wrote a regex into the
+findings doc that wasn't the regex it had run. It claimed byte-identical output
+after a fix when it had only compared cell values and not row labels. Each of
+those would have gone into this README as a fact if I hadn't pushed back.
+
+It wanted to write documentation instead of fixing things. Repeatedly. Left
+alone it would produce a beautifully documented broken tool.
+
+And a green test suite made it overconfident in a way I had to work against.
+Every real defect in this project was found by opening the PDF and looking at
+the page. Not one was found by a test failing.
+
+Where it genuinely helped: it's fast at the read-only investigation loop. The
+best example is the header bug. The holdout run produced garbage column headers,
+and the obvious suspect was the header-detection heuristic, which plainly
+couldn't handle that table's empty stub and 6-line wrapped labels. I had the
+model investigate without changing anything, and it traced the failure past the
+obvious suspect to a one-line ordering bug in `_cluster` that silently dropped
+the minimum rule coordinate whenever it wasn't first in input order. That deleted
+the header's top rule, so the header text fell outside the grid entirely. The
+header detector had been returning the correct answer for the broken grid it was
+handed.
+
+The fix was one line. It fixed the holdout headers and also corrected two latent
+truncations on the design set that 61 existing gates had never caught, where
+protocol15's SoA had been reading `nformed consent` instead of `Informed
+consent`. The geometry-based header fix I'd been about to write got checked on
+paper against all five first, and rejected.
+
+Name the plausible cause, then go try to kill it. That loop is the only reason I
+trust any of the numbers in this README.
+
+## A note on CDISC
+
+The natural next step for a clinical audience is a mapping from this schema to
+CDISC / ICH M11 SoA representations. I haven't built it and I'm not going to
+pretend I know that standard well enough to have designed toward it.
